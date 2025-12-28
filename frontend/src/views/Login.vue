@@ -17,15 +17,15 @@ async function login() {
   <div>
     <div class="flex flex-col gap-8">
       <div>
-        <label for="email-address">E-mail address</label>
+        <label for="email-address">E-Mail Addresse</label>
         <VoltInputText id="email-address" v-model="emailAddress" fluid />
       </div>
       <div>
-        <label for="password">Password</label>
+        <label for="password">Passwort</label>
         <VoltInputText id="password" v-model="password" type="password" fluid />
       </div>
 
-      <VoltButton label="Login" @click="login()" />
+      <VoltButton label="Einloggen" @click="login()" />
     </div>
   </div>
 </template>

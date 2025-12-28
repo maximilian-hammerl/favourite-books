@@ -17,10 +17,8 @@ const router = createRouter({
     },
     {
       path: '/authors',
-      children: [
-        {path: '', name: 'authors', component: () => import('@/views/Authors.vue')},
-      ]
-    }
+      children: [{ path: '', name: 'authors', component: () => import('@/views/Authors.vue') }],
+    },
   ],
 })
 

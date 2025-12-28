@@ -53,7 +53,7 @@ async function onBookCreated(newBook: Tables<'book'>) {
 <template>
   <div class="w-full">
     <div class="flex justify-between mb-4">
-      <h1>Books</h1>
+      <h1>Bücher</h1>
 
       <VoltButton label="Create new book" size="small" @click="isCreateBookDialogVisible = true" />
     </div>
@@ -70,7 +70,7 @@ async function onBookCreated(newBook: Tables<'book'>) {
           </RouterLink>
         </template>
         <template #content>
-          <p>Created at: {{ book.created_at }}</p>
+          <p>Erstellt am: {{ book.created_at }}</p>
         </template>
       </VoltCard>
       <div>

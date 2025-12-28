@@ -28,6 +28,6 @@ import { user } from '@/lib/supabase.ts'
     <div class="flex-grow flex items-center justify-center">
       <RouterView />
     </div>
-    <footer class="flex-none flex items-center justify-center">Created by Maxi with Love</footer>
+    <footer class="flex-none flex items-center justify-center">Von Maxi mit 💚</footer>
   </div>
 </template>
