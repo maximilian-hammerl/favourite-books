@@ -15,15 +15,15 @@ import { user } from '@/lib/supabase.ts'
         </div>
 
         <nav class="basis-1/3 flex gap-2 items-center justify-center">
-          <RouterLink :to="{ name: 'books' }">Books</RouterLink>
-          <RouterLink :to="{ name: 'authors' }">Authors</RouterLink>
+          <RouterLink :to="{ name: 'books' }">Bücher</RouterLink>
+          <RouterLink :to="{ name: 'authors' }">Autoren</RouterLink>
         </nav>
 
         <div class="basis-1/3 flex items-center justify-end">
-          <VoltButton label="Logout" text />
+          <VoltButton label="Ausloggen" text />
         </div>
       </div>
-      <span class="text-center" v-else> Favourite Books </span>
+      <span class="text-center" v-else>Lieblingsbücher</span>
     </header>
     <div class="flex-grow flex items-center justify-center">
       <RouterView />
