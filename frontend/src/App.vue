@@ -1,4 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { supabase } from '@/lib/supabase.ts'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+supabase.auth.onAuthStateChange((event) => {
+  switch (event) {
+    case 'SIGNED_IN':
+      console.info('Forwarding to books on sign in')
+      void router.push({ name: 'books' })
+      break
+
+    case 'SIGNED_OUT':
+      console.info('Forwarding to login on sign out')
+      void router.push({ name: 'login' })
+      break
+
+    default:
+      console.debug('Ignoring auth event', event)
+  }
+})
+</script>
 
 <template>
   <div
