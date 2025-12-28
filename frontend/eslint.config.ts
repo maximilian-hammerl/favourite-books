@@ -27,7 +27,14 @@ export default defineConfigWithVueTs(
   {
     rules: {
       'vue/multi-word-component-names': 'off',
+    },
+  },
+
+  {
+    files: ['src/volt/**'],
+    rules: {
       '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 )
