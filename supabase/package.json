@@ -2,7 +2,7 @@
   "scripts": {
     "supabase:start": "npx supabase start",
     "supabase:stop": "npx supabase stop",
-    "start": "npm install && npm run supabase:start && npm run generate",
+    "start": "npm install && npm run supabase:start && npm run gen:types",
     "start-reset": "npm install && npm run supabase:start && npm run db:reset",
     "restart": "npm run supabase:stop && npm run start",
     "restart-reset": "npm run supabase:stop && npm run start-reset",
@@ -16,9 +16,9 @@
     "db:start": "npx supabase db start",
     "db:lint": "npx supabase db lint --local --fail-on warning",
     "db:test": "npx supabase db test --local",
-    "db:reset": "npx supabase db reset --local && npm run generate",
+    "db:reset": "npx supabase db reset --local && npm run gen:types",
     "db:validate": "npm run db:reset && npm run db:lint && npm run db:test",
-    "db:types": "npx supabase gen types --local --lang typescript"
+    "gen:types": "npx supabase gen types --local --lang typescript > ../frontend/src/gen/database.d.ts"
   },
   "devDependencies": {
     "supabase": "2.70.5"
