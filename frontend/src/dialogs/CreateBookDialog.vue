@@ -33,7 +33,7 @@ async function createBook() {
 </script>
 
 <template>
-  <VoltDialog v-model:visible="isVisible" header="Create a new book">
+  <VoltDialog v-model:visible="isVisible" header="Create a new book" modal :closable="false">
     <form class="flex flex-col gap-4" @submit.prevent="createBook()">
       <div>
         <label for="book-title">Title</label>

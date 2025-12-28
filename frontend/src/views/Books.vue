@@ -57,9 +57,18 @@ async function onBookCreated(newBook: Tables<'book'>) {
 
       <VoltButton label="Create new book" size="small" @click="isCreateBookDialogVisible = true" />
     </div>
-    <div v-if="books !== null && numberTotalBooks !== null" class="flex flex-col gap-4">
+
+    <div v-if="books === null || numberTotalBooks === null" class="flex flex-col gap-4">
+      <VoltSkeleton v-for="i in booksPerPage" :key="i" height="6rem" />
+    </div>
+
+    <div v-else class="flex flex-col gap-4">
       <VoltCard v-for="book in books" :key="book.id">
-        <template #title>{{ book.title }}</template>
+        <template #title>
+          <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">
+            {{ book.title }}
+          </RouterLink>
+        </template>
         <template #content>
           <p>Created at: {{ book.created_at }}</p>
         </template>

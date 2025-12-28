@@ -28,5 +28,9 @@ onMounted(getBook)
     <div>
       <h1>{{ book?.title }}</h1>
     </div>
+
+    <div v-if="book === null">
+      <VoltSkeleton height="10rem" />
+    </div>
   </div>
 </template>

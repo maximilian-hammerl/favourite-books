@@ -15,6 +15,12 @@ const router = createRouter({
         { path: ':bookId', name: 'book', component: () => import('@/views/Book.vue') },
       ],
     },
+    {
+      path: '/authors',
+      children: [
+        {path: '', name: 'authors', component: () => import('@/views/Authors.vue')},
+      ]
+    }
   ],
 })
 

@@ -13,6 +13,7 @@ import Dialog from '@/volt/Dialog.vue'
 import InputText from '@/volt/InputText.vue'
 import Paginator from '@/volt/Paginator.vue'
 import Card from '@/volt/Card.vue'
+import Skeleton from '@/volt/Skeleton.vue'
 
 const app = createApp(App)
 
@@ -30,5 +31,6 @@ app
   .component('VoltInputText', InputText)
   .component('VoltPaginator', Paginator)
   .component('VoltSecondaryButton', SecondaryButton)
+  .component('VoltSkeleton', Skeleton)
 
 app.mount('#app')
