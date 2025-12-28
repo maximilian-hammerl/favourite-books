@@ -24,12 +24,12 @@ supabase.auth.onAuthStateChange((event) => {
 
 <template>
   <div
-    class="bg-surface-0 dark:bg-surface-950 text-surface-700 dark:text-surface-0 flex flex-col min-h-screen"
+    class="py-4 px-8 bg-surface-0 dark:bg-surface-950 text-surface-700 dark:text-surface-0 flex flex-col min-h-screen gap-4"
   >
-    <header class="flex-none"></header>
+    <header class="flex-none flex items-center justify-center">Favourite Books</header>
     <div class="flex-grow flex items-center justify-center">
       <RouterView />
     </div>
-    <footer class="flex-none"></footer>
+    <footer class="flex-none flex items-center justify-center">Created by Maxi with Love</footer>
   </div>
 </template>

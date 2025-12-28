@@ -10,8 +10,10 @@ const router = createRouter({
     },
     {
       path: '/books',
-      name: 'books',
-      component: () => import('@/views/Books.vue'),
+      children: [
+        { path: '', name: 'books', component: () => import('@/views/Books.vue') },
+        { path: ':bookId', name: 'book', component: () => import('@/views/Book.vue') },
+      ],
     },
   ],
 })

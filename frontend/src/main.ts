@@ -12,6 +12,7 @@ import SecondaryButton from '@/volt/SecondaryButton.vue'
 import Dialog from '@/volt/Dialog.vue'
 import InputText from '@/volt/InputText.vue'
 import Paginator from '@/volt/Paginator.vue'
+import Card from '@/volt/Card.vue'
 
 const app = createApp(App)
 
@@ -24,6 +25,7 @@ app.use(PrimeVue, {
 
 app
   .component('VoltButton', Button)
+  .component('VoltCard', Card)
   .component('VoltDialog', Dialog)
   .component('VoltInputText', InputText)
   .component('VoltPaginator', Paginator)
