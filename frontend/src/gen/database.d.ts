@@ -34,7 +34,93 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      author: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          first_name: string
+          id: string
+          last_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          first_name: string
+          id?: string
+          last_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          first_name?: string
+          id?: string
+          last_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      author_created_book: {
+        Row: {
+          author_id: string | null
+          book_id: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          book_id?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          book_id?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "author_created_book_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "author"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "author_created_book_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "book"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      book: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
