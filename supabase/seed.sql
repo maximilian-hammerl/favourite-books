@@ -4,7 +4,7 @@ $$
         c_instance_id   CONSTANT uuid := '00000000-0000-0000-0000-000000000000';
         c_user_id       CONSTANT uuid := gen_random_uuid();
         c_email_address CONSTANT text := 'test@example.com';
-        v_book_id;
+        v_book_id                uuid;
     BEGIN
         INSERT INTO auth.users (instance_id, id, aud, role, email, email_change, encrypted_password, email_confirmed_at,
                                 raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token,
