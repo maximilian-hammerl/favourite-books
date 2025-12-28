@@ -11,13 +11,31 @@ const router = createRouter({
     {
       path: '/books',
       children: [
-        { path: '', name: 'books', component: () => import('@/views/Books.vue') },
-        { path: ':bookId', name: 'book', component: () => import('@/views/Book.vue') },
+        { path: '', name: 'allBooks', component: () => import('@/views/AllBooks.vue') },
+        { path: ':bookId', name: 'singleBook', component: () => import('@/views/SingleBook.vue') },
+      ],
+    },
+    {
+      path: '/book-series',
+      children: [
+        { path: '', name: 'allBookSeries', component: () => import('@/views/AllBookSeries.vue') },
+        {
+          path: ':bookSeriesId',
+          name: 'singleBookSeries',
+          component: () => import('@/views/SingleBookSeries.vue'),
+        },
       ],
     },
     {
       path: '/authors',
-      children: [{ path: '', name: 'authors', component: () => import('@/views/Authors.vue') }],
+      children: [
+        { path: '', name: 'allAuthors', component: () => import('@/views/AllAuthors.vue') },
+        {
+          path: ':authorId',
+          name: 'singleAuthor',
+          component: () => import('@/views/SingleAuthor.vue'),
+        },
+      ],
     },
   ],
 })

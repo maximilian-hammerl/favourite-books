@@ -16,7 +16,7 @@ supabase.auth.onAuthStateChange((event, session) => {
   switch (event) {
     case 'SIGNED_IN':
       console.info('Forwarding to books on sign in')
-      void router.push({ name: 'books' })
+      void router.push({ name: 'allBooks' })
       break
 
     case 'SIGNED_OUT':

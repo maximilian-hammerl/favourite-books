@@ -44,7 +44,7 @@ const isCreateBookDialogVisible = ref<boolean>(false)
 
 async function onBookCreated(newBook: Tables<'book'>) {
   await router.push({
-    name: 'book',
+    name: 'singleBook',
     params: { bookId: newBook.id },
   })
 }
@@ -65,7 +65,7 @@ async function onBookCreated(newBook: Tables<'book'>) {
     <div v-else class="flex flex-col gap-4">
       <VoltCard v-for="book in books" :key="book.id">
         <template #title>
-          <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">
+          <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
             {{ book.title }}
           </RouterLink>
         </template>
