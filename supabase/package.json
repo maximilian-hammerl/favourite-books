@@ -1,5 +1,26 @@
 {
+  "scripts": {
+    "supabase:start": "npx supabase start",
+    "supabase:stop": "npx supabase stop",
+    "start": "npm install && npm run supabase:start && npm run generate",
+    "start-reset": "npm install && npm run supabase:start && npm run db:reset",
+    "restart": "npm run supabase:stop && npm run start",
+    "restart-reset": "npm run supabase:stop && npm run start-reset",
+    "stop": "npm run supabase:stop",
+    "supabase:status": "npx supabase status",
+    "migration:squash": "npm run migration:new squashed && npx supabase migration squash --local",
+    "migration:new": "npx supabase migration new",
+    "migration:up": "npx supabase migration up --local",
+    "migration:list": "npx supabase migration list --local",
+    "db:diff": "npx supabase db diff --local --file",
+    "db:start": "npx supabase db start",
+    "db:lint": "npx supabase db lint --local --fail-on warning",
+    "db:test": "npx supabase db test --local",
+    "db:reset": "npx supabase db reset --local && npm run generate",
+    "db:validate": "npm run db:reset && npm run db:lint && npm run db:test",
+    "db:types": "npx supabase gen types --local --lang typescript"
+  },
   "devDependencies": {
-    "supabase": "^2.70.5"
+    "supabase": "2.70.5"
   }
 }
