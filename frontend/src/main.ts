@@ -10,6 +10,7 @@ import router from './router'
 import Button from '@/volt/Button.vue'
 import SecondaryButton from '@/volt/SecondaryButton.vue'
 import Dialog from '@/volt/Dialog.vue'
+import InputText from '@/volt/InputText.vue'
 
 const app = createApp(App)
 
@@ -23,6 +24,7 @@ app.use(PrimeVue, {
 app
   .component('VoltButton', Button)
   .component('VoltSecondaryButton', SecondaryButton)
+  .component('VoltInputText', InputText)
   .component('VoltDialog', Dialog)
 
 app.mount('#app')

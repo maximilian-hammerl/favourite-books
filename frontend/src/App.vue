@@ -1,11 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div class="flex flex-col min-h-screen">
+    <header class="flex-none"></header>
+    <div class="flex-grow flex items-center justify-center">
+      <RouterView />
+    </div>
+    <footer class="flex-none"></footer>
+  </div>
 </template>
-
-<style scoped></style>
