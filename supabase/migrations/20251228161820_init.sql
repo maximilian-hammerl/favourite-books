@@ -13,6 +13,12 @@ CREATE TABLE public.author
 ALTER TABLE public.author
     ENABLE ROW LEVEL SECURITY;
 
+CREATE POLICY author_authenticated
+    ON public.author FOR ALL
+    TO authenticated
+    USING (TRUE)
+    WITH CHECK (TRUE);
+
 ---
 
 CREATE DOMAIN public.book_id AS uuid;
@@ -29,6 +35,12 @@ CREATE TABLE public.book
 ALTER TABLE public.book
     ENABLE ROW LEVEL SECURITY;
 
+CREATE POLICY book_authenticated
+    ON public.book FOR ALL
+    TO authenticated
+    USING (TRUE)
+    WITH CHECK (TRUE);
+
 ---
 
 CREATE TABLE public.author_created_book
@@ -41,3 +53,9 @@ CREATE TABLE public.author_created_book
 
 ALTER TABLE public.author_created_book
     ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY author_created_book_authenticated
+    ON public.author_created_book FOR ALL
+    TO authenticated
+    USING (TRUE)
+    WITH CHECK (TRUE);
