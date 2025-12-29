@@ -3,27 +3,46 @@ import { onMounted, ref } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import InplaceWithSave from '@/components/InplaceWithSave.vue'
+import { sumOfArray } from '@/lib/util/array.ts'
 
-type PaginatedBookGenre = Tables<'book_genre'>
-type PaginatedBookSubgenre = Tables<'book_subgenre'>
-type PaginatedBookTrope = Tables<'book_trope'>
+type PaginatedBookGenre = Tables<'book_genre'> & {
+  book_has_book_genre: Array<{ count: number }>
+}
+type PaginatedBookSubgenre = Tables<'book_subgenre'> & {
+  book_has_book_subgenre: Array<{ count: number }>
+}
+type PaginatedBookTrope = Tables<'book_trope'> & {
+  book_has_book_trope: Array<{ count: number }>
+}
 
 const bookGenres = ref<Array<PaginatedBookGenre> | null>(null)
 const bookSubgenres = ref<Array<PaginatedBookSubgenre> | null>(null)
 const bookTropes = ref<Array<PaginatedBookTrope> | null>(null)
 
 async function getBookGenres() {
-  const { data } = await supabase.from('book_genre').select().order('title').throwOnError()
+  const { data } = await supabase
+    .from('book_genre')
+    .select('*, book_has_book_genre(count)')
+    .order('title')
+    .throwOnError()
   bookGenres.value = data
 }
 
 async function getBookSubgenres() {
-  const { data } = await supabase.from('book_subgenre').select().order('title').throwOnError()
+  const { data } = await supabase
+    .from('book_subgenre')
+    .select('*, book_has_book_subgenre(count)')
+    .order('title')
+    .throwOnError()
   bookSubgenres.value = data
 }
 
 async function getBookTropes() {
-  const { data } = await supabase.from('book_trope').select().order('title').throwOnError()
+  const { data } = await supabase
+    .from('book_trope')
+    .select('*, book_has_book_trope(count)')
+    .order('title')
+    .throwOnError()
   bookTropes.value = data
 }
 
@@ -148,11 +167,20 @@ async function insertBookTrope() {
           <div v-if="bookGenres !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookGenre in bookGenres" :key="bookGenre.id">
               <template #content>
-                <InplaceWithSave
-                  v-model="bookGenre.title"
-                  :disabled="isUpdatingBookGenre"
-                  @save="updateBookGenre(bookGenre, $event)"
-                />
+                <div class="flex flex-wrap gap-4">
+                  <InplaceWithSave
+                    class="flex-grow"
+                    v-model="bookGenre.title"
+                    :disabled="isUpdatingBookGenre"
+                    @save="updateBookGenre(bookGenre, $event)"
+                  />
+                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                    <span class="inline-flex items-center gap-1">
+                      <span class="underline">Zu den {{ bookGenre.title }}-Büchern</span>
+                      <VoltBadge :value="sumOfArray(bookGenre.book_has_book_genre, 'count')" />
+                    </span>
+                  </RouterLink>
+                </div>
               </template>
             </VoltCard>
           </div>
@@ -173,11 +201,22 @@ async function insertBookTrope() {
           <div v-if="bookSubgenres !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookSubgenre in bookSubgenres" :key="bookSubgenre.id">
               <template #content>
-                <InplaceWithSave
-                  v-model="bookSubgenre.title"
-                  :disabled="isUpdatingBookSubgenre"
-                  @save="updateBookSubgenre(bookSubgenre, $event)"
-                />
+                <div class="flex flex-wrap gap-4">
+                  <InplaceWithSave
+                    class="flex-grow"
+                    v-model="bookSubgenre.title"
+                    :disabled="isUpdatingBookSubgenre"
+                    @save="updateBookSubgenre(bookSubgenre, $event)"
+                  />
+                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                    <span class="inline-flex items-center gap-1">
+                      <span class="underline">Zu den {{ bookSubgenre.title }}-Büchern</span>
+                      <VoltBadge
+                        :value="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')"
+                      />
+                    </span>
+                  </RouterLink>
+                </div>
               </template>
             </VoltCard>
           </div>
@@ -198,11 +237,20 @@ async function insertBookTrope() {
           <div v-if="bookTropes !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookTrope in bookTropes" :key="bookTrope.id">
               <template #content>
-                <InplaceWithSave
-                  v-model="bookTrope.title"
-                  :disabled="isUpdatingBookTrope"
-                  @save="updateBookTrope(bookTrope, $event)"
-                />
+                <div class="flex flex-wrap gap-4">
+                  <InplaceWithSave
+                    class="flex-grow"
+                    v-model="bookTrope.title"
+                    :disabled="isUpdatingBookTrope"
+                    @save="updateBookTrope(bookTrope, $event)"
+                  />
+                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                    <span class="inline-flex items-center gap-1">
+                      <span class="underline">Zu den {{ bookTrope.title }}-Büchern</span>
+                      <VoltBadge :value="sumOfArray(bookTrope.book_has_book_trope, 'count')" />
+                    </span>
+                  </RouterLink>
+                </div>
               </template>
             </VoltCard>
           </div>
