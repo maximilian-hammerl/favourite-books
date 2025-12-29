@@ -10,8 +10,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  authorCreated: [Tables<'author'>]
-  authorUpdated: [Tables<'author'>]
+  authorCreatedOrUpdated: [Tables<'author'>]
 }>()
 
 const NEW_BOOK: TablesInsert<'author'> = {
@@ -52,7 +51,7 @@ async function createOrUpdate() {
       .select()
       .single()
       .throwOnError()
-    emit('authorUpdated', data)
+    emit('authorCreatedOrUpdated', data)
   } else {
     const { data } = await supabase
       .from('author')
@@ -60,7 +59,7 @@ async function createOrUpdate() {
       .select()
       .single()
       .throwOnError()
-    emit('authorCreated', data)
+    emit('authorCreatedOrUpdated', data)
   }
   isVisible.value = false
 }

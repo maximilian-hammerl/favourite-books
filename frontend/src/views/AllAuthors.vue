@@ -100,7 +100,6 @@ function updateAuthor(author: Tables<'author'>) {
   <CreateUpdateAuthorDialog
     v-model:visible="isCreateUpdateAuthorDialogVisible"
     :author-id-to-update="authorIdToUpdate"
-    @author-created="reload()"
-    @author-updated="reload()"
+    @author-created-or-updated="reload()"
   />
 </template>

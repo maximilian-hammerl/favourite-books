@@ -95,7 +95,6 @@ function updateBook(book: Tables<'book'>) {
   <CreateUpdateBookDialog
     v-model:visible="isCreateUpdateBookDialogVisible"
     :book-id-to-update="bookIdToUpdate"
-    @book-created="reload()"
-    @book-updated="reload()"
+    @book-created-or-updated="reload()"
   />
 </template>
