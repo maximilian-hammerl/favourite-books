@@ -28,8 +28,8 @@ onMounted(async () => {
     v-model="selectedAuthors"
     :options="selectableAuthors"
     filter
-    option-label="title"
-    placeholder="Wähle ein oder mehrere Autoren aus"
+    :option-label="(author: Tables<'author'>) => `${author.last_name}, ${author.first_name}`"
+    placeholder="Wähle einen oder mehrere Autoren aus"
     fluid
   />
   <VoltSkeleton v-else height="3rem" />

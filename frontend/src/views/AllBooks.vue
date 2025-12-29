@@ -4,21 +4,51 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateBookDialog from '@/dialogs/CreateUpdateBookDialog.vue'
 import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
+import FormattedAuthorName from '@/components/FormattedAuthorName.vue'
+import { pluralize } from '@/lib/util/text.ts'
+import { useDebounceFn } from '@vueuse/core'
+
+type PaginatedBook = Tables<'book'> & {
+  author_created_book: Array<{
+    author: Tables<'author'>
+  }>
+  book_has_book_genre: {
+    book_genre: Tables<'book_genre'>
+  } | null
+  book_has_book_sub_genre: Array<{
+    book_sub_genre: Tables<'book_sub_genre'>
+  }>
+  book_has_book_trope: Array<{
+    book_trope: Tables<'book_trope'>
+  }>
+}
 
 const firstIndexOfCurrentPage = ref<number>(0)
 const booksPerPage = ref<number>(10)
 
-const books = ref<Array<Tables<'book'>> | null>(null)
+const books = ref<Array<PaginatedBook> | null>(null)
 const numberTotalBooks = ref<number | null>(null)
+
+const search = ref<string>('')
 
 async function getBooks() {
   console.log('Get books', {
     firstIndexOfCurrentPage: firstIndexOfCurrentPage.value,
     booksPerPage: booksPerPage.value,
   })
-  const { data } = await supabase
+  books.value = null
+  let query = supabase
     .from('book')
-    .select()
+    .select(
+      '*, author_created_book(author(*)), book_has_book_genre(book_genre(*)), book_has_book_sub_genre(book_sub_genre(*)), book_has_book_trope(book_trope(*))',
+    )
+
+  if (search.value) {
+    query = query.ilike('title', `%${search.value}%`)
+  }
+
+  const { data } = await query
+    .order('title')
     .range(firstIndexOfCurrentPage.value, firstIndexOfCurrentPage.value + booksPerPage.value - 1)
     .throwOnError()
   books.value = data
@@ -26,6 +56,7 @@ async function getBooks() {
 
 async function countBooks() {
   console.log('Count books')
+  numberTotalBooks.value = null
   const { count } = await supabase.from('book').select('*', { count: 'exact' }).throwOnError()
   numberTotalBooks.value = count
 }
@@ -34,7 +65,11 @@ async function reload() {
   await Promise.all([getBooks(), countBooks()])
 }
 
+const debouncedReload = useDebounceFn(reload, 1000)
+
 onMounted(reload)
+
+watch(search, debouncedReload)
 
 watch([firstIndexOfCurrentPage, booksPerPage], getBooks)
 
@@ -65,7 +100,7 @@ function updateBook(book: Tables<'book'>) {
     </div>
 
     <div v-else class="flex flex-col gap-4">
-      <VoltInputText placeholder="Suche" />
+      <VoltInputText v-model="search" placeholder="Suche" />
 
       <VoltCard v-for="book in books" :key="book.id">
         <template #title>
@@ -74,7 +109,50 @@ function updateBook(book: Tables<'book'>) {
           </RouterLink>
         </template>
         <template #content>
-          <p>Erstellt am: {{ book.created_at }}</p>
+          <div class="flex flex-col gap-2">
+            <div>
+              <strong>
+                {{ pluralize(book.author_created_book.length, 'Autor', 'Autoren') }}:
+              </strong>
+              <span v-for="({ author }, index) in book.author_created_book" :key="author.id">
+                <RouterLink :to="{ name: 'singleAuthor', params: { authorId: author.id } }">
+                  <FormattedAuthorName :author="author" />
+                </RouterLink>
+                <span v-if="index !== book.author_created_book.length - 1">, </span>
+              </span>
+            </div>
+
+            <div>
+              <strong>Genre:</strong>
+              {{ book.book_has_book_genre?.book_genre.title }}
+            </div>
+
+            <div>
+              <strong>
+                {{ pluralize(book.book_has_book_sub_genre.length, 'Subgenre', 'Subgenres') }}:
+              </strong>
+              <span
+                v-for="({ book_sub_genre: bookSubGenre }, index) in book.book_has_book_sub_genre"
+                :key="bookSubGenre.id"
+              >
+                {{ bookSubGenre.title }}
+                <span v-if="index !== book.book_has_book_sub_genre.length - 1">, </span>
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                {{ pluralize(book.book_has_book_trope.length, 'Trope', 'Tropes') }}:
+              </strong>
+              <span
+                v-for="({ book_trope: bookTrope }, index) in book.book_has_book_trope"
+                :key="bookTrope.id"
+              >
+                {{ bookTrope.title }}
+                <span v-if="index !== book.book_has_book_trope.length - 1">, </span>
+              </span>
+            </div>
+          </div>
         </template>
         <template #footer>
           <div class="flex justify-end">
