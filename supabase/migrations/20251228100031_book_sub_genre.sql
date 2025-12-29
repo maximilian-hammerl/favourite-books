@@ -41,7 +41,17 @@ CREATE POLICY book_has_book_subgenre_authenticated
 ---
 
 INSERT INTO public.book_subgenre (title)
-VALUES ('New-Adult'),
+VALUES ('Action'),
+       ('Adventure'),
+       ('Comedy'),
+       ('Crime'),
+       ('Mystery'),
+       ('Fantasy'),
+       ('Horror'),
+       ('Science Fiction'),
+       ('Science Fantasy'),
+       ('Romance'),
+       ('New-Adult'),
        ('Young-Adult'),
        ('Classic'),
        ('Epic'),

@@ -349,6 +349,99 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profile: {
+        Row: {
+          created_at: string
+          first_name: string
+          last_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          first_name?: string
+          last_name?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string
+          last_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_reviewed_book: {
+        Row: {
+          book_id: string
+          characters_rating: number
+          created_at: string
+          darkness_rating: number
+          ease_of_reading_rating: number
+          emotions_rating: number
+          ending_rating: number
+          overall_rating: number
+          plot_development_rating: number
+          quality_of_writing_rating: number
+          spice_rating: number
+          story_immersion_rating: number
+          suspense_rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          characters_rating: number
+          created_at?: string
+          darkness_rating: number
+          ease_of_reading_rating: number
+          emotions_rating: number
+          ending_rating: number
+          overall_rating: number
+          plot_development_rating: number
+          quality_of_writing_rating: number
+          spice_rating: number
+          story_immersion_rating: number
+          suspense_rating: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          characters_rating?: number
+          created_at?: string
+          darkness_rating?: number
+          ease_of_reading_rating?: number
+          emotions_rating?: number
+          ending_rating?: number
+          overall_rating?: number
+          plot_development_rating?: number
+          quality_of_writing_rating?: number
+          spice_rating?: number
+          story_immersion_rating?: number
+          suspense_rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'user_reviewed_book_book_id_fkey'
+            columns: ['book_id']
+            isOneToOne: false
+            referencedRelation: 'book'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'user_reviewed_book_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'user_profile'
+            referencedColumns: ['user_id']
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

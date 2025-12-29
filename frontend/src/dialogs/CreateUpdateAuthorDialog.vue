@@ -20,8 +20,8 @@ const NEW_BOOK: TablesInsert<'author'> = {
 
 const author = ref<TablesInsert<'author'> | null>(null)
 
-watch(isVisible, async () => {
-  if (isVisible.value) {
+watch(isVisible, async (newIsVisible) => {
+  if (newIsVisible) {
     if (props.authorIdToUpdate) {
       const { data } = await supabase
         .from('author')

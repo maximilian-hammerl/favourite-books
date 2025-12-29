@@ -38,8 +38,8 @@ function swapBooks(first: number, second: number) {
   booksInSeries.value[second] = firstBook
 }
 
-watch(isVisible, async () => {
-  if (isVisible.value) {
+watch(isVisible, async (newIsVisible) => {
+  if (newIsVisible) {
     if (props.bookSeriesIdToUpdate) {
       const { data: existingBookSeries } = await supabase
         .from('book_series')

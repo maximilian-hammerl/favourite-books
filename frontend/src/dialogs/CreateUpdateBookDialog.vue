@@ -33,8 +33,8 @@ const bookGenre = ref<Tables<'book_genre'> | null>(null)
 const bookSubgenres = ref<Array<Tables<'book_subgenre'>>>([])
 const bookTropes = ref<Array<Tables<'book_trope'>>>([])
 
-watch(isVisible, async () => {
-  if (isVisible.value) {
+watch(isVisible, async (newIsVisible) => {
+  if (newIsVisible) {
     if (props.bookIdToUpdate) {
       const { data: existingBook } = await supabase
         .from('book')
