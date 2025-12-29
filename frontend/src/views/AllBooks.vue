@@ -17,7 +17,7 @@ type PaginatedBook = Tables<'book'> & {
   }>
   book_has_book_genre: {
     book_genre: Tables<'book_genre'>
-  } | null
+  }
   book_has_book_subgenre: Array<{
     book_subgenre: Tables<'book_subgenre'>
   }>
@@ -153,33 +153,44 @@ function updateBook(book: Tables<'book'>) {
 
             <div>
               <strong>Genre:</strong>
-              {{ book.book_has_book_genre?.book_genre.title }}
+              <VoltButton
+                :label="book.book_has_book_genre.book_genre.title"
+                size="small"
+                text
+                @click="selectedBookGenres.push(book.book_has_book_genre.book_genre)"
+              />
             </div>
 
             <div>
               <strong>
                 {{ pluralize(book.book_has_book_subgenre.length, 'Subgenre', 'Subgenres') }}:
               </strong>
-              <span
-                v-for="({ book_subgenre: bookSubgenre }, index) in book.book_has_book_subgenre"
-                :key="bookSubgenre.id"
-              >
-                {{ bookSubgenre.title }}
-                <span v-if="index !== book.book_has_book_subgenre.length - 1">, </span>
-              </span>
+              <div class="flex flex-wrap">
+                <VoltButton
+                  v-for="{ book_subgenre: bookSubgenre } in book.book_has_book_subgenre"
+                  :key="bookSubgenre.id"
+                  :label="bookSubgenre.title"
+                  size="small"
+                  text
+                  @click="selectedBookSubgenres.push(bookSubgenre)"
+                />
+              </div>
             </div>
 
             <div>
               <strong>
                 {{ pluralize(book.book_has_book_trope.length, 'Trope', 'Tropes') }}:
               </strong>
-              <span
-                v-for="({ book_trope: bookTrope }, index) in book.book_has_book_trope"
-                :key="bookTrope.id"
-              >
-                {{ bookTrope.title }}
-                <span v-if="index !== book.book_has_book_trope.length - 1">, </span>
-              </span>
+              <div class="flex flex-wrap">
+                <VoltButton
+                  v-for="{ book_trope: bookTrope } in book.book_has_book_trope"
+                  :key="bookTrope.id"
+                  :label="bookTrope.title"
+                  size="small"
+                  text
+                  @click="selectedBookTropes.push(bookTrope)"
+                />
+              </div>
             </div>
           </div>
         </template>
