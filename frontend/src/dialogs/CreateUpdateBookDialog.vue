@@ -186,7 +186,11 @@ async function createOrUpdate() {
 
       <div>
         <label for="authors">Autoren</label>
-        <AuthorMultiSelect id="authors" v-model="authors" />
+        <AuthorMultiSelect
+          id="authors"
+          v-model="authors"
+          placeholder="Wähle einen oder mehrere Autoren aus"
+        />
       </div>
 
       <div>
@@ -196,17 +200,29 @@ async function createOrUpdate() {
 
       <div>
         <label for="book-genre">Genre</label>
-        <BookGenreSelect id="book-genre" v-model="bookGenre" />
+        <BookGenreSelect
+          id="book-genre"
+          v-model="bookGenre"
+          placeholder="Wähle ein Buch-Genre aus"
+        />
       </div>
 
       <div>
         <label for="book-subgenres">Subgenres</label>
-        <BookSubgenreMultiSelect id="book-subgenres" v-model="bookSubgenres" />
+        <BookSubgenreMultiSelect
+          id="book-subgenres"
+          v-model="bookSubgenres"
+          placeholder="Wähle ein oder mehrere Buch-Subgenres aus"
+        />
       </div>
 
       <div>
         <label for="book-tropes">Tropes</label>
-        <BookTropeMultiSelect id="book-tropes" v-model="bookTropes" />
+        <BookTropeMultiSelect
+          id="book-tropes"
+          v-model="bookTropes"
+          placeholder="Wähle ein oder mehrere Buch-Tropes aus"
+        />
       </div>
 
       <div class="flex flex-wrap gap-2 justify-end">

@@ -24,7 +24,6 @@ onMounted(async () => {
     :options="selectableBookTropes"
     filter
     option-label="title"
-    placeholder="Wähle ein oder mehrere Buch-Tropes aus"
     fluid
   />
   <VoltSkeleton v-else height="3rem" />

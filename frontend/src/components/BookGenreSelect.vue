@@ -24,7 +24,6 @@ onMounted(async () => {
     :options="selectableBookGenres"
     filter
     option-label="title"
-    placeholder="Wähle ein Buch-Genre aus"
     fluid
   />
   <VoltSkeleton v-else height="3rem" />
