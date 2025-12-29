@@ -3,6 +3,7 @@ import type { Tables, TablesInsert } from '@/gen/database'
 import { ref, watch } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
 import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
+import BookSelect from '@/components/BookSelect.vue'
 
 const isVisible = defineModel<boolean>('visible', { required: true })
 
@@ -20,6 +21,22 @@ const NEW_BOOK_SERIES: TablesInsert<'book_series'> = {
 
 const bookSeries = ref<TablesInsert<'book_series'> | null>(null)
 const booksInSeries = ref<Array<Tables<'book'>>>([])
+
+const bookToAddToSeries = ref<Tables<'book'> | null>(null)
+
+function addBookToSeries() {
+  if (bookToAddToSeries.value === null) {
+    throw new Error('No book selected to add to series')
+  }
+  booksInSeries.value.push(bookToAddToSeries.value)
+  bookToAddToSeries.value = null
+}
+
+function swapBooks(first: number, second: number) {
+  const firstBook = booksInSeries.value[first]!
+  booksInSeries.value[first] = booksInSeries.value[second]!
+  booksInSeries.value[second] = firstBook
+}
 
 watch(isVisible, async () => {
   if (isVisible.value) {
@@ -110,14 +127,42 @@ async function createOrUpdate() {
         <VoltInputText id="title" v-model="bookSeries.title" required fluid autofocus />
       </div>
 
+      <VoltDivider />
+
       <div>
         <strong>Bücher:</strong>
         <ol>
-          <li v-for="book in booksInSeries" :key="book.id">
-            <FormattedBookTitle :book="book" />
+          <li v-for="(book, index) in booksInSeries" :key="book.id">
+            <span class="inline-flex gap-2">
+              <FormattedBookTitle :book="book" class="flew-grow" />
+              <VoltButtonGroup class="flex-none">
+                <VoltButton
+                  icon="pi pi-sort-up-fill"
+                  :disabled="index === 0"
+                  @click="swapBooks(index, index - 1)"
+                />
+                <VoltButton
+                  icon="pi pi-sort-down-fill"
+                  :disabled="index === booksInSeries.length - 1"
+                  @click="swapBooks(index, index + 1)"
+                />
+              </VoltButtonGroup>
+            </span>
           </li>
         </ol>
       </div>
+
+      <div class="flex gap-2">
+        <BookSelect v-model="bookToAddToSeries" class="flex-grow" />
+        <VoltButton
+          label="Zur Reihe hinzufügen"
+          :disabled="bookToAddToSeries === null"
+          class="flex-none"
+          @click="addBookToSeries()"
+        />
+      </div>
+
+      <VoltDivider />
 
       <div class="flex flex-wrap gap-2 justify-end">
         <VoltButton label="Abbrechen" @click="isVisible = false" outlined />

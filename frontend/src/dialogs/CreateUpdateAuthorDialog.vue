@@ -84,6 +84,8 @@ async function createOrUpdate() {
         <VoltInputText id="author-title" v-model="author.last_name" required fluid />
       </div>
 
+      <VoltDivider />
+
       <div class="flex flex-wrap gap-2 justify-end">
         <VoltButton label="Abbrechen" @click="isVisible = false" outlined />
         <VoltButton :label="props.authorIdToUpdate ? 'Aktualisieren' : 'Anlegen'" type="submit" />

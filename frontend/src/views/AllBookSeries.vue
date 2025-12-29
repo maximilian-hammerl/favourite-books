@@ -23,7 +23,7 @@ async function getBookSeriess() {
     .from('book_series')
     .select('*, book_is_part_of_book_series(book(*))')
     .order('title')
-    .order('title', { referencedTable: 'book_is_part_of_book_series.book' })
+    .order('number_in_series', { referencedTable: 'book_is_part_of_book_series' })
     .range(
       firstIndexOfCurrentPage.value,
       firstIndexOfCurrentPage.value + bookSeriessPerPage.value - 1,
@@ -88,11 +88,11 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
             <strong>
               {{ pluralize(bookSeries.book_is_part_of_book_series.length, 'Buch', 'Bücher') }}:
             </strong>
-            <ul>
+            <ol>
               <li v-for="{ book } in bookSeries.book_is_part_of_book_series" :key="book.id">
                 <FormattedBookTitle :book="book" />
               </li>
-            </ul>
+            </ol>
           </div>
         </template>
         <template #footer>

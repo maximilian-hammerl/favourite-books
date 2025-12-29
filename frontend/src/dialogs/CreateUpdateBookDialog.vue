@@ -271,6 +271,8 @@ async function createOrUpdate() {
         />
       </div>
 
+      <VoltDivider />
+
       <div class="flex flex-wrap gap-2 justify-end">
         <VoltButton label="Abbrechen" @click="isVisible = false" outlined />
         <VoltButton :label="props.bookIdToUpdate ? 'Aktualisieren' : 'Erstellen'" type="submit" />

@@ -10,6 +10,7 @@ const initials = computed<string>(() =>
   props.book.title
     .split(/\s+/)
     .map((x) => x.charAt(0))
+    .slice(0, 3)
     .join(''),
 )
 </script>
