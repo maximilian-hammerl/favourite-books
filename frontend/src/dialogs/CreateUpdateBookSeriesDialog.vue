@@ -2,6 +2,7 @@
 import type { Tables, TablesInsert } from '@/gen/database'
 import { ref, watch } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
+import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
 
 const isVisible = defineModel<boolean>('visible', { required: true })
 
@@ -18,22 +19,31 @@ const NEW_BOOK_SERIES: TablesInsert<'book_series'> = {
 }
 
 const bookSeries = ref<TablesInsert<'book_series'> | null>(null)
+const booksInSeries = ref<Array<Tables<'book'>>>([])
 
 watch(isVisible, async () => {
   if (isVisible.value) {
     if (props.bookSeriesIdToUpdate) {
-      const { data } = await supabase
+      const { data: existingBookSeries } = await supabase
         .from('book_series')
         .select()
         .eq('id', props.bookSeriesIdToUpdate)
         .single()
         .throwOnError()
-      bookSeries.value = data
+      bookSeries.value = existingBookSeries
+
+      const { data: existingBooksInSeries } = await supabase
+        .from('book_is_part_of_book_series')
+        .select('book(*)')
+        .eq('book_series_id', props.bookSeriesIdToUpdate)
+        .throwOnError()
+      booksInSeries.value = existingBooksInSeries.map((x) => x.book)
     } else {
       bookSeries.value = structuredClone(NEW_BOOK_SERIES)
     }
   } else {
     bookSeries.value = null
+    booksInSeries.value = []
   }
 })
 
@@ -42,24 +52,46 @@ async function createOrUpdate() {
     throw new Error('Author cannot be null when creating bookSeries')
   }
 
+  let createdOrUpdatedBookSeries: Tables<'book_series'>
   if (props.bookSeriesIdToUpdate) {
-    const { data } = await supabase
+    const { data: updatedBookSeries } = await supabase
       .from('book_series')
       .update(bookSeries.value)
       .eq('id', props.bookSeriesIdToUpdate)
       .select()
       .single()
       .throwOnError()
-    emit('bookSeriesCreatedOrUpdated', data)
+    createdOrUpdatedBookSeries = updatedBookSeries
+
+    await supabase
+      .from('book_is_part_of_book_series')
+      .delete()
+      .eq('book_series_id', props.bookSeriesIdToUpdate)
+      .throwOnError()
   } else {
-    const { data } = await supabase
+    const { data: createdBookSeries } = await supabase
       .from('book_series')
       .insert(bookSeries.value)
       .select()
       .single()
       .throwOnError()
-    emit('bookSeriesCreatedOrUpdated', data)
+    createdOrUpdatedBookSeries = createdBookSeries
   }
+
+  if (booksInSeries.value.length > 0) {
+    await supabase
+      .from('book_is_part_of_book_series')
+      .insert(
+        booksInSeries.value.map((x, i) => ({
+          book_series_id: createdOrUpdatedBookSeries.id,
+          book_id: x.id,
+          number_in_series: i + 1,
+        })),
+      )
+      .throwOnError()
+  }
+
+  emit('bookSeriesCreatedOrUpdated', createdOrUpdatedBookSeries)
   isVisible.value = false
 }
 </script>
@@ -76,6 +108,15 @@ async function createOrUpdate() {
       <div>
         <label for="title">Titel</label>
         <VoltInputText id="title" v-model="bookSeries.title" required fluid autofocus />
+      </div>
+
+      <div>
+        <strong>Bücher:</strong>
+        <ol>
+          <li v-for="book in booksInSeries" :key="book.id">
+            <FormattedBookTitle :book="book" />
+          </li>
+        </ol>
       </div>
 
       <div class="flex flex-wrap gap-2 justify-end">

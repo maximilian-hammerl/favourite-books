@@ -29,6 +29,7 @@ import TabPanel from '@/volt/TabPanel.vue'
 import TabList from '@/volt/TabList.vue'
 import Inplace from '@/volt/Inplace.vue'
 import Badge from '@/volt/Badge.vue'
+import ButtonGroup from '@/volt/ButtonGroup.vue'
 
 const app = createApp(App)
 
@@ -45,6 +46,7 @@ app
   .component('VoltAvatar', Avatar)
   .component('VoltBadge', Badge)
   .component('VoltButton', Button)
+  .component('VoltButtonGroup', ButtonGroup)
   .component('VoltCard', Card)
   .component('VoltDialog', Dialog)
   .component('VoltDivider', Divider)
