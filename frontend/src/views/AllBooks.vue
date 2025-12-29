@@ -16,6 +16,11 @@ export type PaginatedBook = Tables<'book'> & {
   author_created_book: Array<{
     author: Tables<'author'>
   }>
+  book_is_part_of_book_series: Array<
+    Pick<Tables<'book_is_part_of_book_series'>, 'number_in_series'> & {
+      book_series: Tables<'book_series'>
+    }
+  >
   book_has_book_genre: {
     book_genre: Tables<'book_genre'>
   }
@@ -43,7 +48,7 @@ async function getBooks() {
   let query = supabase
     .from('book')
     .select(
-      '*, author_created_book!inner(author!inner(*)), book_has_book_genre!inner(book_genre!inner(*)), book_has_book_subgenre!inner(book_subgenre!inner(*)), book_has_book_trope!inner(book_trope!inner(*))',
+      '*, author_created_book!inner(author!inner(*)), book_is_part_of_book_series(number_in_series, book_series(*)), book_has_book_genre!inner(book_genre!inner(*)), book_has_book_subgenre!inner(book_subgenre!inner(*)), book_has_book_trope!inner(book_trope!inner(*))',
     )
 
   if (search.value) {

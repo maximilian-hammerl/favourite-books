@@ -172,10 +172,11 @@ async function insertBookTrope() {
                     :to="{ name: 'allBooks', query: { bookGenreId: bookGenre.id } }"
                     class="flex-none"
                   >
-                    <span class="inline-flex items-center gap-2">
-                      <span class="underline">{{ bookGenre.title }}-Bücher</span>
-                      <VoltBadge :value="sumOfArray(bookGenre.book_has_book_genre, 'count')" />
-                    </span>
+                    <VoltSecondaryButton
+                      label="Bücher"
+                      size="small"
+                      :badge="sumOfArray(bookGenre.book_has_book_genre, 'count').toString()"
+                    />
                   </RouterLink>
 
                   <InplaceWithSave
@@ -210,12 +211,11 @@ async function insertBookTrope() {
                     :to="{ name: 'allBooks', query: { bookSubgenreId: bookSubgenre.id } }"
                     class="flex-none"
                   >
-                    <span class="inline-flex items-center gap-2">
-                      <span class="underline">{{ bookSubgenre.title }}-Bücher</span>
-                      <VoltBadge
-                        :value="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')"
-                      />
-                    </span>
+                    <VoltSecondaryButton
+                      label="Bücher"
+                      size="small"
+                      :badge="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count').toString()"
+                    />
                   </RouterLink>
 
                   <InplaceWithSave
@@ -250,10 +250,11 @@ async function insertBookTrope() {
                     :to="{ name: 'allBooks', query: { bookTropeId: bookTrope.id } }"
                     class="flex-none"
                   >
-                    <span class="inline-flex items-center gap-2">
-                      <span class="underline">{{ bookTrope.title }}-Bücher</span>
-                      <VoltBadge :value="sumOfArray(bookTrope.book_has_book_trope, 'count')" />
-                    </span>
+                    <VoltSecondaryButton
+                      label="Bücher"
+                      size="small"
+                      :badge="sumOfArray(bookTrope.book_has_book_trope, 'count').toString()"
+                    />
                   </RouterLink>
 
                   <InplaceWithSave

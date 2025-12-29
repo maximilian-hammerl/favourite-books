@@ -71,8 +71,7 @@ const booksWithoutSeries = computed<Array<Tables<'book'>>>(() =>
       <div>Autor: <FormattedAuthorName :author="props.author" /></div>
     </template>
     <template #content>
-      <div v-if="bookSeriess.length > 0">
-        <strong>Bücherreihen:</strong>
+      <VoltFieldset v-if="bookSeriess.length > 0" legend="Buchreihen">
         <ul>
           <li v-for="bookSeries in bookSeriess" :key="bookSeries.id">
             <FormattedBookSeriesTitle :book-series="bookSeries" />
@@ -83,15 +82,14 @@ const booksWithoutSeries = computed<Array<Tables<'book'>>>(() =>
             </ol>
           </li>
         </ul>
-      </div>
-      <div v-if="booksWithoutSeries.length > 0">
-        <strong>Bücher:</strong>
+      </VoltFieldset>
+      <VoltFieldset v-if="booksWithoutSeries.length > 0" legend="Bücher">
         <ul>
           <li v-for="book in booksWithoutSeries" :key="book.id">
             <FormattedBookTitle :book="book" />
           </li>
         </ul>
-      </div>
+      </VoltFieldset>
     </template>
     <template #footer>
       <div class="flex justify-end">

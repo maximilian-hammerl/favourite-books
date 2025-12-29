@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { pluralize } from '@/lib/util/text.ts'
 import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
 import type { PaginatedBookSeries } from '@/views/AllBookSeries.vue'
 import FormattedBookSeriesTitle from '@/components/formatted/FormattedBookSeriesTitle.vue'
@@ -19,16 +18,13 @@ const emit = defineEmits<{
       <div>Buchreihe: <FormattedBookSeriesTitle :book-series="props.bookSeries" /></div>
     </template>
     <template #content>
-      <div>
-        <strong>
-          {{ pluralize(bookSeries.book_is_part_of_book_series.length, 'Buch', 'Bücher') }}:
-        </strong>
+      <VoltFieldset legend="Bücher">
         <ol>
           <li v-for="{ book } in props.bookSeries.book_is_part_of_book_series" :key="book.id">
             <FormattedBookTitle :book="book" />
           </li>
         </ol>
-      </div>
+      </VoltFieldset>
     </template>
     <template #footer>
       <div class="flex justify-end">

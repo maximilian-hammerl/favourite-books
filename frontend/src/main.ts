@@ -32,6 +32,7 @@ import Badge from '@/volt/Badge.vue'
 import ButtonGroup from '@/volt/ButtonGroup.vue'
 import ContrastButton from '@/volt/ContrastButton.vue'
 import DangerButton from '@/volt/DangerButton.vue'
+import Fieldset from '@/volt/Fieldset.vue'
 
 const app = createApp(App)
 
@@ -54,6 +55,7 @@ app
   .component('VoltDangerButton', DangerButton)
   .component('VoltDialog', Dialog)
   .component('VoltDivider', Divider)
+  .component('VoltFieldset', Fieldset)
   .component('VoltInplace', Inplace)
   .component('VoltInputNumber', InputNumber)
   .component('VoltInputText', InputText)
