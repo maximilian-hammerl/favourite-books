@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Tables } from '@/gen/database'
+import { supabase } from '@/lib/supabase.ts'
 
 type PaginatedBookGenre = Tables<'book_genre'>
 
 const bookGenres = ref<Array<PaginatedBookGenre> | null>(null)
+
+async function getBookGenres() {
+  const { data } = await supabase.from('book_genre').select().order('title').throwOnError()
+  bookGenres.value = data
+}
+
+onMounted(getBookGenres)
 </script>
 
 <template>
