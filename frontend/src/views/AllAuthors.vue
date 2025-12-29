@@ -4,11 +4,19 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateAuthorDialog from '@/dialogs/CreateUpdateAuthorDialog.vue'
 import FormattedAuthorName from '@/components/FormattedAuthorName.vue'
+import { pluralize } from '@/lib/util/text.ts'
+import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
+
+type PaginatedAuthor = Tables<'author'> & {
+  author_created_book: Array<{
+    book: Tables<'book'>
+  }>
+}
 
 const firstIndexOfCurrentPage = ref<number>(0)
 const authorsPerPage = ref<number>(10)
 
-const authors = ref<Array<Tables<'author'>> | null>(null)
+const authors = ref<Array<PaginatedAuthor> | null>(null)
 const numberTotalAuthors = ref<number | null>(null)
 
 async function getAuthors() {
@@ -18,7 +26,10 @@ async function getAuthors() {
   })
   const { data } = await supabase
     .from('author')
-    .select()
+    .select('*, author_created_book(book(*))')
+    .order('last_name')
+    .order('first_name')
+    .order('title', { referencedTable: 'author_created_book.book' })
     .range(firstIndexOfCurrentPage.value, firstIndexOfCurrentPage.value + authorsPerPage.value - 1)
     .throwOnError()
   authors.value = data
@@ -57,7 +68,7 @@ function updateAuthor(author: Tables<'author'>) {
     <div class="flex justify-between mb-4">
       <h1>Bücher</h1>
 
-      <VoltButton label="Buch erstellen" size="small" @click="createAuthor()" />
+      <VoltButton label="Autor anlegen" size="small" @click="createAuthor()" />
     </div>
 
     <div v-if="authors === null || numberTotalAuthors === null" class="flex flex-col gap-4">
@@ -74,12 +85,21 @@ function updateAuthor(author: Tables<'author'>) {
           </RouterLink>
         </template>
         <template #content>
-          <p>Erstellt am: {{ author.created_at }}</p>
+          <div>
+            <strong> {{ pluralize(author.author_created_book.length, 'Buch', 'Bücher') }}: </strong>
+            <ul>
+              <li v-for="{ book } in author.author_created_book" :key="book.id">
+                <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
+                  <FormattedBookTitle :book="book" />
+                </RouterLink>
+              </li>
+            </ul>
+          </div>
         </template>
         <template #footer>
           <div class="flex justify-end">
             <VoltButton
-              label="Buch aktualisieren"
+              label="Autor aktualisieren"
               text
               size="small"
               @click="updateAuthor(author)"
