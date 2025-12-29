@@ -30,7 +30,7 @@ $$
         FOR i IN 0..100
             LOOP
                 INSERT INTO public.book (title, subtitle, blurb)
-                VALUES ('Book ' || i, '', '')
+                VALUES ('Book ' || i, 'Subtitle ' || i, 'Blurb ' || i)
                 RETURNING id INTO v_book_id;
 
                 INSERT INTO public.author_created_book (author_id, book_id)

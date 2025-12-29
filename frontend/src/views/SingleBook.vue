@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
+import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
 
 const route = useRoute()
 
@@ -25,11 +26,13 @@ onMounted(getBook)
 
 <template>
   <div class="w-full">
-    <div>
-      <h1>{{ book?.title }}</h1>
+    <div v-if="book !== null">
+      <h1>
+        <FormattedBookTitle :book="book" />
+      </h1>
     </div>
 
-    <div v-if="book === null">
+    <div v-else>
       <VoltSkeleton height="10rem" />
     </div>
   </div>

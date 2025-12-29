@@ -4,6 +4,7 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateBookDialog from '@/dialogs/CreateBookDialog.vue'
 import { useRouter } from 'vue-router'
+import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
 
 const router = useRouter()
 
@@ -55,7 +56,11 @@ async function onBookCreated(newBook: Tables<'book'>) {
     <div class="flex justify-between mb-4">
       <h1>Bücher</h1>
 
-      <VoltButton label="Create new book" size="small" @click="isCreateBookDialogVisible = true" />
+      <VoltButton
+        label="Neues Buch erstellen"
+        size="small"
+        @click="isCreateBookDialogVisible = true"
+      />
     </div>
 
     <div v-if="books === null || numberTotalBooks === null" class="flex flex-col gap-4">
@@ -66,7 +71,7 @@ async function onBookCreated(newBook: Tables<'book'>) {
       <VoltCard v-for="book in books" :key="book.id">
         <template #title>
           <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
-            {{ book.title }}
+            <FormattedBookTitle :book="book" />
           </RouterLink>
         </template>
         <template #content>

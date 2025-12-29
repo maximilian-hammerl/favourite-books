@@ -17,7 +17,7 @@ async function login() {
   <div>
     <div class="flex flex-col gap-8">
       <div>
-        <label for="email-address">E-Mail Addresse</label>
+        <label for="email-address">E-Mail Adresse</label>
         <VoltInputText id="email-address" v-model="emailAddress" fluid />
       </div>
       <div>

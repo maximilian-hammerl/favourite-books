@@ -52,7 +52,7 @@ async function createBook() {
 
       <div>
         <label for="book-title">Blurb (optional)</label>
-        <VoltInputText id="book-title" v-model="newBook.blurb" fluid />
+        <VoltTextarea id="book-title" v-model="newBook.blurb" fluid auto-resize :rows="5" />
       </div>
 
       <div class="flex flex-wrap gap-2 justify-end">
