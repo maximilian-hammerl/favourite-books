@@ -35,7 +35,10 @@ function onSave(closeCallback: () => void) {
 <template>
   <VoltInplace v-bind="props">
     <template #display>
-      {{ modelValue }}
+      <div class="flex gap-2 items-center">
+        <span>{{ modelValue }}</span>
+        <i class="pi pi-pencil"></i>
+      </div>
     </template>
     <template #content="{ closeCallback }">
       <VoltInputText v-model="clonedModelValue" fluid />
