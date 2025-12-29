@@ -17,8 +17,8 @@ import Inplace, { type InplacePassThroughOptions, type InplaceProps } from 'prim
 import { ref } from 'vue'
 import { ptViewMerge } from './utils'
 
-interface Props extends /* @vue-ignore */ InplaceProps {}
-defineProps<Props>()
+export interface VoltInplaceProps extends /* @vue-ignore */ InplaceProps {}
+defineProps<VoltInplaceProps>()
 
 const theme = ref<InplacePassThroughOptions>({
   root: ``,
