@@ -6,6 +6,7 @@ import BookGenreSelect from '@/components/BookGenreSelect.vue'
 import BookSubGenreMultiSelect from '@/components/BookSubGenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useToast } from 'primevue'
+import AuthorMultiSelect from '@/components/AuthorMultiSelect.vue'
 
 const toast = useToast()
 
@@ -27,6 +28,7 @@ const NEW_BOOK: TablesInsert<'book'> = {
 }
 
 const book = ref<TablesInsert<'book'> | null>(null)
+const authors = ref<Array<Tables<'author'>>>([])
 const bookGenre = ref<Tables<'book_genre'> | null>(null)
 const bookSubGenres = ref<Array<Tables<'book_sub_genre'>>>([])
 const bookTropes = ref<Array<Tables<'book_trope'>>>([])
@@ -41,6 +43,13 @@ watch(isVisible, async () => {
         .single()
         .throwOnError()
       book.value = existingBook
+
+      const { data: existingAuthors } = await supabase
+        .from('author_created_book')
+        .select('author(*)')
+        .eq('book_id', props.bookIdToUpdate)
+        .throwOnError()
+      authors.value = existingAuthors.map((x) => x.author)
 
       const { data: existingBookGenre } = await supabase
         .from('book_has_book_genre')
@@ -68,6 +77,7 @@ watch(isVisible, async () => {
     }
   } else {
     book.value = null
+    authors.value = []
     bookGenre.value = null
     bookSubGenres.value = []
     bookTropes.value = []
@@ -111,6 +121,16 @@ async function createOrUpdate() {
       .throwOnError()
     createdOrUpdatedBook = createdBook
   }
+
+  await supabase
+    .from('author_created_book')
+    .upsert(
+      authors.value.map((x) => ({
+        book_id: createdOrUpdatedBook.id,
+        author_id: x.id,
+      })),
+    )
+    .throwOnError()
 
   await supabase
     .from('book_has_book_genre')
@@ -162,6 +182,11 @@ async function createOrUpdate() {
       <div>
         <label for="book-title">Subtitel (optional)</label>
         <VoltInputText id="book-title" v-model="book.subtitle" fluid />
+      </div>
+
+      <div>
+        <label for="authors">Autoren</label>
+        <AuthorMultiSelect id="authors" v-model="authors" />
       </div>
 
       <div>
