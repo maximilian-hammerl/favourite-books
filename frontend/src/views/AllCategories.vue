@@ -133,6 +133,18 @@ async function insertBookTrope() {
       </VoltTabList>
       <VoltTabPanels>
         <VoltTabPanel value="genres">
+          <VoltCard>
+            <template #content>
+              <label for="book-trope-genre">Neues Subgenre</label>
+              <VoltInputText id="book-trope-genre" v-model="titleOfNewBookGenre" fluid />
+              <div class="mt-2 flex justify-end">
+                <VoltButton label="Anlegen" size="small" @click="insertBookGenre()" />
+              </div>
+            </template>
+          </VoltCard>
+
+          <VoltDivider />
+
           <div v-if="bookGenres !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookGenre in bookGenres" :key="bookGenre.id">
               <template #content>
@@ -143,18 +155,21 @@ async function insertBookTrope() {
                 />
               </template>
             </VoltCard>
-            <VoltDivider />
-            <VoltCard>
-              <template #content>
-                <VoltInputText v-model="titleOfNewBookGenre" fluid />
-                <div class="mt-2 flex justify-end">
-                  <VoltButton label="Anlegen" size="small" @click="insertBookGenre()" />
-                </div>
-              </template>
-            </VoltCard>
           </div>
         </VoltTabPanel>
         <VoltTabPanel value="subgenres">
+          <VoltCard>
+            <template #content>
+              <label for="book-trope-subgenre">Neues Subgenre</label>
+              <VoltInputText id="book-trope-subgenre" v-model="titleOfNewBookSubgenre" fluid />
+              <div class="mt-2 flex justify-end">
+                <VoltButton label="Anlegen" size="small" @click="insertBookSubgenre()" />
+              </div>
+            </template>
+          </VoltCard>
+
+          <VoltDivider />
+
           <div v-if="bookSubgenres !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookSubgenre in bookSubgenres" :key="bookSubgenre.id">
               <template #content>
@@ -165,18 +180,21 @@ async function insertBookTrope() {
                 />
               </template>
             </VoltCard>
-            <VoltDivider />
-            <VoltCard>
-              <template #content>
-                <VoltInputText v-model="titleOfNewBookSubgenre" fluid />
-                <div class="mt-2 flex justify-end">
-                  <VoltButton label="Anlegen" size="small" @click="insertBookSubgenre()" />
-                </div>
-              </template>
-            </VoltCard>
           </div>
         </VoltTabPanel>
         <VoltTabPanel value="tropes">
+          <VoltCard>
+            <template #content>
+              <label for="book-trope-title">Neues Trope</label>
+              <VoltInputText id="book-trope-title" v-model="titleOfNewBookTrope" fluid />
+              <div class="mt-2 flex justify-end">
+                <VoltButton label="Anlegen" size="small" @click="insertBookTrope()" />
+              </div>
+            </template>
+          </VoltCard>
+
+          <VoltDivider />
+
           <div v-if="bookTropes !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookTrope in bookTropes" :key="bookTrope.id">
               <template #content>
@@ -185,16 +203,6 @@ async function insertBookTrope() {
                   :disabled="isUpdatingBookTrope"
                   @save="updateBookTrope(bookTrope, $event)"
                 />
-              </template>
-            </VoltCard>
-            <VoltDivider />
-            <VoltCard>
-              <template #content>
-                <label for="book-trope-title">Neues Trope</label>
-                <VoltInputText id="book-trope-title" v-model="titleOfNewBookTrope" fluid />
-                <div class="mt-2 flex justify-end">
-                  <VoltButton label="Anlegen" size="small" @click="insertBookTrope()" />
-                </div>
               </template>
             </VoltCard>
           </div>
