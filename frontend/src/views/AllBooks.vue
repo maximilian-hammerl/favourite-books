@@ -44,7 +44,6 @@ const selectedBookSubgenres = ref<Array<Tables<'book_subgenre'>>>([])
 const selectedBookTropes = ref<Array<Tables<'book_trope'>>>([])
 
 async function getBooks() {
-  books.value = null
   let query = supabase
     .from('book')
     .select(
@@ -81,7 +80,6 @@ async function getBooks() {
 }
 
 async function countBooks() {
-  numberTotalBooks.value = null
   const { count } = await supabase.from('book').select('*', { count: 'exact' }).throwOnError()
   numberTotalBooks.value = count
 }

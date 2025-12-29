@@ -173,7 +173,7 @@ async function insertBookTrope() {
                     class="flex-none"
                   >
                     <VoltSecondaryButton
-                      label="Bücher"
+                      :label="`${bookGenre.title}-Bücher`"
                       size="small"
                       :badge="sumOfArray(bookGenre.book_has_book_genre, 'count').toString()"
                     />
@@ -212,7 +212,7 @@ async function insertBookTrope() {
                     class="flex-none"
                   >
                     <VoltSecondaryButton
-                      label="Bücher"
+                      :label="`${bookSubgenre.title}-Bücher`"
                       size="small"
                       :badge="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count').toString()"
                     />
@@ -251,7 +251,7 @@ async function insertBookTrope() {
                     class="flex-none"
                   >
                     <VoltSecondaryButton
-                      label="Bücher"
+                      :label="`${bookTrope.title}-Bücher`"
                       size="small"
                       :badge="sumOfArray(bookTrope.book_has_book_trope, 'count').toString()"
                     />
