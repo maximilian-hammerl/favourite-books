@@ -33,8 +33,8 @@ import Select, { type SelectPassThroughOptions, type SelectProps } from 'primevu
 import { ref } from 'vue'
 import { ptViewMerge } from './utils'
 
-interface Props extends /* @vue-ignore */ SelectProps {}
-defineProps<Props>()
+export interface VoltSelectProps extends /* @vue-ignore */ SelectProps {}
+defineProps<VoltSelectProps>()
 
 const theme = ref<SelectPassThroughOptions>({
   root: `inline-flex cursor-pointer relative select-none rounded-md p-fluid:flex
