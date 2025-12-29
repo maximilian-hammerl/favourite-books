@@ -29,7 +29,7 @@ const emit = defineEmits<{
     <template #footer>
       <div class="flex justify-end">
         <VoltButton
-          label="Buchserie aktualisieren"
+          label="Buchreihe aktualisieren"
           text
           size="small"
           @click="emit('updateBookSeries')"
