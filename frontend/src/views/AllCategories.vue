@@ -167,19 +167,20 @@ async function insertBookTrope() {
           <div v-if="bookGenres !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookGenre in bookGenres" :key="bookGenre.id">
               <template #content>
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-row-reverse flex-wrap gap-4">
+                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                    <span class="inline-flex items-center gap-2">
+                      <span class="underline">{{ bookGenre.title }}-Büchern</span>
+                      <VoltBadge :value="sumOfArray(bookGenre.book_has_book_genre, 'count')" />
+                    </span>
+                  </RouterLink>
+
                   <InplaceWithSave
                     class="flex-grow"
                     v-model="bookGenre.title"
                     :disabled="isUpdatingBookGenre"
                     @save="updateBookGenre(bookGenre, $event)"
                   />
-                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
-                    <span class="inline-flex items-center gap-1">
-                      <span class="underline">Zu den {{ bookGenre.title }}-Büchern</span>
-                      <VoltBadge :value="sumOfArray(bookGenre.book_has_book_genre, 'count')" />
-                    </span>
-                  </RouterLink>
                 </div>
               </template>
             </VoltCard>
@@ -201,21 +202,22 @@ async function insertBookTrope() {
           <div v-if="bookSubgenres !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookSubgenre in bookSubgenres" :key="bookSubgenre.id">
               <template #content>
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-row-reverse flex-wrap gap-4">
+                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                    <span class="inline-flex items-center gap-2">
+                      <span class="underline">{{ bookSubgenre.title }}-Büchern</span>
+                      <VoltBadge
+                        :value="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')"
+                      />
+                    </span>
+                  </RouterLink>
+
                   <InplaceWithSave
                     class="flex-grow"
                     v-model="bookSubgenre.title"
                     :disabled="isUpdatingBookSubgenre"
                     @save="updateBookSubgenre(bookSubgenre, $event)"
                   />
-                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
-                    <span class="inline-flex items-center gap-1">
-                      <span class="underline">Zu den {{ bookSubgenre.title }}-Büchern</span>
-                      <VoltBadge
-                        :value="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')"
-                      />
-                    </span>
-                  </RouterLink>
                 </div>
               </template>
             </VoltCard>
@@ -237,19 +239,20 @@ async function insertBookTrope() {
           <div v-if="bookTropes !== null" class="flex flex-col gap-2">
             <VoltCard v-for="bookTrope in bookTropes" :key="bookTrope.id">
               <template #content>
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-row-reverse flex-wrap gap-4">
+                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                    <span class="inline-flex items-center gap-2">
+                      <span class="underline">{{ bookTrope.title }}-Büchern</span>
+                      <VoltBadge :value="sumOfArray(bookTrope.book_has_book_trope, 'count')" />
+                    </span>
+                  </RouterLink>
+
                   <InplaceWithSave
                     class="flex-grow"
                     v-model="bookTrope.title"
                     :disabled="isUpdatingBookTrope"
                     @save="updateBookTrope(bookTrope, $event)"
                   />
-                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
-                    <span class="inline-flex items-center gap-1">
-                      <span class="underline">Zu den {{ bookTrope.title }}-Büchern</span>
-                      <VoltBadge :value="sumOfArray(bookTrope.book_has_book_trope, 'count')" />
-                    </span>
-                  </RouterLink>
                 </div>
               </template>
             </VoltCard>
