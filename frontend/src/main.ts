@@ -30,6 +30,8 @@ import TabList from '@/volt/TabList.vue'
 import Inplace from '@/volt/Inplace.vue'
 import Badge from '@/volt/Badge.vue'
 import ButtonGroup from '@/volt/ButtonGroup.vue'
+import ContrastButton from '@/volt/ContrastButton.vue'
+import DangerButton from '@/volt/DangerButton.vue'
 
 const app = createApp(App)
 
@@ -48,6 +50,8 @@ app
   .component('VoltButton', Button)
   .component('VoltButtonGroup', ButtonGroup)
   .component('VoltCard', Card)
+  .component('VoltContrastButton', ContrastButton)
+  .component('VoltDangerButton', DangerButton)
   .component('VoltDialog', Dialog)
   .component('VoltDivider', Divider)
   .component('VoltInplace', Inplace)
