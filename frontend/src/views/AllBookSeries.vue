@@ -120,7 +120,7 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
 
   <CreateUpdateBookSeriesDialog
     v-model:visible="isCreateUpdateBookSeriesDialogVisible"
-    :bookSeries-id-to-update="bookSeriesIdToUpdate"
-    @bookSeries-created-or-updated="reload()"
+    :book-series-id-to-update="bookSeriesIdToUpdate"
+    @book-series-created-or-updated="reload()"
   />
 </template>

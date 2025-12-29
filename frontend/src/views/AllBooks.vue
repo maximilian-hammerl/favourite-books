@@ -32,10 +32,6 @@ const numberTotalBooks = ref<number | null>(null)
 const search = ref<string>('')
 
 async function getBooks() {
-  console.log('Get books', {
-    firstIndexOfCurrentPage: firstIndexOfCurrentPage.value,
-    booksPerPage: booksPerPage.value,
-  })
   books.value = null
   let query = supabase
     .from('book')
@@ -55,7 +51,6 @@ async function getBooks() {
 }
 
 async function countBooks() {
-  console.log('Count books')
   numberTotalBooks.value = null
   const { count } = await supabase.from('book').select('*', { count: 'exact' }).throwOnError()
   numberTotalBooks.value = count

@@ -71,6 +71,7 @@ async function createOrUpdate() {
     :header="props.authorIdToUpdate ? 'Autor aktualisieren' : 'Autor anlegen'"
     modal
     :closable="false"
+    class="min-w-11/12 sm:min-w-10/12 md:min-w-9/12 lg:min-w-8/12"
   >
     <form v-if="author !== null" class="flex flex-col gap-4" @submit.prevent="createOrUpdate()">
       <div>

@@ -20,10 +20,6 @@ const authors = ref<Array<PaginatedAuthor> | null>(null)
 const numberTotalAuthors = ref<number | null>(null)
 
 async function getAuthors() {
-  console.log('Get authors', {
-    firstIndexOfCurrentPage: firstIndexOfCurrentPage.value,
-    authorsPerPage: authorsPerPage.value,
-  })
   const { data } = await supabase
     .from('author')
     .select('*, author_created_book(book(*))')
@@ -36,7 +32,6 @@ async function getAuthors() {
 }
 
 async function countAuthors() {
-  console.log('Count authors')
   const { count } = await supabase.from('author').select('*', { count: 'exact' }).throwOnError()
   numberTotalAuthors.value = count
 }
