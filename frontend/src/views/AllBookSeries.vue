@@ -90,9 +90,7 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
             </strong>
             <ul>
               <li v-for="{ book } in bookSeries.book_is_part_of_book_series" :key="book.id">
-                <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
-                  <FormattedBookTitle :book="book" />
-                </RouterLink>
+                <FormattedBookTitle :book="book" />
               </li>
             </ul>
           </div>

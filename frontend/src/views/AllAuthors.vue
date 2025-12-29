@@ -75,18 +75,14 @@ function updateAuthor(author: Tables<'author'>) {
 
       <VoltCard v-for="author in authors" :key="author.id">
         <template #title>
-          <RouterLink :to="{ name: 'singleAuthor', params: { authorId: author.id } }">
-            <FormattedAuthorName :author="author" />
-          </RouterLink>
+          <FormattedAuthorName :author="author" />
         </template>
         <template #content>
           <div>
             <strong> {{ pluralize(author.author_created_book.length, 'Buch', 'Bücher') }}: </strong>
             <ul>
               <li v-for="{ book } in author.author_created_book" :key="book.id">
-                <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
-                  <FormattedBookTitle :book="book" />
-                </RouterLink>
+                <FormattedBookTitle :book="book" />
               </li>
             </ul>
           </div>

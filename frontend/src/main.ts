@@ -21,6 +21,7 @@ import Divider from '@/volt/Divider.vue'
 import MultiSelect from '@/volt/MultiSelect.vue'
 import Select from '@/volt/Select.vue'
 import Toast from '@/volt/Toast.vue'
+import Avatar from '@/volt/Avatar.vue'
 
 const app = createApp(App)
 
@@ -34,6 +35,7 @@ app.use(PrimeVue, {
 app.use(ToastService)
 
 app
+  .component('VoltAvatar', Avatar)
   .component('VoltButton', Button)
   .component('VoltCard', Card)
   .component('VoltDialog', Dialog)

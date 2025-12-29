@@ -5,18 +5,10 @@ h1 {
   @apply text-2xl;
 }
 
-a {
-  @apply underline;
-}
-
 ol {
   @apply list-inside list-decimal;
 }
 
 ul {
   @apply list-inside list-disc;
-}
-
-.router-link-exact-active {
-  @apply text-surface-600 dark:text-surface-400 no-underline;
 }

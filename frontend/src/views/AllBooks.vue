@@ -99,9 +99,7 @@ function updateBook(book: Tables<'book'>) {
 
       <VoltCard v-for="book in books" :key="book.id">
         <template #title>
-          <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
-            <FormattedBookTitle :book="book" />
-          </RouterLink>
+          <FormattedBookTitle :book="book" />
         </template>
         <template v-if="book.subtitle" #subtitle>
           {{ book.subtitle }}
@@ -113,9 +111,7 @@ function updateBook(book: Tables<'book'>) {
                 {{ pluralize(book.author_created_book.length, 'Autor', 'Autoren') }}:
               </strong>
               <span v-for="({ author }, index) in book.author_created_book" :key="author.id">
-                <RouterLink :to="{ name: 'singleAuthor', params: { authorId: author.id } }">
-                  <FormattedAuthorName :author="author" />
-                </RouterLink>
+                <FormattedAuthorName :author="author" />
                 <span v-if="index !== book.author_created_book.length - 1">, </span>
               </span>
             </div>
