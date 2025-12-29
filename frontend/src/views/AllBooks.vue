@@ -3,18 +3,16 @@ import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateBookDialog from '@/dialogs/CreateUpdateBookDialog.vue'
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
-import FormattedAuthorName from '@/components/formatted/FormattedAuthorName.vue'
-import { pluralize } from '@/lib/util/text.ts'
 import { useDebounceFn } from '@vueuse/core'
 import BookGenreMultiSelect from '@/components/BookGenreMultiSelect.vue'
 import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useRoute } from 'vue-router'
+import BookOverviewCard from '@/components/card/BookOverviewCard.vue'
 
 const route = useRoute()
 
-type PaginatedBook = Tables<'book'> & {
+export type PaginatedBook = Tables<'book'> & {
   author_created_book: Array<{
     author: Tables<'author'>
   }>
@@ -180,75 +178,15 @@ function updateBook(book: Tables<'book'>) {
         <BookTropeMultiSelect v-model="selectedBookTropes" placeholder="Nach Tropes filtern" />
       </div>
 
-      <VoltCard v-for="book in books" :key="book.id">
-        <template #title>
-          <FormattedBookTitle :book="book" />
-        </template>
-        <template v-if="book.subtitle" #subtitle>
-          {{ book.subtitle }}
-        </template>
-        <template #content>
-          <div class="flex flex-col gap-2">
-            <div>
-              <strong>
-                {{ pluralize(book.author_created_book.length, 'Autor', 'Autoren') }}:
-              </strong>
-              <FormattedAuthorName
-                v-for="{ author } in book.author_created_book"
-                :key="author.id"
-                :author="author"
-              />
-            </div>
-
-            <div>
-              <strong>Genre:</strong>
-              <VoltButton
-                :label="book.book_has_book_genre.book_genre.title"
-                size="small"
-                text
-                @click="selectedBookGenres.push(book.book_has_book_genre.book_genre)"
-              />
-            </div>
-
-            <div>
-              <strong>
-                {{ pluralize(book.book_has_book_subgenre.length, 'Subgenre', 'Subgenres') }}:
-              </strong>
-              <div class="flex flex-wrap">
-                <VoltButton
-                  v-for="{ book_subgenre: bookSubgenre } in book.book_has_book_subgenre"
-                  :key="bookSubgenre.id"
-                  :label="bookSubgenre.title"
-                  size="small"
-                  text
-                  @click="selectedBookSubgenres.push(bookSubgenre)"
-                />
-              </div>
-            </div>
-
-            <div>
-              <strong>
-                {{ pluralize(book.book_has_book_trope.length, 'Trope', 'Tropes') }}:
-              </strong>
-              <div class="flex flex-wrap">
-                <VoltButton
-                  v-for="{ book_trope: bookTrope } in book.book_has_book_trope"
-                  :key="bookTrope.id"
-                  :label="bookTrope.title"
-                  size="small"
-                  text
-                  @click="selectedBookTropes.push(bookTrope)"
-                />
-              </div>
-            </div>
-          </div>
-        </template>
-        <template #footer>
-          <div class="flex justify-end">
-            <VoltButton label="Buch aktualisieren" text size="small" @click="updateBook(book)" />
-          </div>
-        </template>
-      </VoltCard>
+      <BookOverviewCard
+        v-for="book in books"
+        :key="book.id"
+        :book="book"
+        @update-book="updateBook(book)"
+        @add-book-genre-filter="selectedBookGenres.push($event)"
+        @add-book-subgenre-filter="selectedBookSubgenres.push($event)"
+        @add-book-trope-filter="selectedBookTropes.push($event)"
+      />
       <div>
         <VoltPaginator
           v-model:first="firstIndexOfCurrentPage"
