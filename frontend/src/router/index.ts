@@ -37,6 +37,11 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/categories',
+      name: 'allCategories',
+      component: () => import('@/views/AllCategories.vue'),
+    },
   ],
 })
 

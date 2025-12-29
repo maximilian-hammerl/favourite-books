@@ -15,8 +15,8 @@ type PaginatedBook = Tables<'book'> & {
   book_has_book_genre: {
     book_genre: Tables<'book_genre'>
   } | null
-  book_has_book_sub_genre: Array<{
-    book_sub_genre: Tables<'book_sub_genre'>
+  book_has_book_subgenre: Array<{
+    book_subgenre: Tables<'book_subgenre'>
   }>
   book_has_book_trope: Array<{
     book_trope: Tables<'book_trope'>
@@ -36,7 +36,7 @@ async function getBooks() {
   let query = supabase
     .from('book')
     .select(
-      '*, author_created_book(author(*)), book_has_book_genre(book_genre(*)), book_has_book_sub_genre(book_sub_genre(*)), book_has_book_trope(book_trope(*))',
+      '*, author_created_book(author(*)), book_has_book_genre(book_genre(*)), book_has_book_subgenre(book_subgenre(*)), book_has_book_trope(book_trope(*))',
     )
 
   if (search.value) {
@@ -123,14 +123,14 @@ function updateBook(book: Tables<'book'>) {
 
             <div>
               <strong>
-                {{ pluralize(book.book_has_book_sub_genre.length, 'Subgenre', 'Subgenres') }}:
+                {{ pluralize(book.book_has_book_subgenre.length, 'Subgenre', 'Subgenres') }}:
               </strong>
               <span
-                v-for="({ book_sub_genre: bookSubGenre }, index) in book.book_has_book_sub_genre"
-                :key="bookSubGenre.id"
+                v-for="({ book_subgenre: bookSubgenre }, index) in book.book_has_book_subgenre"
+                :key="bookSubgenre.id"
               >
-                {{ bookSubGenre.title }}
-                <span v-if="index !== book.book_has_book_sub_genre.length - 1">, </span>
+                {{ bookSubgenre.title }}
+                <span v-if="index !== book.book_has_book_subgenre.length - 1">, </span>
               </span>
             </div>
 

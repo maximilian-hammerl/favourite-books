@@ -1,46 +1,46 @@
-CREATE DOMAIN public.book_sub_genre_id AS uuid;
+CREATE DOMAIN public.book_subgenre_id AS uuid;
 
-CREATE TABLE public.book_sub_genre
+CREATE TABLE public.book_subgenre
 (
-    id         public.book_sub_genre_id PRIMARY KEY DEFAULT gen_random_uuid(),
+    id         public.book_subgenre_id PRIMARY KEY DEFAULT gen_random_uuid(),
     title      text UNIQUE NOT NULL,
     created_at timestamptz NOT NULL                 DEFAULT now(),
     updated_at timestamptz NOT NULL                 DEFAULT now()
 );
 
-ALTER TABLE public.book_sub_genre
+ALTER TABLE public.book_subgenre
     ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY book_sub_genre_authenticated
-    ON public.book_sub_genre FOR ALL
+CREATE POLICY book_subgenre_authenticated
+    ON public.book_subgenre FOR ALL
     TO authenticated
     USING (TRUE)
     WITH CHECK (TRUE);
 
 ---
 
-CREATE TABLE public.book_has_book_sub_genre
+CREATE TABLE public.book_has_book_subgenre
 (
     book_id           public.book_id           NOT NULL REFERENCES public.book (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    book_sub_genre_id public.book_sub_genre_id NOT NULL REFERENCES public.book_sub_genre (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    PRIMARY KEY (book_id, book_sub_genre_id),
+    book_subgenre_id public.book_subgenre_id NOT NULL REFERENCES public.book_subgenre (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY (book_id, book_subgenre_id),
 
     created_at        timestamptz              NOT NULL DEFAULT now(),
     updated_at        timestamptz              NOT NULL DEFAULT now()
 );
 
-ALTER TABLE public.book_has_book_sub_genre
+ALTER TABLE public.book_has_book_subgenre
     ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY book_has_book_sub_genre_authenticated
-    ON public.book_has_book_sub_genre FOR ALL
+CREATE POLICY book_has_book_subgenre_authenticated
+    ON public.book_has_book_subgenre FOR ALL
     TO authenticated
     USING (TRUE)
     WITH CHECK (TRUE);
 
 ---
 
-INSERT INTO public.book_sub_genre (title)
+INSERT INTO public.book_subgenre (title)
 VALUES ('New-Adult'),
        ('Young-Adult'),
        ('Classic'),

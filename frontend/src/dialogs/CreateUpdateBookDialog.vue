@@ -3,7 +3,7 @@ import type { Tables, TablesInsert } from '@/gen/database'
 import { ref, watch } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
 import BookGenreSelect from '@/components/BookGenreSelect.vue'
-import BookSubGenreMultiSelect from '@/components/BookSubGenreMultiSelect.vue'
+import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useToast } from 'primevue'
 import AuthorMultiSelect from '@/components/AuthorMultiSelect.vue'
@@ -30,7 +30,7 @@ const NEW_BOOK: TablesInsert<'book'> = {
 const book = ref<TablesInsert<'book'> | null>(null)
 const authors = ref<Array<Tables<'author'>>>([])
 const bookGenre = ref<Tables<'book_genre'> | null>(null)
-const bookSubGenres = ref<Array<Tables<'book_sub_genre'>>>([])
+const bookSubgenres = ref<Array<Tables<'book_subgenre'>>>([])
 const bookTropes = ref<Array<Tables<'book_trope'>>>([])
 
 watch(isVisible, async () => {
@@ -59,12 +59,12 @@ watch(isVisible, async () => {
         .throwOnError()
       bookGenre.value = existingBookGenre?.book_genre ?? null
 
-      const { data: existingBookSubGenres } = await supabase
-        .from('book_has_book_sub_genre')
-        .select('book_sub_genre(*)')
+      const { data: existingBookSubgenres } = await supabase
+        .from('book_has_book_subgenre')
+        .select('book_subgenre(*)')
         .eq('book_id', props.bookIdToUpdate)
         .throwOnError()
-      bookSubGenres.value = existingBookSubGenres.map((x) => x.book_sub_genre)
+      bookSubgenres.value = existingBookSubgenres.map((x) => x.book_subgenre)
 
       const { data: existingBookTropes } = await supabase
         .from('book_has_book_trope')
@@ -79,7 +79,7 @@ watch(isVisible, async () => {
     book.value = null
     authors.value = []
     bookGenre.value = null
-    bookSubGenres.value = []
+    bookSubgenres.value = []
     bookTropes.value = []
   }
 })
@@ -110,7 +110,7 @@ async function createOrUpdate() {
     createdOrUpdatedBook = updatedBook
 
     // Easier to just delete existing and insert new
-    await supabase.from('book_has_book_sub_genre').delete().eq('book_id', props.bookIdToUpdate)
+    await supabase.from('book_has_book_subgenre').delete().eq('book_id', props.bookIdToUpdate)
     await supabase.from('book_has_book_trope').delete().eq('book_id', props.bookIdToUpdate)
   } else {
     const { data: createdBook } = await supabase
@@ -141,11 +141,11 @@ async function createOrUpdate() {
     .throwOnError()
 
   await supabase
-    .from('book_has_book_sub_genre')
+    .from('book_has_book_subgenre')
     .insert(
-      bookSubGenres.value.map((x) => ({
+      bookSubgenres.value.map((x) => ({
         book_id: createdOrUpdatedBook.id,
-        book_sub_genre_id: x.id,
+        book_subgenre_id: x.id,
       })),
     )
     .throwOnError()
@@ -200,8 +200,8 @@ async function createOrUpdate() {
       </div>
 
       <div>
-        <label for="book-sub-genres">Subgenres</label>
-        <BookSubGenreMultiSelect id="book-sub-genres" v-model="bookSubGenres" />
+        <label for="book-subgenres">Subgenres</label>
+        <BookSubgenreMultiSelect id="book-subgenres" v-model="bookSubgenres" />
       </div>
 
       <div>

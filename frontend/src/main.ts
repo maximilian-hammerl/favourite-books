@@ -22,6 +22,12 @@ import MultiSelect from '@/volt/MultiSelect.vue'
 import Select from '@/volt/Select.vue'
 import Toast from '@/volt/Toast.vue'
 import Avatar from '@/volt/Avatar.vue'
+import Tab from '@/volt/Tab.vue'
+import Tabs from '@/volt/Tabs.vue'
+import TabPanels from '@/volt/TabPanels.vue'
+import TabPanel from '@/volt/TabPanel.vue'
+import TabList from '@/volt/TabList.vue'
+import Inplace from '@/volt/Inplace.vue'
 
 const app = createApp(App)
 
@@ -40,6 +46,7 @@ app
   .component('VoltCard', Card)
   .component('VoltDialog', Dialog)
   .component('VoltDivider', Divider)
+  .component('VoltInplace', Inplace)
   .component('VoltInputNumber', InputNumber)
   .component('VoltInputText', InputText)
   .component('VoltMultiSelect', MultiSelect)
@@ -47,6 +54,11 @@ app
   .component('VoltSecondaryButton', SecondaryButton)
   .component('VoltSelect', Select)
   .component('VoltSkeleton', Skeleton)
+  .component('VoltTab', Tab)
+  .component('VoltTabList', TabList)
+  .component('VoltTabPanel', TabPanel)
+  .component('VoltTabPanels', TabPanels)
+  .component('VoltTabs', Tabs)
   .component('VoltTextarea', Textarea)
   .component('VoltToast', Toast)
 

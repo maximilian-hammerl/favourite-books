@@ -4,24 +4,24 @@ import { onMounted, ref } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
 import type { VoltMultiSelectProps } from '@/volt/MultiSelect.vue'
 
-const selectedBookSubGenres = defineModel<Array<Tables<'book_sub_genre'>>>({ required: true })
+const selectedBookSubgenres = defineModel<Array<Tables<'book_subgenre'>>>({ required: true })
 
 const props = defineProps<VoltMultiSelectProps>()
 
-const selectableBookSubGenres = ref<Array<Tables<'book_sub_genre'>> | null>(null)
+const selectableBookSubgenres = ref<Array<Tables<'book_subgenre'>> | null>(null)
 
 onMounted(async () => {
-  const { data } = await supabase.from('book_sub_genre').select().order('title').throwOnError()
-  selectableBookSubGenres.value = data
+  const { data } = await supabase.from('book_subgenre').select().order('title').throwOnError()
+  selectableBookSubgenres.value = data
 })
 </script>
 
 <template>
   <VoltMultiSelect
-    v-if="selectableBookSubGenres !== null"
+    v-if="selectableBookSubgenres !== null"
     v-bind="props"
-    v-model="selectedBookSubGenres"
-    :options="selectableBookSubGenres"
+    v-model="selectedBookSubgenres"
+    :options="selectableBookSubgenres"
     filter
     option-label="title"
     placeholder="Wähle ein oder mehrere Buch-Subgenres aus"
