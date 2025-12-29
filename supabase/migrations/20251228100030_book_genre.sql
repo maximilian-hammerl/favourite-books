@@ -21,12 +21,11 @@ CREATE POLICY book_genre_authenticated
 
 CREATE TABLE public.book_has_book_genre
 (
-    book_id       public.book_id REFERENCES public.book (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    book_genre_id public.book_genre_id REFERENCES public.book_genre (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    PRIMARY KEY (book_id, book_genre_id),
+    book_id       public.book_id       PRIMARY KEY REFERENCES public.book (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    book_genre_id public.book_genre_id NOT NULL REFERENCES public.book_genre (id) ON UPDATE CASCADE ON DELETE CASCADE,
 
-    created_at    timestamptz NOT NULL DEFAULT now(),
-    updated_at    timestamptz NOT NULL DEFAULT now()
+    created_at    timestamptz          NOT NULL DEFAULT now(),
+    updated_at    timestamptz          NOT NULL DEFAULT now()
 );
 
 ALTER TABLE public.book_has_book_genre

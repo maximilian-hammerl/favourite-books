@@ -21,12 +21,12 @@ CREATE POLICY book_trope_authenticated
 
 CREATE TABLE public.book_has_book_trope
 (
-    book_id       public.book_id REFERENCES public.book (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    book_trope_id public.book_trope_id REFERENCES public.book_trope (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    book_id       public.book_id       NOT NULL REFERENCES public.book (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    book_trope_id public.book_trope_id NOT NULL REFERENCES public.book_trope (id) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (book_id, book_trope_id),
 
-    created_at    timestamptz NOT NULL DEFAULT now(),
-    updated_at    timestamptz NOT NULL DEFAULT now()
+    created_at    timestamptz          NOT NULL DEFAULT now(),
+    updated_at    timestamptz          NOT NULL DEFAULT now()
 );
 
 ALTER TABLE public.book_has_book_trope

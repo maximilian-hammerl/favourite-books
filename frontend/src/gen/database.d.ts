@@ -169,8 +169,44 @@ export type Database = {
           {
             foreignKeyName: 'book_has_book_genre_book_id_fkey'
             columns: ['book_id']
+            isOneToOne: true
+            referencedRelation: 'book'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      book_has_book_sub_genre: {
+        Row: {
+          book_id: string
+          book_sub_genre_id: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          book_id: string
+          book_sub_genre_id: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          book_id?: string
+          book_sub_genre_id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'book_has_book_sub_genre_book_id_fkey'
+            columns: ['book_id']
             isOneToOne: false
             referencedRelation: 'book'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'book_has_book_sub_genre_book_sub_genre_id_fkey'
+            columns: ['book_sub_genre_id']
+            isOneToOne: false
+            referencedRelation: 'book_sub_genre'
             referencedColumns: ['id']
           },
         ]
@@ -251,6 +287,27 @@ export type Database = {
         ]
       }
       book_series: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      book_sub_genre: {
         Row: {
           created_at: string
           id: string
