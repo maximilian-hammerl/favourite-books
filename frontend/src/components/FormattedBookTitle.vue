@@ -7,9 +7,5 @@ const props = defineProps<{
 </script>
 
 <template>
-  <span v-if="book.subtitle" class="inline-flex gap-2 items-center">
-    <span>{{ props.book.title }}:</span>
-    <small>{{ props.book.subtitle }}</small>
-  </span>
-  <span v-else>{{ props.book.title }}</span>
+  <span>{{ props.book.title }}</span>
 </template>

@@ -61,7 +61,7 @@ function updateAuthor(author: Tables<'author'>) {
 <template>
   <div class="w-full">
     <div class="flex justify-between mb-4">
-      <h1>Bücher</h1>
+      <h1>Autoren</h1>
 
       <VoltButton label="Autor anlegen" size="small" @click="createAuthor()" />
     </div>

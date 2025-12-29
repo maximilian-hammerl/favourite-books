@@ -103,6 +103,9 @@ function updateBook(book: Tables<'book'>) {
             <FormattedBookTitle :book="book" />
           </RouterLink>
         </template>
+        <template v-if="book.subtitle" #subtitle>
+          {{ book.subtitle }}
+        </template>
         <template #content>
           <div class="flex flex-col gap-2">
             <div>

@@ -16,3 +16,7 @@ ol {
 ul {
   @apply list-inside list-disc;
 }
+
+.router-link-exact-active {
+  @apply text-surface-600 dark:text-surface-400 no-underline;
+}
