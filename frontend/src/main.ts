@@ -4,6 +4,7 @@ import './assets/base.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
 
 import App from './App.vue'
 import router from './router'
@@ -19,6 +20,7 @@ import Textarea from '@/volt/Textarea.vue'
 import Divider from '@/volt/Divider.vue'
 import MultiSelect from '@/volt/MultiSelect.vue'
 import Select from '@/volt/Select.vue'
+import Toast from '@/volt/Toast.vue'
 
 const app = createApp(App)
 
@@ -28,6 +30,8 @@ app.use(router)
 app.use(PrimeVue, {
   unstyled: true,
 })
+
+app.use(ToastService)
 
 app
   .component('VoltButton', Button)
@@ -42,5 +46,6 @@ app
   .component('VoltSelect', Select)
   .component('VoltSkeleton', Skeleton)
   .component('VoltTextarea', Textarea)
+  .component('VoltToast', Toast)
 
 app.mount('#app')

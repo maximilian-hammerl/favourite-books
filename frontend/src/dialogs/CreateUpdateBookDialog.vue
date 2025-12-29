@@ -5,6 +5,9 @@ import { supabase } from '@/lib/supabase.ts'
 import BookGenreSelect from '@/components/BookGenreSelect.vue'
 import BookSubGenreMultiSelect from '@/components/BookSubGenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
+import { useToast } from 'primevue'
+
+const toast = useToast()
 
 const isVisible = defineModel<boolean>('visible', { required: true })
 
@@ -76,7 +79,13 @@ async function createOrUpdate() {
     throw new Error('Book cannot be null when creating book')
   }
   if (bookGenre.value === null) {
-    throw new Error('Book genre cannot be null when creating book')
+    toast.add({
+      severity: 'warn',
+      summary: 'Book-Genre fehlt',
+      detail: 'Bitte wähle noch ein Book-Genre aus',
+      life: 5000,
+    })
+    return
   }
 
   let createdOrUpdatedBook: Tables<'book'>
