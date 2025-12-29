@@ -67,9 +67,7 @@ const booksWithoutSeries = computed<Array<Tables<'book'>>>(() =>
 
 <template>
   <VoltCard>
-    <template #title>
-      <FormattedAuthorName :author="props.author" />
-    </template>
+    <template #title> Autor: <FormattedAuthorName :author="props.author" /> </template>
     <template #content>
       <div v-if="bookSeriess.length > 0">
         <strong>Bücherreihen:</strong>

@@ -19,9 +19,7 @@ const emit = defineEmits<{
 
 <template>
   <VoltCard>
-    <template #title>
-      <FormattedBookTitle :book="props.book" />
-    </template>
+    <template #title> Buch: <FormattedBookTitle :book="props.book" /> </template>
     <template v-if="book.subtitle" #subtitle>
       {{ props.book.subtitle }}
     </template>

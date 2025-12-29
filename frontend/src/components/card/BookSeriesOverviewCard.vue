@@ -2,6 +2,7 @@
 import { pluralize } from '@/lib/util/text.ts'
 import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
 import type { PaginatedBookSeries } from '@/views/AllBookSeries.vue'
+import FormattedBookSeriesTitle from '@/components/formatted/FormattedBookSeriesTitle.vue'
 
 const props = defineProps<{
   bookSeries: PaginatedBookSeries
@@ -15,9 +16,7 @@ const emit = defineEmits<{
 <template>
   <VoltCard>
     <template #title>
-      <RouterLink :to="{ name: 'singleBookSeries', params: { bookSeriesId: props.bookSeries.id } }">
-        {{ bookSeries.title }}
-      </RouterLink>
+      Buchreihe: <FormattedBookSeriesTitle :book-series="props.bookSeries" />
     </template>
     <template #content>
       <div>
