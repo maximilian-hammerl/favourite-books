@@ -154,7 +154,7 @@ async function insertBookTrope() {
         <VoltTabPanel value="genres">
           <VoltCard>
             <template #content>
-              <label for="book-trope-genre">Neues Subgenre</label>
+              <label for="book-trope-genre">Neues Genre</label>
               <VoltInputText id="book-trope-genre" v-model="titleOfNewBookGenre" fluid />
               <div class="mt-2 flex justify-end">
                 <VoltButton label="Anlegen" size="small" @click="insertBookGenre()" />
