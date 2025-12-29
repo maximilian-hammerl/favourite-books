@@ -3,10 +3,9 @@ import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateBookSeriesDialog from '@/dialogs/CreateUpdateBookSeriesDialog.vue'
-import { pluralize } from '@/lib/util/text.ts'
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
+import BookSeriesOverviewCard from '@/components/card/BookSeriesOverviewCard.vue'
 
-type PaginatedBookSeries = Tables<'book_series'> & {
+export type PaginatedBookSeries = Tables<'book_series'> & {
   book_is_part_of_book_series: Array<{
     book: Tables<'book'>
   }>
@@ -77,35 +76,13 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
     <div v-else class="flex flex-col gap-4">
       <VoltInputText placeholder="Suche" />
 
-      <VoltCard v-for="bookSeries in bookSeriess" :key="bookSeries.id">
-        <template #title>
-          <RouterLink :to="{ name: 'singleBookSeries', params: { bookSeriesId: bookSeries.id } }">
-            {{ bookSeries.title }}
-          </RouterLink>
-        </template>
-        <template #content>
-          <div>
-            <strong>
-              {{ pluralize(bookSeries.book_is_part_of_book_series.length, 'Buch', 'Bücher') }}:
-            </strong>
-            <ol>
-              <li v-for="{ book } in bookSeries.book_is_part_of_book_series" :key="book.id">
-                <FormattedBookTitle :book="book" />
-              </li>
-            </ol>
-          </div>
-        </template>
-        <template #footer>
-          <div class="flex justify-end">
-            <VoltButton
-              label="Buchserie aktualisieren"
-              text
-              size="small"
-              @click="updateBookSeries(bookSeries)"
-            />
-          </div>
-        </template>
-      </VoltCard>
+      <BookSeriesOverviewCard
+        v-for="bookSeries in bookSeriess"
+        :key="bookSeries.id"
+        :book-series="bookSeries"
+        @update-book-series="updateBookSeries(bookSeries)"
+      />
+
       <div>
         <VoltPaginator
           v-model:first="firstIndexOfCurrentPage"
