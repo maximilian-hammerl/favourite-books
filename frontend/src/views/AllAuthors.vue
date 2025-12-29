@@ -2,11 +2,8 @@
 import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import CreateAuthorDialog from '@/dialogs/CreateAuthorDialog.vue'
-import { useRouter } from 'vue-router'
+import CreateUpdateAuthorDialog from '@/dialogs/CreateUpdateAuthorDialog.vue'
 import FormattedAuthorName from '@/components/FormattedAuthorName.vue'
-
-const router = useRouter()
 
 const firstIndexOfCurrentPage = ref<number>(0)
 const authorsPerPage = ref<number>(10)
@@ -41,26 +38,26 @@ onMounted(reload)
 
 watch([firstIndexOfCurrentPage, authorsPerPage], getAuthors)
 
-const isCreateAuthorDialogVisible = ref<boolean>(false)
+const isCreateUpdateAuthorDialogVisible = ref<boolean>(false)
+const authorIdToUpdate = ref<string | null>(null)
 
-async function onAuthorCreated(newAuthor: Tables<'author'>) {
-  await router.push({
-    name: 'singleAuthor',
-    params: { authorId: newAuthor.id },
-  })
+function createAuthor() {
+  authorIdToUpdate.value = null
+  isCreateUpdateAuthorDialogVisible.value = true
+}
+
+function updateAuthor(author: Tables<'author'>) {
+  authorIdToUpdate.value = author.id
+  isCreateUpdateAuthorDialogVisible.value = true
 }
 </script>
 
 <template>
   <div class="w-full">
     <div class="flex justify-between mb-4">
-      <h1>Autoren</h1>
+      <h1>Bücher</h1>
 
-      <VoltButton
-        label="Neuen Autor anlegen"
-        size="small"
-        @click="isCreateAuthorDialogVisible = true"
-      />
+      <VoltButton label="Buch erstellen" size="small" @click="createAuthor()" />
     </div>
 
     <div v-if="authors === null || numberTotalAuthors === null" class="flex flex-col gap-4">
@@ -68,6 +65,8 @@ async function onAuthorCreated(newAuthor: Tables<'author'>) {
     </div>
 
     <div v-else class="flex flex-col gap-4">
+      <VoltInputText placeholder="Suche" />
+
       <VoltCard v-for="author in authors" :key="author.id">
         <template #title>
           <RouterLink :to="{ name: 'singleAuthor', params: { authorId: author.id } }">
@@ -76,6 +75,16 @@ async function onAuthorCreated(newAuthor: Tables<'author'>) {
         </template>
         <template #content>
           <p>Erstellt am: {{ author.created_at }}</p>
+        </template>
+        <template #footer>
+          <div class="flex justify-end">
+            <VoltButton
+              label="Buch aktualisieren"
+              text
+              size="small"
+              @click="updateAuthor(author)"
+            />
+          </div>
         </template>
       </VoltCard>
       <div>
@@ -88,8 +97,10 @@ async function onAuthorCreated(newAuthor: Tables<'author'>) {
     </div>
   </div>
 
-  <CreateAuthorDialog
-    v-model:visible="isCreateAuthorDialogVisible"
-    @author-created="onAuthorCreated"
+  <CreateUpdateAuthorDialog
+    v-model:visible="isCreateUpdateAuthorDialogVisible"
+    :author-id-to-update="authorIdToUpdate"
+    @author-created="reload()"
+    @author-updated="reload()"
   />
 </template>

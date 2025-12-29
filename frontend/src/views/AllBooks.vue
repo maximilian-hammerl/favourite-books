@@ -2,11 +2,8 @@
 import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import CreateBookDialog from '@/dialogs/CreateBookDialog.vue'
-import { useRouter } from 'vue-router'
+import CreateUpdateBookDialog from '@/dialogs/CreateUpdateBookDialog.vue'
 import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
-
-const router = useRouter()
 
 const firstIndexOfCurrentPage = ref<number>(0)
 const booksPerPage = ref<number>(10)
@@ -41,13 +38,17 @@ onMounted(reload)
 
 watch([firstIndexOfCurrentPage, booksPerPage], getBooks)
 
-const isCreateBookDialogVisible = ref<boolean>(false)
+const isCreateUpdateBookDialogVisible = ref<boolean>(false)
+const bookIdToUpdate = ref<string | null>(null)
 
-async function onBookCreated(newBook: Tables<'book'>) {
-  await router.push({
-    name: 'singleBook',
-    params: { bookId: newBook.id },
-  })
+function createBook() {
+  bookIdToUpdate.value = null
+  isCreateUpdateBookDialogVisible.value = true
+}
+
+function updateBook(book: Tables<'book'>) {
+  bookIdToUpdate.value = book.id
+  isCreateUpdateBookDialogVisible.value = true
 }
 </script>
 
@@ -56,11 +57,7 @@ async function onBookCreated(newBook: Tables<'book'>) {
     <div class="flex justify-between mb-4">
       <h1>Bücher</h1>
 
-      <VoltButton
-        label="Neues Buch erstellen"
-        size="small"
-        @click="isCreateBookDialogVisible = true"
-      />
+      <VoltButton label="Buch erstellen" size="small" @click="createBook()" />
     </div>
 
     <div v-if="books === null || numberTotalBooks === null" class="flex flex-col gap-4">
@@ -68,6 +65,8 @@ async function onBookCreated(newBook: Tables<'book'>) {
     </div>
 
     <div v-else class="flex flex-col gap-4">
+      <VoltInputText placeholder="Suche" />
+
       <VoltCard v-for="book in books" :key="book.id">
         <template #title>
           <RouterLink :to="{ name: 'singleBook', params: { bookId: book.id } }">
@@ -76,6 +75,11 @@ async function onBookCreated(newBook: Tables<'book'>) {
         </template>
         <template #content>
           <p>Erstellt am: {{ book.created_at }}</p>
+        </template>
+        <template #footer>
+          <div class="flex justify-end">
+            <VoltButton label="Buch aktualisieren" text size="small" @click="updateBook(book)" />
+          </div>
         </template>
       </VoltCard>
       <div>
@@ -88,5 +92,10 @@ async function onBookCreated(newBook: Tables<'book'>) {
     </div>
   </div>
 
-  <CreateBookDialog v-model:visible="isCreateBookDialogVisible" @book-created="onBookCreated" />
+  <CreateUpdateBookDialog
+    v-model:visible="isCreateUpdateBookDialogVisible"
+    :book-id-to-update="bookIdToUpdate"
+    @book-created="reload()"
+    @book-updated="reload()"
+  />
 </template>
