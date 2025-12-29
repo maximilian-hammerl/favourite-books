@@ -73,7 +73,7 @@ async function logout() {
 
     <VoltDivider class="flex-none" />
 
-    <footer class="flex-none flex items-center justify-center">Von Maxi mit 💚</footer>
+    <footer class="flex-none flex items-center justify-center">Von Maxi mit 🧡</footer>
 
     <VoltToast />
   </div>
