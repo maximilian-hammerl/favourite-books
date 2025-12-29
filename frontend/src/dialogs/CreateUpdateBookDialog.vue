@@ -88,11 +88,38 @@ async function createOrUpdate() {
   if (book.value === null) {
     throw new Error('Book cannot be null when creating book')
   }
+  if (authors.value.length === 0) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Autor fehlt',
+      detail: 'Bitte wähle mindestens einen Autor aus',
+      life: 5000,
+    })
+    return
+  }
   if (bookGenre.value === null) {
     toast.add({
       severity: 'warn',
-      summary: 'Book-Genre fehlt',
+      summary: 'Genre fehlt',
       detail: 'Bitte wähle noch ein Book-Genre aus',
+      life: 5000,
+    })
+    return
+  }
+  if (bookSubgenres.value.length === 0) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Subgenre fehlt',
+      detail: 'Bitte wähle mindestens ein Book-Subgenre aus',
+      life: 5000,
+    })
+    return
+  }
+  if (bookTropes.value.length === 0) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Trope fehlt',
+      detail: 'Bitte wähle mindestens ein Book-Trope aus',
       life: 5000,
     })
     return

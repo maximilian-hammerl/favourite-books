@@ -7,6 +7,9 @@ import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
 import FormattedAuthorName from '@/components/FormattedAuthorName.vue'
 import { pluralize } from '@/lib/util/text.ts'
 import { useDebounceFn } from '@vueuse/core'
+import BookGenreMultiSelect from '@/components/BookGenreMultiSelect.vue'
+import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
+import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 
 type PaginatedBook = Tables<'book'> & {
   author_created_book: Array<{
@@ -30,17 +33,38 @@ const books = ref<Array<PaginatedBook> | null>(null)
 const numberTotalBooks = ref<number | null>(null)
 
 const search = ref<string>('')
+const selectedBookGenres = ref<Array<Tables<'book_genre'>>>([])
+const selectedBookSubgenres = ref<Array<Tables<'book_subgenre'>>>([])
+const selectedBookTropes = ref<Array<Tables<'book_trope'>>>([])
 
 async function getBooks() {
   books.value = null
   let query = supabase
     .from('book')
     .select(
-      '*, author_created_book(author(*)), book_has_book_genre(book_genre(*)), book_has_book_subgenre(book_subgenre(*)), book_has_book_trope(book_trope(*))',
+      '*, author_created_book!inner(author!inner(*)), book_has_book_genre!inner(book_genre!inner(*)), book_has_book_subgenre!inner(book_subgenre!inner(*)), book_has_book_trope!inner(book_trope!inner(*))',
     )
 
   if (search.value) {
     query = query.ilike('title', `%${search.value}%`)
+  }
+  if (selectedBookGenres.value.length > 0) {
+    query = query.in(
+      'book_has_book_genre.book_genre.id',
+      selectedBookGenres.value.map((genre) => genre.id),
+    )
+  }
+  if (selectedBookSubgenres.value.length > 0) {
+    query = query.in(
+      'book_has_book_subgenre.book_subgenre.id',
+      selectedBookSubgenres.value.map((subgenre) => subgenre.id),
+    )
+  }
+  if (selectedBookTropes.value.length > 0) {
+    query = query.in(
+      'book_has_book_trope.book_trope.id',
+      selectedBookTropes.value.map((trope) => trope.id),
+    )
   }
 
   const { data } = await query
@@ -65,6 +89,8 @@ const debouncedReload = useDebounceFn(reload, 1000)
 onMounted(reload)
 
 watch(search, debouncedReload)
+
+watch([selectedBookGenres, selectedBookSubgenres, selectedBookTropes], reload)
 
 watch([firstIndexOfCurrentPage, booksPerPage], getBooks)
 
@@ -95,7 +121,16 @@ function updateBook(book: Tables<'book'>) {
     </div>
 
     <div v-else class="flex flex-col gap-4">
-      <VoltInputText v-model="search" placeholder="Suche" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <VoltInputText v-model="search" placeholder="Suche" class="col-span-1 md:col-span-3" />
+
+        <BookGenreMultiSelect v-model="selectedBookGenres" placeholder="Nach Genres filtern" />
+        <BookSubgenreMultiSelect
+          v-model="selectedBookSubgenres"
+          placeholder="Nach Subgenres filtern"
+        />
+        <BookTropeMultiSelect v-model="selectedBookTropes" placeholder="Nach Tropes filtern" />
+      </div>
 
       <VoltCard v-for="book in books" :key="book.id">
         <template #title>
