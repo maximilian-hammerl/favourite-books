@@ -10,6 +10,9 @@ import { useDebounceFn } from '@vueuse/core'
 import BookGenreMultiSelect from '@/components/BookGenreMultiSelect.vue'
 import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 type PaginatedBook = Tables<'book'> & {
   author_created_book: Array<{
@@ -86,11 +89,56 @@ async function reload() {
 
 const debouncedReload = useDebounceFn(reload, 1000)
 
-onMounted(reload)
+onMounted(async () => {
+  await reload()
 
-watch(search, debouncedReload)
+  const bookGenreId = route.query['bookGenreId'] as string | undefined
+  if (bookGenreId) {
+    const { data } = await supabase
+      .from('book_genre')
+      .select()
+      .eq('id', bookGenreId)
+      .single()
+      .throwOnError()
+    selectedBookGenres.value.push(data)
+  }
 
-watch([selectedBookGenres, selectedBookSubgenres, selectedBookTropes], reload)
+  const bookSubgenreId = route.query['bookSubgenreId'] as string | undefined
+  if (bookSubgenreId) {
+    const { data } = await supabase
+      .from('book_subgenre')
+      .select()
+      .eq('id', bookSubgenreId)
+      .single()
+      .throwOnError()
+    selectedBookSubgenres.value.push(data)
+  }
+
+  const bookTropeId = route.query['bookTropeId'] as string | undefined
+  if (bookTropeId) {
+    const { data } = await supabase
+      .from('book_trope')
+      .select()
+      .eq('id', bookTropeId)
+      .single()
+      .throwOnError()
+    selectedBookTropes.value.push(data)
+  }
+})
+
+watch(search, async () => {
+  console.log('Search watch -> Debounced reload')
+  await debouncedReload()
+})
+
+watch(
+  [selectedBookGenres, selectedBookSubgenres, selectedBookTropes],
+  async () => {
+    console.log('Selected categories watch -> Reload')
+    await reload()
+  },
+  { deep: true },
+)
 
 watch([firstIndexOfCurrentPage, booksPerPage], getBooks)
 
@@ -145,10 +193,11 @@ function updateBook(book: Tables<'book'>) {
               <strong>
                 {{ pluralize(book.author_created_book.length, 'Autor', 'Autoren') }}:
               </strong>
-              <span v-for="({ author }, index) in book.author_created_book" :key="author.id">
-                <FormattedAuthorName :author="author" />
-                <span v-if="index !== book.author_created_book.length - 1">, </span>
-              </span>
+              <FormattedAuthorName
+                v-for="{ author } in book.author_created_book"
+                :key="author.id"
+                :author="author"
+              />
             </div>
 
             <div>

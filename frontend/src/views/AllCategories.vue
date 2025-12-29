@@ -168,7 +168,10 @@ async function insertBookTrope() {
             <VoltCard v-for="bookGenre in bookGenres" :key="bookGenre.id">
               <template #content>
                 <div class="flex flex-row-reverse flex-wrap gap-4">
-                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                  <RouterLink
+                    :to="{ name: 'allBooks', query: { bookGenreId: bookGenre.id } }"
+                    class="flex-none"
+                  >
                     <span class="inline-flex items-center gap-2">
                       <span class="underline">{{ bookGenre.title }}-Büchern</span>
                       <VoltBadge :value="sumOfArray(bookGenre.book_has_book_genre, 'count')" />
@@ -203,7 +206,10 @@ async function insertBookTrope() {
             <VoltCard v-for="bookSubgenre in bookSubgenres" :key="bookSubgenre.id">
               <template #content>
                 <div class="flex flex-row-reverse flex-wrap gap-4">
-                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                  <RouterLink
+                    :to="{ name: 'allBooks', query: { bookSubgenreId: bookSubgenre.id } }"
+                    class="flex-none"
+                  >
                     <span class="inline-flex items-center gap-2">
                       <span class="underline">{{ bookSubgenre.title }}-Büchern</span>
                       <VoltBadge
@@ -240,7 +246,10 @@ async function insertBookTrope() {
             <VoltCard v-for="bookTrope in bookTropes" :key="bookTrope.id">
               <template #content>
                 <div class="flex flex-row-reverse flex-wrap gap-4">
-                  <RouterLink :to="{ name: 'allBooks' }" class="flex-none">
+                  <RouterLink
+                    :to="{ name: 'allBooks', query: { bookTropeId: bookTrope.id } }"
+                    class="flex-none"
+                  >
                     <span class="inline-flex items-center gap-2">
                       <span class="underline">{{ bookTrope.title }}-Büchern</span>
                       <VoltBadge :value="sumOfArray(bookTrope.book_has_book_trope, 'count')" />

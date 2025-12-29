@@ -14,9 +14,11 @@ const initials = computed<string>(
 
 <template>
   <RouterLink :to="{ name: 'singleAuthor', params: { authorId: props.author.id } }">
-    <span class="inline-flex items-center gap-1">
-      <VoltAvatar :label="initials" />
-      <span>{{ name }}</span>
-    </span>
+    <VoltButton text size="small">
+      <div class="flex items-center gap-1">
+        <VoltAvatar :label="initials" />
+        {{ name }}
+      </div>
+    </VoltButton>
   </RouterLink>
 </template>
