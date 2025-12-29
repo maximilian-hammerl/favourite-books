@@ -137,8 +137,21 @@ async function createOrUpdate() {
     createdOrUpdatedBook = updatedBook
 
     // Easier to just delete existing and insert new
-    await supabase.from('book_has_book_subgenre').delete().eq('book_id', props.bookIdToUpdate)
-    await supabase.from('book_has_book_trope').delete().eq('book_id', props.bookIdToUpdate)
+    await supabase
+      .from('author_created_book')
+      .delete()
+      .eq('book_id', props.bookIdToUpdate)
+      .throwOnError()
+    await supabase
+      .from('book_has_book_subgenre')
+      .delete()
+      .eq('book_id', props.bookIdToUpdate)
+      .throwOnError()
+    await supabase
+      .from('book_has_book_trope')
+      .delete()
+      .eq('book_id', props.bookIdToUpdate)
+      .throwOnError()
   } else {
     const { data: createdBook } = await supabase
       .from('book')
@@ -151,7 +164,7 @@ async function createOrUpdate() {
 
   await supabase
     .from('author_created_book')
-    .upsert(
+    .insert(
       authors.value.map((x) => ({
         book_id: createdOrUpdatedBook.id,
         author_id: x.id,
@@ -211,6 +224,8 @@ async function createOrUpdate() {
         <VoltInputText id="book-title" v-model="book.subtitle" fluid />
       </div>
 
+      <VoltDivider />
+
       <div>
         <label for="authors">Autoren</label>
         <AuthorMultiSelect
@@ -220,10 +235,14 @@ async function createOrUpdate() {
         />
       </div>
 
+      <VoltDivider />
+
       <div>
         <label for="book-title">Blurb (optional)</label>
         <VoltTextarea id="book-title" v-model="book.blurb" fluid auto-resize :rows="5" />
       </div>
+
+      <VoltDivider />
 
       <div>
         <label for="book-genre">Genre</label>
