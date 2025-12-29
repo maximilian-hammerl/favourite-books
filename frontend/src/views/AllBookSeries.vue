@@ -4,7 +4,7 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateBookSeriesDialog from '@/dialogs/CreateUpdateBookSeriesDialog.vue'
 import { pluralize } from '@/lib/util/text.ts'
-import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
+import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
 
 type PaginatedBookSeries = Tables<'book_series'> & {
   book_is_part_of_book_series: Array<{

@@ -173,7 +173,7 @@ async function insertBookTrope() {
                     class="flex-none"
                   >
                     <span class="inline-flex items-center gap-2">
-                      <span class="underline">{{ bookGenre.title }}-Büchern</span>
+                      <span class="underline">{{ bookGenre.title }}-Bücher</span>
                       <VoltBadge :value="sumOfArray(bookGenre.book_has_book_genre, 'count')" />
                     </span>
                   </RouterLink>
@@ -211,7 +211,7 @@ async function insertBookTrope() {
                     class="flex-none"
                   >
                     <span class="inline-flex items-center gap-2">
-                      <span class="underline">{{ bookSubgenre.title }}-Büchern</span>
+                      <span class="underline">{{ bookSubgenre.title }}-Bücher</span>
                       <VoltBadge
                         :value="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')"
                       />
@@ -251,7 +251,7 @@ async function insertBookTrope() {
                     class="flex-none"
                   >
                     <span class="inline-flex items-center gap-2">
-                      <span class="underline">{{ bookTrope.title }}-Büchern</span>
+                      <span class="underline">{{ bookTrope.title }}-Bücher</span>
                       <VoltBadge :value="sumOfArray(bookTrope.book_has_book_trope, 'count')" />
                     </span>
                   </RouterLink>

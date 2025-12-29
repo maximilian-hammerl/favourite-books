@@ -3,13 +3,17 @@ import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateAuthorDialog from '@/dialogs/CreateUpdateAuthorDialog.vue'
-import FormattedAuthorName from '@/components/FormattedAuthorName.vue'
-import { pluralize } from '@/lib/util/text.ts'
-import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
+import AuthorOverviewCard from '@/components/card/AuthorOverviewCard.vue'
 
-type PaginatedAuthor = Tables<'author'> & {
+export type PaginatedAuthor = Tables<'author'> & {
   author_created_book: Array<{
-    book: Tables<'book'>
+    book: Tables<'book'> & {
+      book_is_part_of_book_series: Array<
+        Pick<Tables<'book_is_part_of_book_series'>, 'number_in_series'> & {
+          book_series: Tables<'book_series'>
+        }
+      >
+    }
   }>
 }
 
@@ -22,10 +26,11 @@ const numberTotalAuthors = ref<number | null>(null)
 async function getAuthors() {
   const { data } = await supabase
     .from('author')
-    .select('*, author_created_book(book(*))')
+    .select(
+      '*, author_created_book(book(*, book_is_part_of_book_series(number_in_series, book_series(*))))',
+    )
     .order('last_name')
     .order('first_name')
-    .order('title', { referencedTable: 'author_created_book.book' })
     .range(firstIndexOfCurrentPage.value, firstIndexOfCurrentPage.value + authorsPerPage.value - 1)
     .throwOnError()
   authors.value = data
@@ -73,31 +78,12 @@ function updateAuthor(author: Tables<'author'>) {
     <div v-else class="flex flex-col gap-4">
       <VoltInputText placeholder="Suche" />
 
-      <VoltCard v-for="author in authors" :key="author.id">
-        <template #title>
-          <FormattedAuthorName :author="author" />
-        </template>
-        <template #content>
-          <div>
-            <strong> {{ pluralize(author.author_created_book.length, 'Buch', 'Bücher') }}: </strong>
-            <ul>
-              <li v-for="{ book } in author.author_created_book" :key="book.id">
-                <FormattedBookTitle :book="book" />
-              </li>
-            </ul>
-          </div>
-        </template>
-        <template #footer>
-          <div class="flex justify-end">
-            <VoltButton
-              label="Autor aktualisieren"
-              text
-              size="small"
-              @click="updateAuthor(author)"
-            />
-          </div>
-        </template>
-      </VoltCard>
+      <AuthorOverviewCard
+        v-for="author in authors"
+        :key="author.id"
+        :author="author"
+        @update-author="updateAuthor(author)"
+      />
       <div>
         <VoltPaginator
           v-model:first="firstIndexOfCurrentPage"

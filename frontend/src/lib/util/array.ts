@@ -27,3 +27,18 @@ export function productOfArray<T>(array: Array<T> | Array<number>, attribute?: k
   }
   return (array as Array<T>).reduce((product, obj) => product * (obj[attribute] as number), 1)
 }
+
+export function sortByAttribute<T extends object, K extends keyof T>(
+  array: Array<T>,
+  attribute: K,
+  ascending: boolean = true,
+): Array<T> {
+  return array.toSorted((a, b) => {
+    const aVal = a[attribute]
+    const bVal = b[attribute]
+
+    if (aVal < bVal) return ascending ? -1 : 1
+    if (aVal > bVal) return ascending ? 1 : -1
+    return 0
+  })
+}

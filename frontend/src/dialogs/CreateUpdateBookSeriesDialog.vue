@@ -2,7 +2,7 @@
 import type { Tables, TablesInsert } from '@/gen/database'
 import { ref, watch } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
-import FormattedBookTitle from '@/components/FormattedBookTitle.vue'
+import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
 import BookSelect from '@/components/BookSelect.vue'
 
 const isVisible = defineModel<boolean>('visible', { required: true })

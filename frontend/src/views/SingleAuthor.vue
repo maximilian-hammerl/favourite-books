@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import FormattedAuthorName from '@/components/FormattedAuthorName.vue'
+import FormattedAuthorName from '@/components/formatted/FormattedAuthorName.vue'
 
 const route = useRoute()
 
