@@ -131,6 +131,10 @@ const props = defineProps<{
   bookToReview: Tables<'book'> | null
 }>()
 
+const emit = defineEmits<{
+  bookReviewed: [Tables<'book'>]
+}>()
+
 const NEW_REVIEW: Review = {
   overall_rating: 0,
   emotions_rating: 0,
@@ -183,6 +187,9 @@ async function saveReview() {
       book_id: props.bookToReview.id,
     })
     .throwOnError()
+
+  emit('bookReviewed', props.bookToReview)
+  isVisible.value = false
 }
 </script>
 

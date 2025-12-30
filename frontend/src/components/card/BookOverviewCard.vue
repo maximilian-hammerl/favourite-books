@@ -12,6 +12,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   updateBook: []
+  deleteBook: []
+  reviewBook: []
   addBookGenreFilter: [Tables<'book_genre'>]
   addBookSubgenreFilter: [Tables<'book_subgenre'>]
   addBookTropeFilter: [Tables<'book_trope'>]
@@ -21,7 +23,11 @@ const emit = defineEmits<{
 <template>
   <VoltCard>
     <template #title>
-      <div>Buch: <FormattedBookTitle :book="props.book" /></div>
+      <div class="flex flex-wrap justify-between items-center gap-2">
+        <div>Buch: <FormattedBookTitle :book="props.book" /></div>
+
+        <VoltButton label="Reviewen" @click="emit('reviewBook')" size="small" />
+      </div>
     </template>
     <template v-if="book.subtitle" #subtitle>
       {{ props.book.subtitle }}
@@ -94,7 +100,8 @@ const emit = defineEmits<{
       </div>
     </template>
     <template #footer>
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-2">
+        <VoltDangerButton label="Buch löschen" text size="small" @click="emit('deleteBook')" />
         <VoltButton label="Buch aktualisieren" text size="small" @click="emit('updateBook')" />
       </div>
     </template>

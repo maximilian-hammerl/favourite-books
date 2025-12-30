@@ -14,6 +14,7 @@ import CreateUpdateReviewDialog from '@/dialogs/CreateUpdateReviewDialog.vue'
 const route = useRoute()
 
 export type PaginatedBook = Tables<'book'> & {
+  user_reviewed_book: Array<Tables<'user_reviewed_book'>>
   author_created_book: Array<{
     author: Tables<'author'>
   }>
@@ -48,7 +49,7 @@ async function getBooks() {
   let query = supabase
     .from('book')
     .select(
-      '*, author_created_book!inner(author!inner(*)), book_is_part_of_book_series(number_in_series, book_series(*)), book_has_book_genre!inner(book_genre!inner(*)), book_has_book_subgenre!inner(book_subgenre!inner(*)), book_has_book_trope!inner(book_trope!inner(*))',
+      '*, user_reviewed_book(*), author_created_book!inner(author!inner(*)), book_is_part_of_book_series(number_in_series, book_series(*)), book_has_book_genre!inner(book_genre!inner(*)), book_has_book_subgenre!inner(book_subgenre!inner(*)), book_has_book_trope!inner(book_trope!inner(*))',
     )
 
   if (search.value) {
@@ -158,6 +159,12 @@ function updateBook(book: Tables<'book'>) {
 }
 
 const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
+const bookToReview = ref<Tables<'book'> | null>(null)
+
+function reviewBook(book: Tables<'book'>) {
+  bookToReview.value = book
+  isCreateUpdateReviewDialogVisible.value = true
+}
 </script>
 
 <template>
@@ -167,8 +174,6 @@ const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
 
       <VoltButton label="Buch erstellen" size="small" @click="createBook()" />
     </div>
-
-    <VoltButton label="Review" @click="isCreateUpdateReviewDialogVisible = true" />
 
     <div v-if="books === null || numberTotalBooks === null" class="flex flex-col gap-4">
       <VoltSkeleton v-for="i in booksPerPage" :key="i" height="6rem" />
@@ -191,6 +196,7 @@ const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
         :key="book.id"
         :book="book"
         @update-book="updateBook(book)"
+        @review-book="reviewBook(book)"
         @add-book-genre-filter="selectedBookGenres.push($event)"
         @add-book-subgenre-filter="selectedBookSubgenres.push($event)"
         @add-book-trope-filter="selectedBookTropes.push($event)"
@@ -213,14 +219,7 @@ const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
 
   <CreateUpdateReviewDialog
     v-model:visible="isCreateUpdateReviewDialogVisible"
-    :book-to-review="{
-      id: '11111111-1111-1111-1111-111111111111',
-      title: 'Title',
-      subtitle: 'Subtitle',
-      blurb: 'Blurb',
-      number_pages: 10,
-      created_at: '',
-      updated_at: '',
-    }"
+    :book-to-review="bookToReview"
+    @book-reviewed="reload()"
   />
 </template>

@@ -172,10 +172,11 @@ async function insertBookTrope() {
                     :to="{ name: 'allBooks', query: { bookGenreId: bookGenre.id } }"
                     class="flex-none"
                   >
-                    <VoltSecondaryButton
-                      :label="`${bookGenre.title}-Bücher`"
+                    <VoltButton
+                      v-if="sumOfArray(bookGenre.book_has_book_genre, 'count') > 0"
+                      :label="`Zu den ${sumOfArray(bookGenre.book_has_book_genre, 'count')} Büchern`"
+                      text
                       size="small"
-                      :badge="sumOfArray(bookGenre.book_has_book_genre, 'count').toString()"
                     />
                   </RouterLink>
 
@@ -211,10 +212,11 @@ async function insertBookTrope() {
                     :to="{ name: 'allBooks', query: { bookSubgenreId: bookSubgenre.id } }"
                     class="flex-none"
                   >
-                    <VoltSecondaryButton
-                      :label="`${bookSubgenre.title}-Bücher`"
+                    <VoltButton
+                      v-if="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count') > 0"
+                      :label="`Zu den ${sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')} Büchern`"
+                      text
                       size="small"
-                      :badge="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count').toString()"
                     />
                   </RouterLink>
 
@@ -250,10 +252,11 @@ async function insertBookTrope() {
                     :to="{ name: 'allBooks', query: { bookTropeId: bookTrope.id } }"
                     class="flex-none"
                   >
-                    <VoltSecondaryButton
-                      :label="`${bookTrope.title}-Bücher`"
+                    <VoltButton
+                      v-if="sumOfArray(bookTrope.book_has_book_trope, 'count') > 0"
+                      :label="`Zu den ${sumOfArray(bookTrope.book_has_book_trope, 'count')} Büchern`"
+                      text
                       size="small"
-                      :badge="sumOfArray(bookTrope.book_has_book_trope, 'count').toString()"
                     />
                   </RouterLink>
 
