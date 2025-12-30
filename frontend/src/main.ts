@@ -34,6 +34,7 @@ import ContrastButton from '@/volt/ContrastButton.vue'
 import DangerButton from '@/volt/DangerButton.vue'
 import Fieldset from '@/volt/Fieldset.vue'
 import Rating from '@/volt/Rating.vue'
+import Message from '@/volt/Message.vue'
 
 const app = createApp(App)
 
@@ -60,6 +61,7 @@ app
   .component('VoltInplace', Inplace)
   .component('VoltInputNumber', InputNumber)
   .component('VoltInputText', InputText)
+  .component('VoltMessage', Message)
   .component('VoltMultiSelect', MultiSelect)
   .component('VoltPaginator', Paginator)
   .component('VoltRating', Rating)

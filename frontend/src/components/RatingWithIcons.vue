@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { VoltRatingProps } from '@/volt/Rating.vue'
 
-const rating = defineModel<number>({ required: true })
+const rating = defineModel<number>({
+  required: true,
+  set(value) {
+    return value ? value : 0
+  },
+})
 
 const props = defineProps<
   VoltRatingProps & {

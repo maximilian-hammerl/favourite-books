@@ -9,6 +9,7 @@ import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useRoute } from 'vue-router'
 import BookOverviewCard from '@/components/card/BookOverviewCard.vue'
+import CreateUpdateReviewDialog from '@/dialogs/CreateUpdateReviewDialog.vue'
 
 const route = useRoute()
 
@@ -155,6 +156,8 @@ function updateBook(book: Tables<'book'>) {
   bookIdToUpdate.value = book.id
   isCreateUpdateBookDialogVisible.value = true
 }
+
+const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
 </script>
 
 <template>
@@ -164,6 +167,8 @@ function updateBook(book: Tables<'book'>) {
 
       <VoltButton label="Buch erstellen" size="small" @click="createBook()" />
     </div>
+
+    <VoltButton label="Review" @click="isCreateUpdateReviewDialogVisible = true" />
 
     <div v-if="books === null || numberTotalBooks === null" class="flex flex-col gap-4">
       <VoltSkeleton v-for="i in booksPerPage" :key="i" height="6rem" />
@@ -204,5 +209,18 @@ function updateBook(book: Tables<'book'>) {
     v-model:visible="isCreateUpdateBookDialogVisible"
     :book-id-to-update="bookIdToUpdate"
     @book-created-or-updated="reload()"
+  />
+
+  <CreateUpdateReviewDialog
+    v-model:visible="isCreateUpdateReviewDialogVisible"
+    :book-to-review="{
+      id: '11111111-1111-1111-1111-111111111111',
+      title: 'Title',
+      subtitle: 'Subtitle',
+      blurb: 'Blurb',
+      number_pages: 10,
+      created_at: '',
+      updated_at: '',
+    }"
   />
 </template>
