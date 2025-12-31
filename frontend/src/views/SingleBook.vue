@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
+import FormattedBook from '@/components/formatted/FormattedBook.vue'
 
 type Book = Tables<'book'> & {
   user_reviewed_book: Array<Tables<'user_reviewed_book'>>
@@ -32,7 +32,7 @@ onMounted(getBook)
   <div class="w-full">
     <div v-if="book !== null">
       <h1>
-        <FormattedBookTitle :book="book" />
+        <FormattedBook :book="book" />
       </h1>
     </div>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { pluralize } from '@/lib/util/text.ts'
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
+import FormattedBook from '@/components/formatted/FormattedBook.vue'
 import FormattedAuthorName from '@/components/formatted/FormattedAuthorName.vue'
 import type { PaginatedBook } from '@/views/AllBooks.vue'
 import type { Tables } from '@/gen/database'
@@ -24,7 +24,7 @@ const emit = defineEmits<{
   <VoltCard>
     <template #title>
       <div class="flex flex-wrap justify-between items-center gap-2">
-        <div><FormattedBookTitle :book="props.book" /></div>
+        <div><FormattedBook :book="props.book" /></div>
 
         <VoltButton label="Reviewen" @click="emit('reviewBook')" size="small" />
       </div>

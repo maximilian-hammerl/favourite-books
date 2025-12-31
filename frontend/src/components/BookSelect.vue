@@ -3,7 +3,7 @@ import type { Tables } from '@/gen/database'
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
 import type { VoltSelectProps } from '@/volt/Select.vue'
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
+import FormattedBook from '@/components/formatted/FormattedBook.vue'
 
 type SelectableBook = Tables<'book'> & {
   user_reviewed_book: Array<Tables<'user_reviewed_book'>>
@@ -35,16 +35,22 @@ onMounted(async () => {
     fluid
   >
     <template
-      #value="{ value, placeholder }: { value: SelectableBook | null | undefined; placeholder: string }"
+      #value="{
+        value,
+        placeholder,
+      }: {
+        value: SelectableBook | null | undefined
+        placeholder: string
+      }"
     >
-      <FormattedBookTitle v-if="value" :book="value" />
+      <FormattedBook v-if="value" :book="value" />
       <span v-else>
         {{ placeholder }}
       </span>
     </template>
 
     <template #option="{ option }: { option: SelectableBook }">
-      <FormattedBookTitle :book="option" />
+      <FormattedBook :book="option" />
     </template>
   </VoltSelect>
 

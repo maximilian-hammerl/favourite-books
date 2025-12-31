@@ -2,7 +2,7 @@
 import type { Tables, TablesInsert } from '@/gen/database'
 import { ref, watch } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
+import FormattedBook from '@/components/formatted/FormattedBook.vue'
 import BookSelect from '@/components/BookSelect.vue'
 
 type BookInSeries = Tables<'book'> & {
@@ -138,7 +138,7 @@ async function createOrUpdate() {
         <ol>
           <li v-for="(book, index) in booksInSeries" :key="book.id">
             <span class="inline-flex gap-2">
-              <FormattedBookTitle :book="book" class="flew-grow" />
+              <FormattedBook :book="book" class="flew-grow" />
               <VoltButtonGroup class="flex-none">
                 <VoltButton
                   icon="pi pi-sort-up-fill"

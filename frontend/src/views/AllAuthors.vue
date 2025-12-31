@@ -4,10 +4,11 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import CreateUpdateAuthorDialog from '@/dialogs/CreateUpdateAuthorDialog.vue'
 import AuthorOverviewCard from '@/components/card/AuthorOverviewCard.vue'
+import type { BookToFormat } from '@/components/formatted/FormattedBook.vue'
 
 export type PaginatedAuthor = Tables<'author'> & {
   author_created_book: Array<{
-    book: Tables<'book'> & {
+    book: BookToFormat & {
       book_is_part_of_book_series: Array<
         Pick<Tables<'book_is_part_of_book_series'>, 'number_in_series'> & {
           book_series: Tables<'book_series'>
@@ -27,7 +28,7 @@ async function getAuthors() {
   const { data } = await supabase
     .from('author')
     .select(
-      '*, author_created_book(book(*, book_is_part_of_book_series(number_in_series, book_series(*))))',
+      '*, author_created_book(book(*, user_reviewed_book(*), book_is_part_of_book_series(number_in_series, book_series(*))))',
     )
     .order('last_name')
     .order('first_name')

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
+import FormattedBook from '@/components/formatted/FormattedBook.vue'
 import type { PaginatedBookSeries } from '@/views/AllBookSeries.vue'
 import FormattedBookSeriesTitle from '@/components/formatted/FormattedBookSeriesTitle.vue'
 
@@ -21,7 +21,7 @@ const emit = defineEmits<{
       <VoltFieldset legend="Bücher">
         <ol>
           <li v-for="{ book } in props.bookSeries.book_is_part_of_book_series" :key="book.id">
-            <FormattedBookTitle :book="book" />
+            <FormattedBook :book="book" />
           </li>
         </ol>
       </VoltFieldset>
