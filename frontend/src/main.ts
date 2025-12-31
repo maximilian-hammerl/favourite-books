@@ -35,6 +35,12 @@ import DangerButton from '@/volt/DangerButton.vue'
 import Fieldset from '@/volt/Fieldset.vue'
 import Rating from '@/volt/Rating.vue'
 import Message from '@/volt/Message.vue'
+import Step from '@/volt/Step.vue'
+import Stepper from '@/volt/Stepper.vue'
+import StepPanels from '@/volt/StepPanels.vue'
+import StepPanel from '@/volt/StepPanel.vue'
+import StepList from '@/volt/StepList.vue'
+import StepItem from '@/volt/StepItem.vue'
 
 const app = createApp(App)
 
@@ -68,6 +74,12 @@ app
   .component('VoltSecondaryButton', SecondaryButton)
   .component('VoltSelect', Select)
   .component('VoltSkeleton', Skeleton)
+  .component('VoltStep', Step)
+  .component('VoltStepItem', StepItem)
+  .component('VoltStepList', StepList)
+  .component('VoltStepPanel', StepPanel)
+  .component('VoltStepPanels', StepPanels)
+  .component('VoltStepper', Stepper)
   .component('VoltTab', Tab)
   .component('VoltTabList', TabList)
   .component('VoltTabPanel', TabPanel)

@@ -3,6 +3,7 @@ import type { Tables, TablesInsert } from '@/gen/database'
 import { ref, watch } from 'vue'
 import { supabase, user } from '@/lib/supabase.ts'
 import RatingWithIcons from '@/components/RatingWithIcons.vue'
+import VoltSecondaryButton from '@/volt/SecondaryButton.vue'
 
 const RATING_CONFIGURATIONS: Array<{
   rating: Extract<keyof Tables<'user_reviewed_book'>, `${string}_rating`>
@@ -11,16 +12,6 @@ const RATING_CONFIGURATIONS: Array<{
   onIcon: string
   offIcon: string
 }> = [
-  {
-    rating: 'overall_rating',
-    label: 'Generelle Bewertung',
-    helpText: {
-      short: 'Wie gut war das Buch als Ganzes?',
-      long: 'Musstest Du es abbrechen und weglegen, weil es so schlecht war, oder ist es eines Deiner absoluten Lieblingsbücher geworden?',
-    },
-    onIcon: 'pi pi-star-fill text-primary-500',
-    offIcon: 'pi pi-star',
-  },
   {
     rating: 'emotions_rating',
     label: 'Emotionalität',
@@ -121,6 +112,16 @@ const RATING_CONFIGURATIONS: Array<{
     onIcon: 'pi pi-star-fill text-primary-500',
     offIcon: 'pi pi-star',
   },
+  {
+    rating: 'overall_rating',
+    label: 'Generelle Bewertung',
+    helpText: {
+      short: 'Wie gut war das Buch als Ganzes?',
+      long: 'Musstest Du es abbrechen und weglegen, weil es so schlecht war, oder ist es eines Deiner absoluten Lieblingsbücher geworden?',
+    },
+    onIcon: 'pi pi-star-fill text-primary-500',
+    offIcon: 'pi pi-star',
+  },
 ]
 
 type Review = Omit<TablesInsert<'user_reviewed_book'>, 'user_id' | 'book_id'>
@@ -199,33 +200,53 @@ async function saveReview() {
     header="Buch-Review"
     modal
     :closable="false"
-    class="min-w-11/12 sm:min-w-10/12 md:min-w-9/12 lg:min-w-8/12"
+    class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12"
   >
     <form v-if="review" class="flex flex-col gap-4" @submit.prevent="saveReview()">
-      <VoltFieldset
-        v-for="ratingConfiguration in RATING_CONFIGURATIONS"
-        :key="ratingConfiguration.rating"
-      >
-        <template #legend>
-          <div>
-            <div class="flex items-center gap-1 p-2">
-              <i :class="ratingConfiguration.onIcon"></i>
-              {{ ratingConfiguration.label }}
+      <VoltStepper :value="0">
+        <VoltStepItem
+          v-for="(ratingConfiguration, index) in RATING_CONFIGURATIONS"
+          :key="ratingConfiguration.rating"
+          :value="index"
+        >
+          <VoltStep>
+            {{ ratingConfiguration.label }}
+            <span v-if="review[ratingConfiguration.rating] > 0">
+              ({{ review[ratingConfiguration.rating] }} <i class="pi pi-star-fill"></i>)
+            </span>
+          </VoltStep>
+          <VoltStepPanel v-slot="{ activateCallback }">
+            <RatingWithIcons
+              :id="ratingConfiguration.rating"
+              v-model="review[ratingConfiguration.rating]"
+              :on-icon="ratingConfiguration.onIcon"
+              :off-icon="ratingConfiguration.offIcon"
+              :stars="10"
+              @update:model-value="activateCallback(index + 1)"
+            />
+            <VoltMessage size="small" severity="secondary" class="mt-4">
+              <div>{{ ratingConfiguration.helpText.short }}</div>
+              <div>{{ ratingConfiguration.helpText.long }}</div>
+            </VoltMessage>
+            <div class="mt-2 flex flex-wrap justify-end gap-2">
+              <VoltSecondaryButton
+                v-if="index > 0"
+                label="Zurück"
+                text
+                size="small"
+                @click="activateCallback(index - 1)"
+              />
+              <VoltButton
+                v-if="index < RATING_CONFIGURATIONS.length - 1"
+                label="Weiter"
+                text
+                size="small"
+                @click="activateCallback(index + 1)"
+              />
             </div>
-          </div>
-        </template>
-        <RatingWithIcons
-          :id="ratingConfiguration.rating"
-          v-model="review[ratingConfiguration.rating]"
-          :on-icon="ratingConfiguration.onIcon"
-          :off-icon="ratingConfiguration.offIcon"
-          :stars="10"
-        />
-        <VoltMessage size="small" severity="secondary" class="mt-4">
-          <div>{{ ratingConfiguration.helpText.short }}</div>
-          <div>{{ ratingConfiguration.helpText.long }}</div>
-        </VoltMessage>
-      </VoltFieldset>
+          </VoltStepPanel>
+        </VoltStepItem>
+      </VoltStepper>
 
       <VoltDivider />
 

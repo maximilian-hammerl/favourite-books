@@ -211,7 +211,7 @@ async function createOrUpdate() {
     :header="props.bookIdToUpdate ? 'Buch aktualisieren' : 'Buch erstellen'"
     modal
     :closable="false"
-    class="min-w-11/12 sm:min-w-10/12 md:min-w-9/12 lg:min-w-8/12"
+    class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12"
   >
     <form v-if="book !== null" class="flex flex-col gap-4" @submit.prevent="createOrUpdate()">
       <div>
