@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FormattedBook from '@/components/formatted/FormattedBook.vue'
 import type { PaginatedBookSeries } from '@/views/AllBookSeries.vue'
-import FormattedBookSeries from '@/components/formatted/FormattedBookSeries.vue'
+import BookLink from '@/components/link/BookLink.vue'
+import BookSeriesLink from '@/components/link/BookSeriesLink.vue'
 
 const props = defineProps<{
   bookSeries: PaginatedBookSeries
@@ -15,13 +15,13 @@ const emit = defineEmits<{
 <template>
   <VoltCard>
     <template #title>
-      <div><FormattedBookSeries :book-series="props.bookSeries" /></div>
+      <div><BookSeriesLink :book-series="props.bookSeries" /></div>
     </template>
     <template #content>
       <VoltFieldset legend="Bücher">
         <ol>
           <li v-for="{ book } in props.bookSeries.book_is_part_of_book_series" :key="book.id">
-            <FormattedBook :book="book" />
+            <BookLink :book="book" />
           </li>
         </ol>
       </VoltFieldset>

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import FormattedBook, { type BookToFormat } from '@/components/formatted/FormattedBook.vue'
-import FormattedAuthor from '@/components/formatted/FormattedAuthor.vue'
+import { type BookToFormat } from '@/components/formatted/FormattedBook.vue'
 import type { PaginatedAuthor } from '@/views/AllAuthors.vue'
 import type { Tables } from '@/gen/database'
 import { computed } from 'vue'
-import FormattedBookSeries from '@/components/formatted/FormattedBookSeries.vue'
 import { sortByAttribute } from '@/lib/util/array.ts'
+import BookLink from '@/components/link/BookLink.vue'
+import BookSeriesLink from '@/components/link/BookSeriesLink.vue'
+import AuthorLink from '@/components/link/AuthorLink.vue'
 
 const props = defineProps<{
   author: PaginatedAuthor
@@ -68,16 +69,16 @@ const booksWithoutSeries = computed<Array<BookToFormat>>(() =>
 <template>
   <VoltCard>
     <template #title>
-      <div><FormattedAuthor :author="props.author" /></div>
+      <div><AuthorLink :author="props.author" /></div>
     </template>
     <template #content>
       <VoltFieldset v-if="bookSeriess.length > 0" legend="Buchreihen">
         <ul>
           <li v-for="bookSeries in bookSeriess" :key="bookSeries.id">
-            <FormattedBookSeries :book-series="bookSeries" />
+            <BookSeriesLink :book-series="bookSeries" />
             <ol class="ml-4">
               <li v-for="book in bookSeries.books" :key="book.id">
-                <FormattedBook :book="book" />
+                <BookLink :book="book" />
               </li>
             </ol>
           </li>
@@ -86,7 +87,7 @@ const booksWithoutSeries = computed<Array<BookToFormat>>(() =>
       <VoltFieldset v-if="booksWithoutSeries.length > 0" legend="Bücher">
         <ul>
           <li v-for="book in booksWithoutSeries" :key="book.id">
-            <FormattedBook :book="book" />
+            <BookLink :book="book" />
           </li>
         </ul>
       </VoltFieldset>

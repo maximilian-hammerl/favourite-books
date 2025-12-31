@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { pluralize } from '@/lib/util/text.ts'
-import FormattedBook from '@/components/formatted/FormattedBook.vue'
-import FormattedAuthor from '@/components/formatted/FormattedAuthor.vue'
 import type { PaginatedBook } from '@/views/AllBooks.vue'
 import type { Tables } from '@/gen/database'
-import FormattedBookSeries from '@/components/formatted/FormattedBookSeries.vue'
+import BookSeriesLink from '@/components/link/BookSeriesLink.vue'
+import AuthorLink from '@/components/link/AuthorLink.vue'
+import BookLink from '@/components/link/BookLink.vue'
 
 const props = defineProps<{
   book: PaginatedBook
@@ -24,7 +24,7 @@ const emit = defineEmits<{
   <VoltCard>
     <template #title>
       <div class="flex flex-wrap justify-between items-center gap-2">
-        <div><FormattedBook :book="props.book" /></div>
+        <div><BookLink :book="props.book" /></div>
 
         <VoltButton label="Reviewen" @click="emit('reviewBook')" size="small" />
       </div>
@@ -42,7 +42,7 @@ const emit = defineEmits<{
             {{ pluralize(props.book.author_created_book.length, 'Autor', 'Autoren') }}:
           </strong>
 
-          <FormattedAuthor
+          <AuthorLink
             v-for="{ author } in props.book.author_created_book"
             :key="author.id"
             :author="author"
@@ -63,7 +63,7 @@ const emit = defineEmits<{
               .book_is_part_of_book_series"
             :key="bookSeries.id"
           >
-            <FormattedBookSeries :book-series="bookSeries" />
+            <BookSeriesLink :book-series="bookSeries" />
             ({{ numberInSeries }}. Teil)
           </span>
         </div>
