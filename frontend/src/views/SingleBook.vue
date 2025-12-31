@@ -5,16 +5,20 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
 
+type Book = Tables<'book'> & {
+  user_reviewed_book: Array<Tables<'user_reviewed_book'>>
+}
+
 const route = useRoute()
 
 const bookId = computed<string>(() => route.params.bookId as string)
 
-const book = ref<Tables<'book'> | null>(null)
+const book = ref<Book | null>(null)
 
 async function getBook() {
   const { data } = await supabase
     .from('book')
-    .select()
+    .select('*, user_reviewed_book(*)')
     .eq('id', bookId.value)
     .single()
     .throwOnError()

@@ -7,7 +7,9 @@ import BookSeriesOverviewCard from '@/components/card/BookSeriesOverviewCard.vue
 
 export type PaginatedBookSeries = Tables<'book_series'> & {
   book_is_part_of_book_series: Array<{
-    book: Tables<'book'>
+    book: Tables<'book'> & {
+      user_reviewed_book: Array<Tables<'user_reviewed_book'>>
+    }
   }>
 }
 
@@ -20,7 +22,7 @@ const numberTotalBookSeriess = ref<number | null>(null)
 async function getBookSeriess() {
   const { data } = await supabase
     .from('book_series')
-    .select('*, book_is_part_of_book_series(book(*))')
+    .select('*, book_is_part_of_book_series(book(*, user_reviewed_book(*)))')
     .order('title')
     .order('number_in_series', { referencedTable: 'book_is_part_of_book_series' })
     .range(

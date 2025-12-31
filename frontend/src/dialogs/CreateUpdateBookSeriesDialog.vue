@@ -5,6 +5,10 @@ import { supabase } from '@/lib/supabase.ts'
 import FormattedBookTitle from '@/components/formatted/FormattedBookTitle.vue'
 import BookSelect from '@/components/BookSelect.vue'
 
+type BookInSeries = Tables<'book'> & {
+  user_reviewed_book: Array<Tables<'user_reviewed_book'>>
+}
+
 const isVisible = defineModel<boolean>('visible', { required: true })
 
 const props = defineProps<{
@@ -20,9 +24,9 @@ const NEW_BOOK_SERIES: TablesInsert<'book_series'> = {
 }
 
 const bookSeries = ref<TablesInsert<'book_series'> | null>(null)
-const booksInSeries = ref<Array<Tables<'book'>>>([])
+const booksInSeries = ref<Array<BookInSeries>>([])
 
-const bookToAddToSeries = ref<Tables<'book'> | null>(null)
+const bookToAddToSeries = ref<BookInSeries | null>(null)
 
 function addBookToSeries() {
   if (bookToAddToSeries.value === null) {
@@ -51,7 +55,7 @@ watch(isVisible, async (newIsVisible) => {
 
       const { data: existingBooksInSeries } = await supabase
         .from('book_is_part_of_book_series')
-        .select('book(*)')
+        .select('book(*, user_reviewed_book(*))')
         .eq('book_series_id', props.bookSeriesIdToUpdate)
         .throwOnError()
       booksInSeries.value = existingBooksInSeries.map((x) => x.book)
