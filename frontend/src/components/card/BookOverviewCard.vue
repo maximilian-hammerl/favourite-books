@@ -24,7 +24,7 @@ const emit = defineEmits<{
   <VoltCard>
     <template #title>
       <div class="flex flex-wrap justify-between items-center gap-2">
-        <div>Buch: <FormattedBookTitle :book="props.book" /></div>
+        <div><FormattedBookTitle :book="props.book" /></div>
 
         <VoltButton label="Reviewen" @click="emit('reviewBook')" size="small" />
       </div>
@@ -34,10 +34,14 @@ const emit = defineEmits<{
     </template>
     <template #content>
       <div class="flex flex-col gap-2">
-        <div>
+        <div
+          v-if="props.book.author_created_book.length > 0"
+          class="flex flex-wrap items-center gap-2"
+        >
           <strong>
             {{ pluralize(props.book.author_created_book.length, 'Autor', 'Autoren') }}:
           </strong>
+
           <FormattedAuthorName
             v-for="{ author } in props.book.author_created_book"
             :key="author.id"
@@ -45,7 +49,10 @@ const emit = defineEmits<{
           />
         </div>
 
-        <div>
+        <div
+          v-if="props.book.book_is_part_of_book_series.length > 0"
+          class="flex flex-wrap items-center gap-2"
+        >
           <strong>
             {{
               pluralize(props.book.book_is_part_of_book_series.length, 'Buchreihe', 'Buchreihen')

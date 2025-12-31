@@ -1,24 +1,37 @@
 <script setup lang="ts">
 import type { Tables } from '@/gen/database'
 import { computed } from 'vue'
+import { computeInitialsForName } from '@/lib/util/text.ts'
 
 const props = defineProps<{
   author: Tables<'author'>
 }>()
 
 const name = computed<string>(() => `${props.author.first_name} ${props.author.last_name}`.trim())
-const initials = computed<string>(
-  () => `${props.author.first_name.charAt(0)}${props.author.last_name.charAt(0)}`,
+
+const initials = computed<string>(() =>
+  computeInitialsForName(props.author.first_name, props.author.last_name),
 )
 </script>
 
 <template>
   <RouterLink :to="{ name: 'singleAuthor', params: { authorId: props.author.id } }">
-    <VoltButton text size="small">
-      <div class="flex items-center gap-1">
-        <VoltAvatar :label="initials" />
+    <span class="inline-flex">
+      <span
+        class="rounded-s-full bg-primary text-primary-contrast p-1 px-2 flex items-center justify-center"
+      >
+        <i class="pi pi-user"></i>
+      </span>
+      <span
+        class="border-y-2 border-primary bg-primary-contrast text-primary p-1 px-2 flex items-center justify-center"
+      >
+        {{ initials }}
+      </span>
+      <span
+        class="rounded-e-full bg-primary text-primary-contrast p-1 px-2 flex items-center justify-center"
+      >
         {{ name }}
-      </div>
-    </VoltButton>
+      </span>
+    </span>
   </RouterLink>
 </template>

@@ -4,6 +4,7 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import InplaceWithSave from '@/components/InplaceWithSave.vue'
 import { sumOfArray } from '@/lib/util/array.ts'
+import { pluralize } from '@/lib/util/text.ts'
 
 type PaginatedBookGenre = Tables<'book_genre'> & {
   book_has_book_genre: Array<{ count: number }>
@@ -136,6 +137,10 @@ async function insertBookTrope() {
   titleOfNewBookTrope.value = ''
   await getBookTropes()
 }
+
+function getCategoryNavigationLabel(count: number) {
+  return `Zu dem ${count} ${pluralize(count, 'Buch', 'Büchern')}`
+}
 </script>
 
 <template>
@@ -174,7 +179,11 @@ async function insertBookTrope() {
                   >
                     <VoltButton
                       v-if="sumOfArray(bookGenre.book_has_book_genre, 'count') > 0"
-                      :label="`Zu den ${sumOfArray(bookGenre.book_has_book_genre, 'count')} Büchern`"
+                      :label="
+                        getCategoryNavigationLabel(
+                          sumOfArray(bookGenre.book_has_book_genre, 'count'),
+                        )
+                      "
                       text
                       size="small"
                     />
@@ -214,7 +223,11 @@ async function insertBookTrope() {
                   >
                     <VoltButton
                       v-if="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count') > 0"
-                      :label="`Zu den ${sumOfArray(bookSubgenre.book_has_book_subgenre, 'count')} Büchern`"
+                      :label="
+                        getCategoryNavigationLabel(
+                          sumOfArray(bookSubgenre.book_has_book_subgenre, 'count'),
+                        )
+                      "
                       text
                       size="small"
                     />
@@ -254,7 +267,11 @@ async function insertBookTrope() {
                   >
                     <VoltButton
                       v-if="sumOfArray(bookTrope.book_has_book_trope, 'count') > 0"
-                      :label="`Zu den ${sumOfArray(bookTrope.book_has_book_trope, 'count')} Büchern`"
+                      :label="
+                        getCategoryNavigationLabel(
+                          sumOfArray(bookTrope.book_has_book_trope, 'count'),
+                        )
+                      "
                       text
                       size="small"
                     />

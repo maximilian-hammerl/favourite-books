@@ -15,7 +15,7 @@ const emit = defineEmits<{
 <template>
   <VoltCard>
     <template #title>
-      <div>Buchreihe: <FormattedBookSeriesTitle :book-series="props.bookSeries" /></div>
+      <div><FormattedBookSeriesTitle :book-series="props.bookSeries" /></div>
     </template>
     <template #content>
       <VoltFieldset legend="Bücher">
