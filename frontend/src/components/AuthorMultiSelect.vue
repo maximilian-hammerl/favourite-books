@@ -28,7 +28,7 @@ onMounted(async () => {
     v-model="selectedAuthors"
     :options="selectableAuthors"
     filter
-    :option-label="(author: Tables<'author'>) => `${author.last_name}, ${author.first_name}`"
+    :option-label="(author: Tables<'author'>) => `${author.first_name} ${author.last_name}`.trim()"
     fluid
   />
   <VoltSkeleton v-else height="3rem" />
