@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import FormattedBook, { type BookToFormat } from '@/components/formatted/FormattedBook.vue'
-import FormattedAuthorName from '@/components/formatted/FormattedAuthorName.vue'
+import FormattedAuthor from '@/components/formatted/FormattedAuthor.vue'
 import type { PaginatedAuthor } from '@/views/AllAuthors.vue'
 import type { Tables } from '@/gen/database'
 import { computed } from 'vue'
-import FormattedBookSeriesTitle from '@/components/formatted/FormattedBookSeriesTitle.vue'
+import FormattedBookSeries from '@/components/formatted/FormattedBookSeries.vue'
 import { sortByAttribute } from '@/lib/util/array.ts'
 
 const props = defineProps<{
@@ -68,13 +68,13 @@ const booksWithoutSeries = computed<Array<BookToFormat>>(() =>
 <template>
   <VoltCard>
     <template #title>
-      <div><FormattedAuthorName :author="props.author" /></div>
+      <div><FormattedAuthor :author="props.author" /></div>
     </template>
     <template #content>
       <VoltFieldset v-if="bookSeriess.length > 0" legend="Buchreihen">
         <ul>
           <li v-for="bookSeries in bookSeriess" :key="bookSeries.id">
-            <FormattedBookSeriesTitle :book-series="bookSeries" />
+            <FormattedBookSeries :book-series="bookSeries" />
             <ol class="ml-4">
               <li v-for="book in bookSeries.books" :key="book.id">
                 <FormattedBook :book="book" />

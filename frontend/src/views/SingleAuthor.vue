@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import FormattedAuthorName from '@/components/formatted/FormattedAuthorName.vue'
+import FormattedAuthor from '@/components/formatted/FormattedAuthor.vue'
 
 const route = useRoute()
 
@@ -28,7 +28,7 @@ onMounted(getAuthor)
   <div class="w-full">
     <div v-if="author !== null">
       <h1>
-        <FormattedAuthorName :author="author" />
+        <FormattedAuthor :author="author" />
       </h1>
     </div>
 

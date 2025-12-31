@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { pluralize } from '@/lib/util/text.ts'
 import FormattedBook from '@/components/formatted/FormattedBook.vue'
-import FormattedAuthorName from '@/components/formatted/FormattedAuthorName.vue'
+import FormattedAuthor from '@/components/formatted/FormattedAuthor.vue'
 import type { PaginatedBook } from '@/views/AllBooks.vue'
 import type { Tables } from '@/gen/database'
-import FormattedBookSeriesTitle from '@/components/formatted/FormattedBookSeriesTitle.vue'
+import FormattedBookSeries from '@/components/formatted/FormattedBookSeries.vue'
 
 const props = defineProps<{
   book: PaginatedBook
@@ -42,7 +42,7 @@ const emit = defineEmits<{
             {{ pluralize(props.book.author_created_book.length, 'Autor', 'Autoren') }}:
           </strong>
 
-          <FormattedAuthorName
+          <FormattedAuthor
             v-for="{ author } in props.book.author_created_book"
             :key="author.id"
             :author="author"
@@ -63,7 +63,7 @@ const emit = defineEmits<{
               .book_is_part_of_book_series"
             :key="bookSeries.id"
           >
-            <FormattedBookSeriesTitle :book-series="bookSeries" />
+            <FormattedBookSeries :book-series="bookSeries" />
             ({{ numberInSeries }}. Teil)
           </span>
         </div>
