@@ -17,11 +17,22 @@ const initials = computed<string>(() =>
 
 <template>
   <RouterLink :to="{ name: 'singleBook', params: { bookId: props.book.id } }">
-    <VoltButton text size="small">
-      <div class="flex items-center gap-1">
-        <VoltAvatar :label="initials" />
+    <span class="inline-flex">
+      <span
+        class="border-s rounded-s-full border-primary-contrast bg-primary text-primary-contrast p-2 flex items-center justify-center"
+      >
+        <i class="pi pi-book"></i>
+      </span>
+      <span
+        class="border-y border-primary bg-primary-contrast text-primary p-2 flex items-center justify-center"
+      >
+        {{ initials }}
+      </span>
+      <span
+        class="bg-primary text-primary-contrast rounded-e-full p-2 flex items-center justify-center"
+      >
         {{ props.book.title }}
-      </div>
-    </VoltButton>
+      </span>
+    </span>
   </RouterLink>
 </template>
