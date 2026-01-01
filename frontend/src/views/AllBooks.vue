@@ -9,6 +9,7 @@ import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useRoute } from 'vue-router'
 import BookOverviewCard from '@/components/card/BookOverviewCard.vue'
+import CreateUpdateReviewDialog from '@/dialogs/CreateUpdateReviewDialog.vue'
 
 const route = useRoute()
 
@@ -149,6 +150,14 @@ const isCreateUpdateBookDialogVisible = ref<boolean>(false)
 function createBook() {
   isCreateUpdateBookDialogVisible.value = true
 }
+
+const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
+const bookToReview = ref<Tables<'book'> | null>(null)
+
+function reviewBook(book: Tables<'book'>) {
+  bookToReview.value = book
+  isCreateUpdateReviewDialogVisible.value = true
+}
 </script>
 
 <template>
@@ -179,6 +188,7 @@ function createBook() {
         v-for="book in books"
         :key="book.id"
         :book="book"
+        @review-book="reviewBook(book)"
         @add-book-genre-filter="selectedBookGenres.push($event)"
         @add-book-subgenre-filter="selectedBookSubgenres.push($event)"
         @add-book-trope-filter="selectedBookTropes.push($event)"
@@ -197,5 +207,11 @@ function createBook() {
     v-model:visible="isCreateUpdateBookDialogVisible"
     :book-to-update="null"
     @book-created-or-updated="reload()"
+  />
+
+  <CreateUpdateReviewDialog
+    v-model:visible="isCreateUpdateReviewDialogVisible"
+    :book-to-review="bookToReview"
+    @book-reviewed="reload()"
   />
 </template>
