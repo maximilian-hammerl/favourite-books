@@ -13,7 +13,7 @@ const toast = useToast()
 const isVisible = defineModel<boolean>('visible', { required: true })
 
 const props = defineProps<{
-  bookIdToUpdate: string | null
+  bookToUpdate: Tables<'book'> | null
 }>()
 
 const emit = defineEmits<{
@@ -35,11 +35,11 @@ const bookTropes = ref<Array<Tables<'book_trope'>>>([])
 
 watch(isVisible, async (newIsVisible) => {
   if (newIsVisible) {
-    if (props.bookIdToUpdate) {
+    if (props.bookToUpdate !== null) {
       const { data: existingBook } = await supabase
         .from('book')
         .select()
-        .eq('id', props.bookIdToUpdate)
+        .eq('id', props.bookToUpdate.id)
         .single()
         .throwOnError()
       book.value = existingBook
@@ -47,14 +47,14 @@ watch(isVisible, async (newIsVisible) => {
       const { data: existingAuthors } = await supabase
         .from('author_created_book')
         .select('author(*)')
-        .eq('book_id', props.bookIdToUpdate)
+        .eq('book_id', props.bookToUpdate.id)
         .throwOnError()
       authors.value = existingAuthors.map((x) => x.author)
 
       const { data: existingBookGenre } = await supabase
         .from('book_has_book_genre')
         .select('book_genre(*)')
-        .eq('book_id', props.bookIdToUpdate)
+        .eq('book_id', props.bookToUpdate.id)
         .maybeSingle()
         .throwOnError()
       bookGenre.value = existingBookGenre?.book_genre ?? null
@@ -62,14 +62,14 @@ watch(isVisible, async (newIsVisible) => {
       const { data: existingBookSubgenres } = await supabase
         .from('book_has_book_subgenre')
         .select('book_subgenre(*)')
-        .eq('book_id', props.bookIdToUpdate)
+        .eq('book_id', props.bookToUpdate.id)
         .throwOnError()
       bookSubgenres.value = existingBookSubgenres.map((x) => x.book_subgenre)
 
       const { data: existingBookTropes } = await supabase
         .from('book_has_book_trope')
         .select('book_trope(*)')
-        .eq('book_id', props.bookIdToUpdate)
+        .eq('book_id', props.bookToUpdate.id)
         .throwOnError()
       bookTropes.value = existingBookTropes.map((x) => x.book_trope)
     } else {
@@ -126,11 +126,11 @@ async function createOrUpdate() {
   }
 
   let createdOrUpdatedBook: Tables<'book'>
-  if (props.bookIdToUpdate) {
+  if (props.bookToUpdate !== null) {
     const { data: updatedBook } = await supabase
       .from('book')
       .update(book.value)
-      .eq('id', props.bookIdToUpdate)
+      .eq('id', props.bookToUpdate.id)
       .select()
       .single()
       .throwOnError()
@@ -140,17 +140,17 @@ async function createOrUpdate() {
     await supabase
       .from('author_created_book')
       .delete()
-      .eq('book_id', props.bookIdToUpdate)
+      .eq('book_id', props.bookToUpdate.id)
       .throwOnError()
     await supabase
       .from('book_has_book_subgenre')
       .delete()
-      .eq('book_id', props.bookIdToUpdate)
+      .eq('book_id', props.bookToUpdate.id)
       .throwOnError()
     await supabase
       .from('book_has_book_trope')
       .delete()
-      .eq('book_id', props.bookIdToUpdate)
+      .eq('book_id', props.bookToUpdate.id)
       .throwOnError()
   } else {
     const { data: createdBook } = await supabase
@@ -208,7 +208,7 @@ async function createOrUpdate() {
 <template>
   <VoltDialog
     v-model:visible="isVisible"
-    :header="props.bookIdToUpdate ? 'Buch aktualisieren' : 'Buch erstellen'"
+    :header="props.bookToUpdate ? 'Buch aktualisieren' : 'Buch erstellen'"
     modal
     :closable="false"
     class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12"
@@ -275,7 +275,7 @@ async function createOrUpdate() {
 
       <div class="flex flex-wrap gap-2 justify-end">
         <VoltButton label="Abbrechen" @click="isVisible = false" outlined />
-        <VoltButton :label="props.bookIdToUpdate ? 'Aktualisieren' : 'Erstellen'" type="submit" />
+        <VoltButton :label="props.bookToUpdate ? 'Aktualisieren' : 'Erstellen'" type="submit" />
       </div>
     </form>
 

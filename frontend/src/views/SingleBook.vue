@@ -5,6 +5,8 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import FormattedBook from '@/components/formatted/FormattedBook.vue'
 import ButtonWithPopup from '@/components/custom/ButtonWithPopup.vue'
+import CreateUpdateBookDialog from '@/dialogs/CreateUpdateBookDialog.vue'
+import CreateUpdateReviewDialog from '@/dialogs/CreateUpdateReviewDialog.vue'
 
 type Book = Tables<'book'> & {
   user_reviewed_book: Array<Tables<'user_reviewed_book'>>
@@ -27,6 +29,18 @@ async function getBook() {
 }
 
 onMounted(getBook)
+
+const isCreateUpdateBookDialogVisible = ref<boolean>(false)
+
+function updateBook() {
+  isCreateUpdateBookDialogVisible.value = true
+}
+
+const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
+
+function reviewBook() {
+  isCreateUpdateReviewDialogVisible.value = true
+}
 </script>
 
 <template>
@@ -45,8 +59,8 @@ onMounted(getBook)
               {
                 label: 'Verwalten',
                 items: [
-                  { label: 'Reviewen', icon: 'pi pi-star' },
-                  { label: 'Aktualisieren', icon: 'pi pi-pencil' },
+                  { label: 'Reviewen', icon: 'pi pi-star', command: reviewBook },
+                  { label: 'Aktualisieren', icon: 'pi pi-pencil', command: updateBook },
                 ],
               },
               {
@@ -70,4 +84,16 @@ onMounted(getBook)
       <VoltSkeleton height="10rem" />
     </div>
   </div>
+
+  <CreateUpdateBookDialog
+    v-model:visible="isCreateUpdateBookDialogVisible"
+    :book-to-update="book"
+    @book-created-or-updated="getBook()"
+  />
+
+  <CreateUpdateReviewDialog
+    v-model:visible="isCreateUpdateReviewDialogVisible"
+    :book-to-review="book"
+    @book-reviewed="getBook()"
+  />
 </template>
