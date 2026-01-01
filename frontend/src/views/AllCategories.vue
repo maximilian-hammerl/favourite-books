@@ -178,10 +178,10 @@ function getCategoryNavigationLabel(count: number) {
                     class="flex-none"
                   >
                     <VoltButton
-                      v-if="sumOfArray(bookGenre.book_has_book_genre, 'count') > 0"
+                      v-if="sumOfArray(bookGenre.book_has_book_genre.map((x) => x.count)) > 0"
                       :label="
                         getCategoryNavigationLabel(
-                          sumOfArray(bookGenre.book_has_book_genre, 'count'),
+                          sumOfArray(bookGenre.book_has_book_genre.map((x) => x.count)),
                         )
                       "
                       text
@@ -222,10 +222,10 @@ function getCategoryNavigationLabel(count: number) {
                     class="flex-none"
                   >
                     <VoltButton
-                      v-if="sumOfArray(bookSubgenre.book_has_book_subgenre, 'count') > 0"
+                      v-if="sumOfArray(bookSubgenre.book_has_book_subgenre.map((x) => x.count)) > 0"
                       :label="
                         getCategoryNavigationLabel(
-                          sumOfArray(bookSubgenre.book_has_book_subgenre, 'count'),
+                          sumOfArray(bookSubgenre.book_has_book_subgenre.map((x) => x.count)),
                         )
                       "
                       text
@@ -266,10 +266,10 @@ function getCategoryNavigationLabel(count: number) {
                     class="flex-none"
                   >
                     <VoltButton
-                      v-if="sumOfArray(bookTrope.book_has_book_trope, 'count') > 0"
+                      v-if="sumOfArray(bookTrope.book_has_book_trope.map((x) => x.count)) > 0"
                       :label="
                         getCategoryNavigationLabel(
-                          sumOfArray(bookTrope.book_has_book_trope, 'count'),
+                          sumOfArray(bookTrope.book_has_book_trope.map((x) => x.count)),
                         )
                       "
                       text
