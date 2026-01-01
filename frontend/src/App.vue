@@ -59,7 +59,7 @@ async function logout() {
         </nav>
 
         <div class="basis-1/3 flex items-center justify-end">
-          <VoltButton label="Ausloggen" text @click="logout()" />
+          <VoltButton label="Ausloggen" icon="pi pi-sign-out" text @click="logout()" />
         </div>
       </div>
       <div class="w-full text-center" v-else>Lieblingsbücher</div>

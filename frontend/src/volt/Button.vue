@@ -17,8 +17,8 @@ import Button, { type ButtonPassThroughOptions, type ButtonProps } from 'primevu
 import { ref } from 'vue'
 import { ptViewMerge } from './utils'
 
-interface Props extends /* @vue-ignore */ ButtonProps {}
-defineProps<Props>()
+export interface VoltButtonProps extends /* @vue-ignore */ ButtonProps {}
+defineProps<VoltButtonProps>()
 
 const theme = ref<ButtonPassThroughOptions>({
   root: `inline-flex cursor-pointer select-none items-center justify-center overflow-hidden relative

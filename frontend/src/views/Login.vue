@@ -25,7 +25,7 @@ async function login() {
         <VoltInputText id="password" v-model="password" type="password" fluid />
       </div>
 
-      <VoltButton label="Einloggen" @click="login()" />
+      <VoltButton label="Einloggen" icon="pi pi-sign-in" size="small" @click="login()" />
     </div>
   </div>
 </template>

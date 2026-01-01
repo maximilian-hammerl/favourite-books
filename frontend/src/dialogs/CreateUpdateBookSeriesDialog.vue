@@ -135,18 +135,20 @@ async function createOrUpdate() {
 
       <div>
         <strong>Bücher:</strong>
-        <ol>
+        <ol class="list-inside list-decimal">
           <li v-for="(book, index) in booksInSeries" :key="book.id">
             <span class="inline-flex gap-2">
               <FormattedBook :book="book" class="flew-grow" />
               <VoltButtonGroup class="flex-none">
                 <VoltButton
                   icon="pi pi-sort-up-fill"
+                  size="small"
                   :disabled="index === 0"
                   @click="swapBooks(index, index - 1)"
                 />
                 <VoltButton
                   icon="pi pi-sort-down-fill"
+                  size="small"
                   :disabled="index === booksInSeries.length - 1"
                   @click="swapBooks(index, index + 1)"
                 />

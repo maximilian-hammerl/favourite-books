@@ -73,10 +73,10 @@ const booksWithoutSeries = computed<Array<BookToFormat>>(() =>
     </template>
     <template #content>
       <VoltFieldset v-if="bookSeriess.length > 0" legend="Buchreihen">
-        <ul>
+        <ul class="list-inside list-disc">
           <li v-for="bookSeries in bookSeriess" :key="bookSeries.id">
             <BookSeriesLink :book-series="bookSeries" />
-            <ol class="ml-4">
+            <ol class="list-inside list-decimal ml-4">
               <li v-for="book in bookSeries.books" :key="book.id">
                 <BookLink :book="book" />
               </li>
@@ -85,7 +85,7 @@ const booksWithoutSeries = computed<Array<BookToFormat>>(() =>
         </ul>
       </VoltFieldset>
       <VoltFieldset v-if="booksWithoutSeries.length > 0" legend="Bücher">
-        <ul>
+        <ul class="list-inside list-disc">
           <li v-for="book in booksWithoutSeries" :key="book.id">
             <BookLink :book="book" />
           </li>

@@ -69,7 +69,7 @@ function updateAuthor(author: Tables<'author'>) {
     <div class="flex justify-between mb-4">
       <h1>Autoren</h1>
 
-      <VoltButton label="Autor anlegen" size="small" @click="createAuthor()" />
+      <VoltButton label="Autor anlegen" icon="pi pi-plus" size="small" @click="createAuthor()" />
     </div>
 
     <div v-if="authors === null || numberTotalAuthors === null" class="flex flex-col gap-4">

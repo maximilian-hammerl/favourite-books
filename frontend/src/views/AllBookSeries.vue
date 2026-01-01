@@ -68,7 +68,12 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
     <div class="flex justify-between mb-4">
       <h1>Buchreihen</h1>
 
-      <VoltButton label="Buchreihe anlegen" size="small" @click="createBookSeries()" />
+      <VoltButton
+        label="Buchreihe anlegen"
+        icon="pi pi-plus"
+        size="small"
+        @click="createBookSeries()"
+      />
     </div>
 
     <div v-if="bookSeriess === null || numberTotalBookSeriess === null" class="flex flex-col gap-4">

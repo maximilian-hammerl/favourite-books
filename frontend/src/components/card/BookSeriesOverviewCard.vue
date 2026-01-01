@@ -19,7 +19,7 @@ const emit = defineEmits<{
     </template>
     <template #content>
       <VoltFieldset legend="Bücher">
-        <ol>
+        <ol class="list-inside list-decimal">
           <li v-for="{ book } in props.bookSeries.book_is_part_of_book_series" :key="book.id">
             <BookLink :book="book" />
           </li>

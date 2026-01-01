@@ -232,6 +232,7 @@ async function saveReview() {
               <VoltSecondaryButton
                 v-if="index > 0"
                 label="Zurück"
+                icon="pi pi-angle-left"
                 text
                 size="small"
                 @click="activateCallback(index - 1)"
@@ -239,6 +240,8 @@ async function saveReview() {
               <VoltButton
                 v-if="index < RATING_CONFIGURATIONS.length - 1"
                 label="Weiter"
+                icon="pi pi-angle-right"
+                icon-pos="right"
                 text
                 size="small"
                 @click="activateCallback(index + 1)"

@@ -162,7 +162,12 @@ function getCategoryNavigationLabel(count: number) {
               <label for="book-trope-genre">Neues Genre</label>
               <VoltInputText id="book-trope-genre" v-model="titleOfNewBookGenre" fluid />
               <div class="mt-2 flex justify-end">
-                <VoltButton label="Anlegen" size="small" @click="insertBookGenre()" />
+                <VoltButton
+                  label="Anlegen"
+                  icon="pi pi-plus"
+                  size="small"
+                  @click="insertBookGenre()"
+                />
               </div>
             </template>
           </VoltCard>
@@ -184,6 +189,7 @@ function getCategoryNavigationLabel(count: number) {
                           sumOfArray(bookGenre.book_has_book_genre.map((x) => x.count)),
                         )
                       "
+                      icon="pi pi-angle-right"
                       text
                       size="small"
                     />
@@ -206,7 +212,12 @@ function getCategoryNavigationLabel(count: number) {
               <label for="book-trope-subgenre">Neues Subgenre</label>
               <VoltInputText id="book-trope-subgenre" v-model="titleOfNewBookSubgenre" fluid />
               <div class="mt-2 flex justify-end">
-                <VoltButton label="Anlegen" size="small" @click="insertBookSubgenre()" />
+                <VoltButton
+                  label="Anlegen"
+                  icon="pi pi-plus"
+                  size="small"
+                  @click="insertBookSubgenre()"
+                />
               </div>
             </template>
           </VoltCard>
@@ -228,6 +239,7 @@ function getCategoryNavigationLabel(count: number) {
                           sumOfArray(bookSubgenre.book_has_book_subgenre.map((x) => x.count)),
                         )
                       "
+                      icon="pi pi-angle-right"
                       text
                       size="small"
                     />
@@ -250,7 +262,12 @@ function getCategoryNavigationLabel(count: number) {
               <label for="book-trope-title">Neues Trope</label>
               <VoltInputText id="book-trope-title" v-model="titleOfNewBookTrope" fluid />
               <div class="mt-2 flex justify-end">
-                <VoltButton label="Anlegen" size="small" @click="insertBookTrope()" />
+                <VoltButton
+                  label="Anlegen"
+                  icon="pi pi-plus"
+                  size="small"
+                  @click="insertBookTrope()"
+                />
               </div>
             </template>
           </VoltCard>
@@ -272,6 +289,7 @@ function getCategoryNavigationLabel(count: number) {
                           sumOfArray(bookTrope.book_has_book_trope.map((x) => x.count)),
                         )
                       "
+                      icon="pi pi-angle-right"
                       text
                       size="small"
                     />

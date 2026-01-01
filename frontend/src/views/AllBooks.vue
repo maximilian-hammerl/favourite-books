@@ -172,7 +172,7 @@ function reviewBook(book: Tables<'book'>) {
     <div class="flex justify-between mb-4">
       <h1>Bücher</h1>
 
-      <VoltButton label="Buch erstellen" size="small" @click="createBook()" />
+      <VoltButton label="Buch erstellen" icon="pi pi-plus" size="small" @click="createBook()" />
     </div>
 
     <div v-if="books === null || numberTotalBooks === null" class="flex flex-col gap-4">

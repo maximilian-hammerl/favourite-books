@@ -41,6 +41,7 @@ import StepPanels from '@/volt/StepPanels.vue'
 import StepPanel from '@/volt/StepPanel.vue'
 import StepList from '@/volt/StepList.vue'
 import StepItem from '@/volt/StepItem.vue'
+import Menu from '@/volt/Menu.vue'
 
 const app = createApp(App)
 
@@ -67,6 +68,7 @@ app
   .component('VoltInplace', Inplace)
   .component('VoltInputNumber', InputNumber)
   .component('VoltInputText', InputText)
+  .component('VoltMenu', Menu)
   .component('VoltMessage', Message)
   .component('VoltMultiSelect', MultiSelect)
   .component('VoltPaginator', Paginator)
