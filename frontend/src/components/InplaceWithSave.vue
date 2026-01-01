@@ -43,8 +43,19 @@ function onSave(closeCallback: () => void) {
     <template #content="{ closeCallback }">
       <VoltInputText v-model="clonedModelValue" fluid />
       <div class="mt-2 flex flex-wrap gap-2 justify-end">
-        <VoltButton label="Abbrechen" size="small" outlined @click="onCancel(closeCallback)" />
-        <VoltButton label="Speichern" size="small" @click="onSave(closeCallback)" />
+        <VoltButton
+          label="Abbrechen"
+          icon="pi pi-times"
+          size="small"
+          outlined
+          @click="onCancel(closeCallback)"
+        />
+        <VoltButton
+          label="Speichern"
+          icon="pi pi-save"
+          size="small"
+          @click="onSave(closeCallback)"
+        />
       </div>
     </template>
   </VoltInplace>

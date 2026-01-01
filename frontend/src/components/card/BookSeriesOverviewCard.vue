@@ -6,10 +6,6 @@ import BookSeriesLink from '@/components/link/BookSeriesLink.vue'
 const props = defineProps<{
   bookSeries: PaginatedBookSeries
 }>()
-
-const emit = defineEmits<{
-  updateBookSeries: []
-}>()
 </script>
 
 <template>
@@ -25,16 +21,6 @@ const emit = defineEmits<{
           </li>
         </ol>
       </VoltFieldset>
-    </template>
-    <template #footer>
-      <div class="flex justify-end">
-        <VoltButton
-          label="Buchreihe aktualisieren"
-          text
-          size="small"
-          @click="emit('updateBookSeries')"
-        />
-      </div>
     </template>
   </VoltCard>
 </template>

@@ -12,10 +12,6 @@ const props = defineProps<{
   author: PaginatedAuthor
 }>()
 
-const emit = defineEmits<{
-  updateAuthor: []
-}>()
-
 type BookSeries = Tables<'book_series'> & {
   books: Array<BookToFormat & Pick<Tables<'book_is_part_of_book_series'>, 'number_in_series'>>
 }
@@ -91,11 +87,6 @@ const booksWithoutSeries = computed<Array<BookToFormat>>(() =>
           </li>
         </ul>
       </VoltFieldset>
-    </template>
-    <template #footer>
-      <div class="flex justify-end">
-        <VoltButton label="Autor aktualisieren" text size="small" @click="emit('updateAuthor')" />
-      </div>
     </template>
   </VoltCard>
 </template>

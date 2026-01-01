@@ -162,6 +162,8 @@ async function createOrUpdate() {
         <BookSelect v-model="bookToAddToSeries" class="flex-grow" />
         <VoltButton
           label="Zur Reihe hinzufügen"
+          icon="pi pi-plus"
+          size="small"
           :disabled="bookToAddToSeries === null"
           class="flex-none"
           @click="addBookToSeries()"
