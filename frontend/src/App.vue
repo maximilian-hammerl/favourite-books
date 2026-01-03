@@ -15,12 +15,12 @@ async function logout() {
     class="p-4 bg-surface-0 dark:bg-surface-950 text-surface-700 dark:text-surface-0 flex flex-col min-h-screen gap-4"
   >
     <header class="flex-none">
-      <div v-if="user" class="flex">
+      <div class="flex">
         <div class="basis-1/3 flex items-center justify-start">
           <DarkModeButton />
         </div>
 
-        <nav class="basis-1/3 flex gap-2 items-center justify-center">
+        <nav v-if="user" class="basis-1/3 flex gap-2 items-center justify-center">
           <RouterLink :to="{ name: 'allBooks' }">
             <span
               :class="{
@@ -59,11 +59,12 @@ async function logout() {
           </RouterLink>
         </nav>
 
+        <div class="basis-1/3 text-center" v-else>Lieblingsbücher</div>
+
         <div class="basis-1/3 flex items-center justify-end">
-          <VoltButton label="Ausloggen" icon="pi pi-sign-out" text @click="logout()" />
+          <VoltButton v-if="user" label="Ausloggen" icon="pi pi-sign-out" text @click="logout()" />
         </div>
       </div>
-      <div class="w-full text-center" v-else>Lieblingsbücher</div>
     </header>
 
     <VoltDivider class="flex-none" />
