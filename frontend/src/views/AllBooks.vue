@@ -9,7 +9,7 @@ import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useRoute } from 'vue-router'
 import BookOverviewCard from '@/components/card/BookOverviewCard.vue'
 import CreateBookDialog from '@/dialogs/book/CreateBookDialog.vue'
-import CreateUpdateReviewDialog from '@/dialogs/book/CreateUpdateReviewDialog.vue'
+import ReviewBookDialog from '@/dialogs/book/ReviewBookDialog.vue'
 
 const route = useRoute()
 
@@ -151,12 +151,12 @@ function createBook() {
   isCreateUpdateBookDialogVisible.value = true
 }
 
-const isCreateUpdateReviewDialogVisible = ref<boolean>(false)
+const isReviewBookDialogVisible = ref<boolean>(false)
 const bookToReview = ref<Tables<'book'> | null>(null)
 
 function reviewBook(book: Tables<'book'>) {
   bookToReview.value = book
-  isCreateUpdateReviewDialogVisible.value = true
+  isReviewBookDialogVisible.value = true
 }
 </script>
 
@@ -205,8 +205,8 @@ function reviewBook(book: Tables<'book'>) {
 
   <CreateBookDialog v-model:visible="isCreateUpdateBookDialogVisible" @book-created="reload()" />
 
-  <CreateUpdateReviewDialog
-    v-model:visible="isCreateUpdateReviewDialogVisible"
+  <ReviewBookDialog
+    v-model:visible="isReviewBookDialogVisible"
     :book-to-review="bookToReview"
     @book-reviewed="reload()"
   />
