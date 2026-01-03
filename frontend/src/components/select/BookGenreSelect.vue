@@ -3,17 +3,15 @@ import type { Tables } from '@/gen/database'
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
 import type { VoltSelectProps } from '@/volt/Select.vue'
-import FormattedBookGenre from '@/components/formatted/FormattedBookGenre.vue'
+import FormattedBookGenre, {
+  type BookGenreToFormat,
+} from '@/components/formatted/FormattedBookGenre.vue'
 
-type SelectableBookGenre = Tables<'book_genre'> & {
-  book_has_book_genre: Array<{ count: number }>
-}
-
-const selectedBookGenre = defineModel<SelectableBookGenre | null>({ required: true })
+const selectedBookGenre = defineModel<Tables<'book_genre'> | null>({ required: true })
 
 const props = defineProps<VoltSelectProps>()
 
-const selectableBookGenres = ref<Array<SelectableBookGenre> | null>(null)
+const selectableBookGenres = ref<Array<BookGenreToFormat> | null>(null)
 
 onMounted(async () => {
   const { data } = await supabase
@@ -33,10 +31,24 @@ onMounted(async () => {
     :options="selectableBookGenres"
     data-key="id"
     filter
-    option-label="title"
     fluid
   >
-    <template #option="{ option }: { option: SelectableBookGenre }">
+    <template
+      #value="{
+        value,
+        placeholder,
+      }: {
+        value: BookGenreToFormat | null | undefined
+        placeholder: string
+      }"
+    >
+      <FormattedBookGenre v-if="value" :book-genre="value" />
+      <span v-else>
+        {{ placeholder }}
+      </span>
+    </template>
+
+    <template #option="{ option }: { option: BookGenreToFormat }">
       <FormattedBookGenre :book-genre="option" />
     </template>
   </VoltSelect>

@@ -2,7 +2,7 @@
 import type { Tables } from '@/gen/database'
 import { sumOfArray } from '@/lib/util/array.ts'
 
-type BookGenreToFormat = Tables<'book_genre'> & {
+export type BookGenreToFormat = Tables<'book_genre'> & {
   book_has_book_genre: Array<{ count: number }>
 }
 

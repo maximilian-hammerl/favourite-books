@@ -3,12 +3,13 @@ import type { Tables } from '@/gen/database'
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/lib/supabase.ts'
 import type { VoltMultiSelectProps } from '@/volt/MultiSelect.vue'
+import FormattedAuthor, { type AuthorToFormat } from '@/components/formatted/FormattedAuthor.vue'
 
 const selectedAuthors = defineModel<Array<Tables<'author'>>>({ required: true })
 
 const props = defineProps<VoltMultiSelectProps>()
 
-const selectableAuthors = ref<Array<Tables<'author'>> | null>(null)
+const selectableAuthors = ref<Array<AuthorToFormat> | null>(null)
 
 onMounted(async () => {
   const { data } = await supabase
@@ -29,8 +30,26 @@ onMounted(async () => {
     :options="selectableAuthors"
     data-key="id"
     filter
-    :option-label="(author: Tables<'author'>) => `${author.first_name} ${author.last_name}`.trim()"
     fluid
-  />
+  >
+    <template
+      #value="{
+        value,
+        placeholder,
+      }: {
+        value: AuthorToFormat | null | undefined
+        placeholder: string
+      }"
+    >
+      <FormattedAuthor v-if="value" :author="value" />
+      <span v-else>
+        {{ placeholder }}
+      </span>
+    </template>
+
+    <template #option="{ option }: { option: AuthorToFormat }">
+      <FormattedAuthor :author="option" />
+    </template>
+  </VoltMultiSelect>
   <VoltSkeleton v-else height="3rem" />
 </template>

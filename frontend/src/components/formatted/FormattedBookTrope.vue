@@ -2,7 +2,7 @@
 import type { Tables } from '@/gen/database'
 import { sumOfArray } from '@/lib/util/array.ts'
 
-type BookTropeToFormat = Tables<'book_trope'> & {
+export type BookTropeToFormat = Tables<'book_trope'> & {
   book_has_book_trope: Array<{ count: number }>
 }
 
