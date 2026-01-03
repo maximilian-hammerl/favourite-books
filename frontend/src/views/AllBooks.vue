@@ -2,14 +2,14 @@
 import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import CreateUpdateBookDialog from '@/dialogs/CreateUpdateBookDialog.vue'
 import { useDebounceFn } from '@vueuse/core'
 import BookGenreMultiSelect from '@/components/BookGenreMultiSelect.vue'
 import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
 import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
 import { useRoute } from 'vue-router'
 import BookOverviewCard from '@/components/card/BookOverviewCard.vue'
-import CreateUpdateReviewDialog from '@/dialogs/CreateUpdateReviewDialog.vue'
+import CreateBookDialog from '@/dialogs/book/CreateBookDialog.vue'
+import CreateUpdateReviewDialog from '@/dialogs/book/CreateUpdateReviewDialog.vue'
 
 const route = useRoute()
 
@@ -203,11 +203,7 @@ function reviewBook(book: Tables<'book'>) {
     </div>
   </div>
 
-  <CreateUpdateBookDialog
-    v-model:visible="isCreateUpdateBookDialogVisible"
-    :book-to-update="null"
-    @book-created-or-updated="reload()"
-  />
+  <CreateBookDialog v-model:visible="isCreateUpdateBookDialogVisible" @book-created="reload()" />
 
   <CreateUpdateReviewDialog
     v-model:visible="isCreateUpdateReviewDialogVisible"

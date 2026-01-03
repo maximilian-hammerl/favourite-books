@@ -2,9 +2,12 @@
 import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import CreateUpdateAuthorDialog from '@/dialogs/CreateUpdateAuthorDialog.vue'
 import AuthorOverviewCard from '@/components/card/AuthorOverviewCard.vue'
 import type { BookToFormat } from '@/components/formatted/FormattedBook.vue'
+import CreateAuthorDialog from '@/dialogs/author/CreateAuthorDialog.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 export type PaginatedAuthor = Tables<'author'> & {
   author_created_book: Array<{
@@ -50,16 +53,13 @@ onMounted(reload)
 watch([firstIndexOfCurrentPage, authorsPerPage], getAuthors)
 
 const isCreateUpdateAuthorDialogVisible = ref<boolean>(false)
-const authorIdToUpdate = ref<string | null>(null)
 
 function createAuthor() {
-  authorIdToUpdate.value = null
   isCreateUpdateAuthorDialogVisible.value = true
 }
 
-function updateAuthor(author: Tables<'author'>) {
-  authorIdToUpdate.value = author.id
-  isCreateUpdateAuthorDialogVisible.value = true
+async function onAuthorCreated(author: Tables<'author'>) {
+  await router.push({ name: 'singleAuthor', params: { authorId: author.id } })
 }
 </script>
 
@@ -78,12 +78,7 @@ function updateAuthor(author: Tables<'author'>) {
     <div v-else class="flex flex-col gap-4">
       <VoltInputText placeholder="Suche" />
 
-      <AuthorOverviewCard
-        v-for="author in authors"
-        :key="author.id"
-        :author="author"
-        @update-author="updateAuthor(author)"
-      />
+      <AuthorOverviewCard v-for="author in authors" :key="author.id" :author="author" />
       <div>
         <VoltPaginator
           v-model:first="firstIndexOfCurrentPage"
@@ -94,9 +89,8 @@ function updateAuthor(author: Tables<'author'>) {
     </div>
   </div>
 
-  <CreateUpdateAuthorDialog
+  <CreateAuthorDialog
     v-model:visible="isCreateUpdateAuthorDialogVisible"
-    :author-id-to-update="authorIdToUpdate"
-    @author-created-or-updated="reload()"
+    @author-created="onAuthorCreated"
   />
 </template>

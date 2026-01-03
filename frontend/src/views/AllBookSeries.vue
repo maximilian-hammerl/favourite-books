@@ -2,8 +2,8 @@
 import { onMounted, ref, watch } from 'vue'
 import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
-import CreateUpdateBookSeriesDialog from '@/dialogs/CreateUpdateBookSeriesDialog.vue'
 import BookSeriesOverviewCard from '@/components/card/BookSeriesOverviewCard.vue'
+import CreateBookSeriesDialog from '@/dialogs/book-series/CreateBookSeriesDialog.vue'
 
 export type PaginatedBookSeries = Tables<'book_series'> & {
   book_is_part_of_book_series: Array<{
@@ -49,15 +49,8 @@ onMounted(reload)
 watch([firstIndexOfCurrentPage, bookSeriessPerPage], getBookSeriess)
 
 const isCreateUpdateBookSeriesDialogVisible = ref<boolean>(false)
-const bookSeriesIdToUpdate = ref<string | null>(null)
 
 function createBookSeries() {
-  bookSeriesIdToUpdate.value = null
-  isCreateUpdateBookSeriesDialogVisible.value = true
-}
-
-function updateBookSeries(bookSeries: Tables<'book_series'>) {
-  bookSeriesIdToUpdate.value = bookSeries.id
   isCreateUpdateBookSeriesDialogVisible.value = true
 }
 </script>
@@ -86,7 +79,6 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
         v-for="bookSeries in bookSeriess"
         :key="bookSeries.id"
         :book-series="bookSeries"
-        @update-book-series="updateBookSeries(bookSeries)"
       />
 
       <div>
@@ -99,9 +91,8 @@ function updateBookSeries(bookSeries: Tables<'book_series'>) {
     </div>
   </div>
 
-  <CreateUpdateBookSeriesDialog
+  <CreateBookSeriesDialog
     v-model:visible="isCreateUpdateBookSeriesDialogVisible"
-    :book-series-id-to-update="bookSeriesIdToUpdate"
-    @book-series-created-or-updated="reload()"
+    @book-series-created="reload()"
   />
 </template>

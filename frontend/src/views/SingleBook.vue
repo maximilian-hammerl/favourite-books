@@ -5,8 +5,8 @@ import type { Tables } from '@/gen/database'
 import { supabase } from '@/lib/supabase.ts'
 import FormattedBook from '@/components/formatted/FormattedBook.vue'
 import ButtonWithPopup from '@/components/custom/ButtonWithPopup.vue'
-import CreateUpdateBookDialog from '@/dialogs/CreateUpdateBookDialog.vue'
-import CreateUpdateReviewDialog from '@/dialogs/CreateUpdateReviewDialog.vue'
+import CreateUpdateReviewDialog from '@/dialogs/book/CreateUpdateReviewDialog.vue'
+import UpdateBookDialog from '@/dialogs/book/UpdateBookDialog.vue'
 
 type Book = Tables<'book'> & {
   user_reviewed_book: Array<Tables<'user_reviewed_book'>>
@@ -85,10 +85,10 @@ function reviewBook() {
     </div>
   </div>
 
-  <CreateUpdateBookDialog
+  <UpdateBookDialog
     v-model:visible="isCreateUpdateBookDialogVisible"
     :book-to-update="book"
-    @book-created-or-updated="getBook()"
+    @book-updated="getBook()"
   />
 
   <CreateUpdateReviewDialog
