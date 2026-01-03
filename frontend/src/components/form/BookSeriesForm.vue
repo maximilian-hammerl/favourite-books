@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FormattedBook, { type BookToFormat } from '@/components/formatted/FormattedBook.vue'
-import BookSelect from '@/components/BookSelect.vue'
+import BookSelect from '@/components/select/BookSelect.vue'
 import type { Tables } from '@/gen/database'
 import { ref } from 'vue'
 

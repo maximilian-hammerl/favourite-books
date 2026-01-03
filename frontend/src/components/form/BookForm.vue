@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import BookTropeMultiSelect from '@/components/BookTropeMultiSelect.vue'
-import AuthorMultiSelect from '@/components/AuthorMultiSelect.vue'
-import BookGenreSelect from '@/components/BookGenreSelect.vue'
-import BookSubgenreMultiSelect from '@/components/BookSubgenreMultiSelect.vue'
+import BookTropeMultiSelect from '@/components/select/BookTropeMultiSelect.vue'
+import AuthorMultiSelect from '@/components/select/AuthorMultiSelect.vue'
+import BookGenreSelect from '@/components/select/BookGenreSelect.vue'
+import BookSubgenreMultiSelect from '@/components/select/BookSubgenreMultiSelect.vue'
 import type { Tables } from '@/gen/database'
 
 type Book = Pick<Tables<'book'>, 'title' | 'subtitle' | 'blurb'>
