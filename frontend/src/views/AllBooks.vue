@@ -75,7 +75,7 @@ async function getBooks() {
   }
 
   const { data } = await query
-    .order('title')
+    .order('created_at', { ascending: false })
     .range(firstIndexOfCurrentPage.value, firstIndexOfCurrentPage.value + booksPerPage.value - 1)
     .throwOnError()
   books.value = data

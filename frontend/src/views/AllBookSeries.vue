@@ -23,8 +23,7 @@ async function getBookSeriess() {
   const { data } = await supabase
     .from('book_series')
     .select('*, book_is_part_of_book_series(book(*, user_reviewed_book(*)))')
-    .order('title')
-    .order('number_in_series', { referencedTable: 'book_is_part_of_book_series' })
+    .order('created_at', { ascending: false })
     .range(
       firstIndexOfCurrentPage.value,
       firstIndexOfCurrentPage.value + bookSeriessPerPage.value - 1,

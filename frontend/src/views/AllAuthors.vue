@@ -30,8 +30,7 @@ async function getAuthors() {
     .select(
       '*, author_created_book(book(*, user_reviewed_book(*), book_is_part_of_book_series(number_in_series, book_series(*))))',
     )
-    .order('last_name')
-    .order('first_name')
+    .order('created_at', { ascending: false })
     .range(firstIndexOfCurrentPage.value, firstIndexOfCurrentPage.value + authorsPerPage.value - 1)
     .throwOnError()
   authors.value = data

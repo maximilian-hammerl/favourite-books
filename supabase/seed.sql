@@ -20,24 +20,5 @@ $$
         VALUES (c_instance_id, c_user_id,
                 jsonb_build_object('sub', c_user_id, 'email', c_email_address, 'email_verified', FALSE,
                                    'phone_verified', FALSE), 'email', now(), now(), now());
-
-        FOR i IN 0..20
-            LOOP
-                INSERT INTO public.author (first_name, last_name)
-                VALUES ('First Name ' || i, 'Last Name ' || i);
-            END LOOP;
-
-        FOR i IN 0..100
-            LOOP
-                INSERT INTO public.book (title, subtitle, blurb)
-                VALUES ('Book ' || i, 'Subtitle ' || i, 'Blurb ' || i)
-                RETURNING id INTO v_book_id;
-
-                INSERT INTO public.author_created_book (author_id, book_id)
-                SELECT a.id, v_book_id
-                FROM public.author AS a
-                ORDER BY random()
-                LIMIT 1;
-            END LOOP;
     END;
 $$;

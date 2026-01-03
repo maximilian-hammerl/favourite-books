@@ -210,7 +210,6 @@ async function createOrUpdate() {
     v-model:visible="isVisible"
     :header="props.bookToUpdate ? 'Buch aktualisieren' : 'Buch erstellen'"
     modal
-    :closable="false"
     class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12"
   >
     <form v-if="book !== null" class="flex flex-col gap-4" @submit.prevent="createOrUpdate()">

@@ -199,7 +199,6 @@ async function saveReview() {
     v-model:visible="isVisible"
     header="Buch-Review"
     modal
-    :closable="false"
     class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12"
   >
     <form v-if="review" class="flex flex-col gap-4" @submit.prevent="saveReview()">
