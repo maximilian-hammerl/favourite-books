@@ -1,28 +1,28 @@
 /* Primary and Surface Palettes */
 :root {
-  --p-primary-50: oklch(98% 0.016 73.684);
-  --p-primary-100: oklch(95.4% 0.038 75.164);
-  --p-primary-200: oklch(90.1% 0.076 70.697);
-  --p-primary-300: oklch(83.7% 0.128 66.29);
-  --p-primary-400: oklch(75% 0.183 55.934);
-  --p-primary-500: oklch(70.5% 0.213 47.604);
-  --p-primary-600: oklch(64.6% 0.222 41.116);
-  --p-primary-700: oklch(55.3% 0.195 38.402);
-  --p-primary-800: oklch(47% 0.157 37.304);
-  --p-primary-900: oklch(40.8% 0.123 38.172);
-  --p-primary-950: oklch(26.6% 0.079 36.259);
-  --p-surface-0: #ffe7c4;
-  --p-surface-50: #ffd597;
-  --p-surface-100: #ffc773;
-  --p-surface-200: #f4b24f;
-  --p-surface-300: #e49d34;
-  --p-surface-400: #cf5c2a;
-  --p-surface-500: #ad2513;
-  --p-surface-600: #ad1313;
-  --p-surface-700: #890f0f;
-  --p-surface-800: #570000;
-  --p-surface-900: #420707;
-  --p-surface-950: #190101;
+  --p-primary-50: #fff6e0;
+  --p-primary-100: #ffefd4;
+  --p-primary-200: #ffddaf;
+  --p-primary-300: #ffc883;
+  --p-primary-400: #ffb463;
+  --p-primary-500: #ffa041;
+  --p-primary-600: #d68b00;
+  --p-primary-700: #ac7700;
+  --p-primary-800: #896500;
+  --p-primary-900: #665000;
+  --p-primary-950: #544600;
+  --p-surface-0: #fff5e6;
+  --p-surface-50: #f6f6f6;
+  --p-surface-100: #dfdfdf;
+  --p-surface-200: #bcb8b7;
+  --p-surface-300: #ad8884;
+  --p-surface-400: #896159;
+  --p-surface-500: #653f33;
+  --p-surface-600: #4e3531;
+  --p-surface-700: #372927;
+  --p-surface-800: #221f1f;
+  --p-surface-900: #131313;
+  --p-surface-950: #0b0b0b;
   --p-content-border-radius: 6px;
 }
 
