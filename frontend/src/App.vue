@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { supabase, user } from '@/lib/supabase.ts'
 import { useRoute } from 'vue-router'
+import DarkModeButton from '@/components/DarkModeButton.vue'
 
 const route = useRoute()
 
@@ -16,7 +17,7 @@ async function logout() {
     <header class="flex-none">
       <div v-if="user" class="flex">
         <div class="basis-1/3 flex items-center justify-start">
-          <i class="pi pi-book"></i>
+          <DarkModeButton />
         </div>
 
         <nav class="basis-1/3 flex gap-2 items-center justify-center">
