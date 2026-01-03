@@ -27,6 +27,7 @@ onMounted(async () => {
     v-bind="props"
     v-model="selectedAuthors"
     :options="selectableAuthors"
+    data-key="id"
     filter
     :option-label="(author: Tables<'author'>) => `${author.first_name} ${author.last_name}`.trim()"
     fluid

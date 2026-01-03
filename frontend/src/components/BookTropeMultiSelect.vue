@@ -22,6 +22,7 @@ onMounted(async () => {
     v-bind="props"
     v-model="selectedBookTropes"
     :options="selectableBookTropes"
+    data-key="id"
     filter
     option-label="title"
     fluid
